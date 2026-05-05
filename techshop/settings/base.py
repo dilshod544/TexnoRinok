@@ -63,13 +63,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'techshop.wsgi.application'
 
-# Database — SQLite
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+import dj_database_url
+
+# Database — Switch between Vercel Postgres and local SQLite
+if config('POSTGRES_URL', default=None):
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('POSTGRES_URL'),
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Caching
 CACHES = {
