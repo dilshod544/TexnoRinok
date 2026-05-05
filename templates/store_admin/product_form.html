@@ -1,0 +1,27 @@
+{% extends "store_admin/base.html" %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="admin-card" style="max-width:800px;">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            {% for field in form %}
+            <div class="form-group">
+                <label style="font-weight:600; margin-bottom:8px; display:block; color: #4a5568;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small style="color: #a0aec0; display: block; margin-top: 4px;">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <span style="color:#e53e3e; font-size:12px; font-weight: 500;">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div style="margin-top: 20px; border-top: 1px solid #edf2f7; padding-top: 25px;">
+                <button type="submit" class="btn-primary" style="padding:14px 40px; border-radius: 10px; font-weight: 800; letter-spacing: 1px;">💾 SAQLASH</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

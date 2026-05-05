@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TexnoRinok Admin</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+            background: #f8f9fa;
+            color: #2d3436; /* Dark text for light background */
+        }
+        .admin-sidebar {
+            width: 250px;
+            background: #1e272e;
+            color: white;
+            padding: 25px 20px;
+        }
+        .admin-sidebar h2 {
+            color: var(--accent);
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: 800;
+        }
+        .admin-nav {
+            list-style: none;
+            padding: 0;
+        }
+        .admin-nav li a {
+            color: #d2dae2;
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .admin-nav li a:hover {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+        }
+        .admin-nav li a.active {
+            background: var(--accent);
+            color: #fff;
+        }
+        .admin-nav li a.active:hover {
+            background: var(--accent-hover);
+        }
+        .admin-main {
+            flex: 1;
+            padding: 40px;
+            color: #2d3436;
+        }
+        .admin-main h1, .admin-main h2, .admin-main h3 {
+            color: #1e272e;
+        }
+        .admin-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            margin-bottom: 25px;
+            border: 1px solid #edf2f7;
+        }
+        .form-group label {
+            color: #4a5568 !important;
+            font-weight: 600 !important;
+        }
+        .form-input {
+            background: #fff !important;
+            border: 1px solid #cbd5e0 !important;
+            color: #2d3436 !important;
+        }
+        .form-input:focus {
+            border-color: var(--accent) !important;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: #f7fafc;
+            color: #718096;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 2px solid #edf2f7;
+        }
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #edf2f7;
+            color: #4a5568;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <h2 style="letter-spacing: 1px;">TexnoRinok ADMIN</h2>
+            <ul class="admin-nav">
+                <li><a href="{% url 'store_admin:dashboard' %}">🏠 Dashboard</a></li>
+                <li><a href="{% url 'store_admin:product_list' %}">📦 Mahsulotlar</a></li>
+                <li><a href="{% url 'store_admin:product_add' %}" style="color: #2ecc71; font-weight: bold;">➕ Mahsulot qo'shish</a></li>
+                <li><a href="{% url 'store_admin:category_list' %}">📂 Kategoriyalar</a></li>
+                <li><a href="{% url 'store_admin:order_list' %}">🛒 Buyurtmalar</a></li>
+                <li style="margin-top: 50px;"><a href="{% url 'products:home' %}" target="_blank">🌐 Saytni ko'rish</a></li>
+                <li><a href="{% url 'accounts:logout' %}" style="color: #ff7675;">🚪 Chiqish</a></li>
+            </ul>
+        </aside>
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1 style="font-family: var(--font-display); font-size: 28px;">{% block page_title %}{% endblock %}</h1>
+            </div>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends "base/base.html" %}
+{% load i18n product_tags %}
+
+{% block title %}{{ category.name }} — TexnoRinok{% endblock %}
+
+{% block content %}
+<div class="category-page" style="padding: 40px 0; background: var(--bg-2); min-height: 80vh;">
+    <div class="container">
+        <!-- Header -->
+        <div class="section-header" style="margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <nav style="margin-bottom: 15px; font-size: 14px; color: var(--text-3);">
+                    <a href="{% url 'products:home' %}" style="color: inherit; text-decoration: none;">{% trans "Bosh sahifa" %}</a> • 
+                    <a href="{% url 'products:list' %}" style="color: inherit; text-decoration: none;">{% trans "Katalog" %}</a>
+                </nav>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 40px;">{{ category.icon|default:"📦" }}</div>
+                    <h1 style="font-family: var(--font-display); font-size: 36px; font-weight: 800;">{{ category|get_translated_name:LANGUAGE_CODE }}</h1>
+                </div>
+                <p style="color: var(--text-2); margin-top: 5px;">{{ products.count }} {% trans "ta mahsulot topildi" %}</p>
+            </div>
+        </div>
+
+        <!-- Products -->
+        {% if products %}
+        <div class="products-grid">
+            {% for product in products %}
+            {% include "products/_product_card.html" with product=product %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 80px 20px; background: var(--surface); border: 1px dashed var(--border); border-radius: 30px;">
+            <div style="font-size: 60px; margin-bottom: 24px;">📭</div>
+            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">{% trans "Bu kategoriyada hozircha mahsulotlar yo'q" %}</h3>
+            <p style="color: var(--text-2); margin-bottom: 30px;">{% trans "Tez orada yangi mahsulotlar qo'shiladi." %}</p>
+            <a href="{% url 'products:list' %}" class="btn-primary" style="padding: 14px 32px; border-radius: 12px;">{% trans "Barcha mahsulotlar" %}</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

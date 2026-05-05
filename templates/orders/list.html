@@ -1,0 +1,54 @@
+{% extends "base/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Buyurtmalarim" %} — TexnoRinok{% endblock %}
+
+{% block content %}
+<div class="orders-page" style="padding: 60px 0; background: var(--bg-2); min-height: 80vh;">
+    <div class="container" style="max-width: 900px;">
+        <div style="margin-bottom: 40px; text-align: center;">
+            <h1 style="font-family: var(--font-display); font-size: 36px; font-weight: 800;">{% trans "Mening buyurtmalarim" %}</h1>
+            <p style="color: var(--text-2); margin-top: 10px;">{% trans "Barcha buyurtmalaringiz tarixi va holati" %}</p>
+        </div>
+
+        <div class="orders-container" style="display: flex; flex-direction: column; gap: 20px;">
+            {% for order in orders %}
+            <div class="order-item" style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 24px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border)'">
+                <div style="display: flex; gap: 24px; align-items: center;">
+                    <div style="width: 60px; height: 60px; background: var(--bg-3); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px;">📦</div>
+                    <div>
+                        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">Order #{{ order.pk }}</h3>
+                        <p style="font-size: 13px; color: var(--text-3);">{{ order.created_at|date:"d M, Y • H:i" }}</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+                    <div style="font-weight: 800; font-size: 18px; color: var(--accent);">{{ order.total_price|floatformat:0 }} <span style="font-size: 12px; font-weight: 400;">UZS</span></div>
+                    
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        {% if order.status == 'pending' %}
+                            <span style="background: #fff9db; color: #f08c00; padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 700;">🕒 {{ order.get_status_display }}</span>
+                        {% elif order.status == 'confirmed' %}
+                            <span style="background: #e7f5ff; color: #1c7ed6; padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 700;">✅ {{ order.get_status_display }}</span>
+                        {% elif order.status == 'delivered' %}
+                            <span style="background: #ebfbee; color: #2b8a3e; padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 700;">🚚 {{ order.get_status_display }}</span>
+                        {% else %}
+                            <span style="background: #fff5f5; color: #c92a2a; padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 700;">❌ {{ order.get_status_display }}</span>
+                        {% endif %}
+                        
+                        <a href="{% url 'orders:detail' order.pk %}" class="btn-ghost" style="padding: 8px 16px; font-size: 13px; border-radius: 10px;">{% trans "Tafsilotlar" %} →</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div style="text-align: center; padding: 80px 20px; background: var(--surface); border: 1px dashed var(--border); border-radius: 30px;">
+                <div style="font-size: 60px; margin-bottom: 24px;">📭</div>
+                <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">{% trans "Sizda hali buyurtmalar yo'q" %}</h3>
+                <p style="color: var(--text-2); margin-bottom: 30px;">{% trans "Oshxonangiz uchun eng yaxshi texnikalarni katalogimizdan toping." %}</p>
+                <a href="{% url 'products:list' %}" class="btn-primary" style="padding: 14px 32px; border-radius: 12px;">{% trans "Xaridni boshlash" %}</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

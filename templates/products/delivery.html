@@ -1,0 +1,58 @@
+{% extends "base/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Yetkazib berish" %} — TexnoRinok{% endblock %}
+
+{% block content %}
+<div class="delivery-page" style="padding: 80px 0; background: var(--bg-2); min-height: 80vh; overflow: hidden; position: relative;">
+    <!-- Background Decor -->
+    <div style="position: absolute; top: 10%; right: -5%; width: 400px; height: 400px; background: var(--accent-dim); filter: blur(100px); border-radius: 50%; opacity: 0.2;"></div>
+    
+    <div class="container" style="position: relative; z-index: 2;">
+        <div class="section-header" style="text-align: center; margin-bottom: 60px;">
+            <span class="section-tag">⚡️ {% trans "XIZMAT KO'RSATISH" %}</span>
+            <h1 class="page-title" style="font-family: var(--font-display); font-size: 48px; font-weight: 800; margin-top: 10px;">
+                {% trans "Yetkazib berish" %} <span class="gradient-text">{% trans "xizmati" %}</span>
+            </h1>
+            <p style="color: var(--text-2); max-width: 600px; margin: 20px auto 0; font-size: 16px; line-height: 1.7;">
+                {% trans "Biz sizning buyurtmangizni butun O'zbekiston bo'ylab eng qisqa vaqtlarda va xavfsiz holatda yetkazib beramiz." %}
+            </p>
+        </div>
+
+        <div class="delivery-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            <!-- Fast Delivery -->
+            <div class="delivery-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; transition: 0.3s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+                <div style="font-size: 48px; margin-bottom: 24px;">🚀</div>
+                <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 16px;">{% trans "Tezkor yetkazib berish" %}</h3>
+                <p style="color: var(--text-2); line-height: 1.6; font-size: 14px;">
+                    {% trans "Toshkent shahri bo'ylab buyurtmangiz 24 soat ichida eshigingiz tagida bo'ladi. Biz vaqtingizni qadrlaymiz." %}
+                </p>
+            </div>
+
+            <!-- Regions -->
+            <div class="delivery-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; transition: 0.3s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+                <div style="font-size: 48px; margin-bottom: 24px;">🗺️</div>
+                <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 16px;">{% trans "Viloyatlarga yuborish" %}</h3>
+                <p style="color: var(--text-2); line-height: 1.6; font-size: 14px;">
+                    {% trans "Viloyat markazlariga yetkazib berish 48-72 soat davomida amalga oshiriladi. BTS yoki boshqa kuryerlik xizmatlari orqali." %}
+                </p>
+            </div>
+
+            <!-- Pricing -->
+            <div class="delivery-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; transition: 0.3s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+                <div style="font-size: 48px; margin-bottom: 24px;">💰</div>
+                <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 16px;">{% trans "Yetkazib berish narxi" %}</h3>
+                <p style="color: var(--text-2); line-height: 1.6; font-size: 14px;">
+                    {% trans "Toshkent shahri ichida yetkazib berish bepul (50,000 so'mdan yuqori buyurtmalar uchun). Boshqa hollarda 30,000 so'm." %}
+                </p>
+            </div>
+        </div>
+
+        <div class="cta-mini" style="margin-top: 60px; text-align: center; padding: 40px; background: var(--accent-dim); border-radius: var(--radius-lg); border: 1px dashed var(--accent);">
+            <h4 style="font-weight: 700; margin-bottom: 10px;">{% trans "Savollaringiz bormi?" %}</h4>
+            <p style="font-size: 14px; color: var(--text-2); margin-bottom: 20px;">{% trans "Bizning qo'llab-quvvatlash jamoamiz sizga yordam berishga tayyor." %}</p>
+            <a href="{% url 'products:contact' %}" class="btn-primary">{% trans "Biz bilan bog'lanish" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

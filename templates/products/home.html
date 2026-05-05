@@ -1,0 +1,167 @@
+{% extends "base/base.html" %}
+{% load static i18n product_tags %}
+
+{% block title %}{% trans "TexnoRinok — Oshxona Texnikalari Do'koni" %}{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-blob hero-blob--1"></div>
+    <div class="hero-blob hero-blob--2"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-badge">🏆 {% trans "O'zbekistonda #1 texnika do'koni" %}</div>
+        <h1 class="hero-title">
+          {% if LANGUAGE_CODE == 'ru' %}
+            Добро пожаловать<br>
+            <span class="gradient-text">в наш магазин!</span>
+          {% else %}
+            Do'konimizga<br>
+            <span class="gradient-text">Xush kelibsiz!</span>
+          {% endif %}
+        </h1>
+        <p class="hero-desc">{% trans "Blenderlar, sok apparatlar, mikserlar va boshqa premium oshxona texnikalari. Kafolat va tez yetkazib berish bilan." %}</p>
+        <div class="hero-actions">
+          <a href="{% url 'products:list' %}" class="btn-primary btn-lg">
+            {% trans "Katalogga o'tish" %}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="{% url 'products:list' %}?sort=-created_at" class="btn-ghost btn-lg">{% trans "Yangiliklar" %} →</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">5,000+</span><span class="stat-label">{% trans "Mahsulotlar" %}</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">50K+</span><span class="stat-label">{% trans "Xaridorlar" %}</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">{% trans "Qo'llab-quvvatlash" %}</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card hero-card--float">
+          <div class="product-badge-float">🔥 {% trans "Eng ko'p sotiladigan" %}</div>
+          <div class="hero-img-placeholder">
+            <div class="blender-icon">🍹</div>
+            <div class="circle-deco circle-deco--1"></div>
+            <div class="circle-deco circle-deco--2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="section categories-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">{% trans "Kategoriyalar" %}</h2>
+      <a href="{% url 'products:list' %}" class="see-all">{% trans "Hammasini ko'rish" %} →</a>
+    </div>
+    <div class="categories-grid">
+      {% for category in categories %}
+      <a href="{{ category.get_absolute_url }}" class="cat-card cat-card--orange">
+        <div class="cat-icon">{{ category.icon|default:"📦" }}</div>
+        <h3>{{ category|get_translated_name:LANGUAGE_CODE }}</h3>
+        <span>{{ category.product_count }} {% trans "ta mahsulot" %}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- BESTSELLERS -->
+{% if bestsellers %}
+<section class="section products-section products-section--dark">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-tag">🔥 TOP</span>
+        <h2 class="section-title">{% trans "Ko'p sotiladiganlar" %}</h2>
+      </div>
+      <a href="{% url 'products:list' %}?sort=-created_at" class="see-all">{% trans "Hammasini ko'rish" %} →</a>
+    </div>
+    <div class="products-grid">
+      {% for product in bestsellers %}
+      {% include "products/_product_card.html" with product=product %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- FEATURES BANNER -->
+<section class="features-banner">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🚚</div>
+        <div>
+          <h4>{% trans "Tez yetkazib berish" %}</h4>
+          <p>{% trans "Toshkent bo'yicha 1-2 kun ichida" %}</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✅</div>
+        <div>
+          <h4>{% trans "Sertifikatlangan mahsulotlar" %}</h4>
+          <p>{% trans "Barcha mahsulotlarga rasmiy kafolat" %}</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">💳</div>
+        <div>
+          <h4>{% trans "Qulay to'lov" %}</h4>
+          <p>{% trans "Click, Payme, Uzum Bank orqali" %}</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">👨‍💼</div>
+        <div>
+          <h4>{% trans "Mutaxassis maslahati" %}</h4>
+          <p>{% trans "Siz uchun eng yaxshisini tanlashda yordam" %}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEW ARRIVALS -->
+{% if new_arrivals %}
+<section class="section products-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-tag">✨ NEW</span>
+        <h2 class="section-title">{% trans "Yangi kelganlar" %}</h2>
+      </div>
+      <a href="{% url 'products:list' %}?sort=-created_at" class="see-all">{% trans "Hammasini ko'rish" %} →</a>
+    </div>
+    <div class="products-grid">
+      {% for product in new_arrivals %}
+      {% include "products/_product_card.html" with product=product %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-text">
+        <h2>{% trans "Birinchi xaridingizda" %} <span class="accent">{% trans "10% chegirma" %}</span></h2>
+        <p>{% trans "Ro'yxatdan o'ting va maxsus chegirmadan foydalaning" %}</p>
+        <a href="{% url 'accounts:register' %}" class="btn-primary">{% trans "Ro'yxatdan o'tish" %}</a>
+      </div>
+      <div class="cta-visual">🎁</div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

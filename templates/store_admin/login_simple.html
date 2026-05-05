@@ -1,0 +1,133 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login — ONLY FOR ADMINS</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+        body {
+            background: #0d0d0f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .login-box {
+            background: #1a1a20;
+            border: 1px solid #2a2a32;
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-logo span {
+            background: var(--accent);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 24px;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            color: #a0a0b0;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group input {
+            width: 100%;
+            background: #141417;
+            border: 1px solid #2a2a32;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: var(--accent);
+        }
+        .btn-login {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn-login:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .error-msg {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="login-logo">
+            <span>T</span>
+        </div>
+        <h1>ONLY FOR ADMINS</h1>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="error-msg">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Login (Foydalanuvchi nomi)</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label>Parol</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" class="btn-login">KIRISH →</button>
+        </form>
+    </div>
+
+    <script>
+        // Force styling on django form inputs
+        document.querySelectorAll('input').forEach(i => {
+            if(i.type !== 'hidden') i.classList.add('form-input');
+        });
+    </script>
+</body>
+</html>

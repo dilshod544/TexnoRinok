@@ -1,0 +1,188 @@
+{% extends "base/base.html" %}
+{% load static i18n product_tags %}
+
+{% block title %}{{ product.name }} — TexnoRinok — Oshxona Texnikasi{% endblock %}
+
+{% block meta_description %}{{ product.short_description|default:product.name|truncatechars:160 }}{% endblock %}
+{% block meta_keywords %}{{ product.name }}, {{ product.category.name }}, {{ product.brand }}, texnorinok{% endblock %}
+
+{% block og_title %}{{ product.name }} — TexnoRinok{% endblock %}
+{% block og_description %}{{ product.short_description|truncatechars:200 }}{% endblock %}
+{% if product.image %}
+  {% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ product.image.url }}{% endblock %}
+{% endif %}
+
+{% block schema_org %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ product.name }}",
+  "image": [
+    "{{ request.scheme }}://{{ request.get_host }}{{ product.image.url }}"
+  ],
+  "description": "{{ product.short_description|escapejs }}",
+  "sku": "TR-{{ product.pk }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product.brand|default:'TexnoRinok' }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ request.build_absolute_uri }}",
+    "priceCurrency": "UZS",
+    "price": "{{ product.price }}",
+    "availability": "https://schema.org/{% if product.stock > 0 %}InStock{% else %}OutOfStock{% endif %}",
+    "itemCondition": "https://schema.org/NewCondition"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="detail-page">
+  <div class="container">
+    <!-- BREADCRUMB -->
+    <nav class="breadcrumb">
+      <a href="{% url 'products:home' %}">{% trans "Bosh sahifa" %}</a>
+      <span>›</span>
+      <a href="{% url 'products:list' %}">{% trans "Katalog" %}</a>
+      <span>›</span>
+      <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a>
+      <span>›</span>
+      <span>{{ product.name }}</span>
+    </nav>
+
+    <div class="product-detail-layout">
+      <!-- IMAGES -->
+      <div class="product-gallery">
+        <div class="main-image" id="mainImage">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" id="mainImg">
+          {% else %}
+            <div class="img-placeholder-lg">📦</div>
+          {% endif %}
+          {% if product.discount_percent > 0 %}
+            <span class="product-badge product-badge--sale product-badge--lg">-{{ product.discount_percent }}%</span>
+          {% endif %}
+        </div>
+        {% if product.images.all %}
+        <div class="thumb-strip">
+          {% for img in product.images.all %}
+          <div class="thumb" onclick="document.getElementById('mainImg').src='{{ img.image.url }}'">
+            <img src="{{ img.image.url }}" alt="{{ img.alt }}">
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- INFO -->
+      <div class="product-info">
+        {% if product.brand %}
+          <span class="product-brand-tag">{{ product.brand.name }}</span>
+        {% endif %}
+        <h1 class="product-title">{{ product.name }}</h1>
+
+        <div class="product-price-block">
+          <span class="price-main">{{ product.formatted_price }} {% trans "so'm" %}</span>
+          {% if product.old_price %}
+            <span class="price-old-lg">{{ product.formatted_old_price }} {% trans "so'm" %}</span>
+            <span class="discount-chip">-{{ product.discount_percent }}%</span>
+          {% endif %}
+        </div>
+
+        {% if product.short_description %}
+        <p class="product-short-desc">{{ product.short_description }}</p>
+        {% endif %}
+
+        <div class="product-meta">
+          <span class="stock-status {% if product.stock > 0 %}in-stock{% else %}out-stock{% endif %}">
+            {% if product.stock > 0 %}✅ {% trans "Mavjud" %}{% else %}❌ {% trans "Tugagan" %}{% endif %}
+          </span>
+        </div>
+
+        {% if product.stock > 0 %}
+        <form method="post" action="{% url 'cart:add' product.pk %}" class="add-form">
+          {% csrf_token %}
+          <div class="qty-selector">
+            <label>{% trans "Miqdor" %}:</label>
+            <div class="qty-control">
+              <button type="button" class="qty-btn" id="minusBtn">−</button>
+              <input type="number" name="quantity" id="qtyInput" value="1" min="1" max="{{ product.stock }}" class="qty-input">
+              <button type="button" class="qty-btn" id="plusBtn">+</button>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary btn-xl add-cart-main">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            {% trans "Savatga qo'shish" %}
+          </button>
+        </form>
+        {% endif %}
+
+        <div class="product-guarantees">
+          <div class="guarantee-item">🚚 {% trans "Toshkentga 1-2 kunda yetkazish" %}</div>
+          <div class="guarantee-item">✅ {% trans "Sertifikatlangan mahsulotlar" %}</div>
+          <div class="guarantee-item">👨‍💼 {% trans "Mutaxassis maslahati" %}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION & FEATURES -->
+    <div class="product-tabs">
+      <div class="tabs-header">
+        <button class="tab-btn active" data-tab="desc">{% trans "Tavsif" %}</button>
+        {% if product.features.all %}
+        <button class="tab-btn" data-tab="specs">{% trans "Xususiyatlar" %}</button>
+        {% endif %}
+      </div>
+      <div class="tab-content active" id="desc">
+        <div class="product-description">
+          {{ product.description|linebreaks }}
+        </div>
+      </div>
+      {% if product.features.all %}
+      <div class="tab-content" id="specs">
+        <table class="specs-table">
+          {% for feature in product.features.all %}
+          <tr>
+            <td class="spec-name">{{ feature.name }}</td>
+            <td class="spec-value">{{ feature.value }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- RELATED -->
+    {% if related %}
+    <section class="related-section">
+      <h2 class="section-title">{% trans "O'xshash mahsulotlar" %}</h2>
+      <div class="products-grid">
+        {% for p in related %}
+        {% include "products/_product_card.html" with product=p %}
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const qty = document.getElementById('qtyInput');
+document.getElementById('plusBtn')?.addEventListener('click', () => qty.value = Math.min(+qty.value + 1, +qty.max));
+document.getElementById('minusBtn')?.addEventListener('click', () => qty.value = Math.max(+qty.value - 1, 1));
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById(this.dataset.tab).classList.add('active');
+  });
+});
+</script>
+{% endblock %}

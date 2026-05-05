@@ -1,0 +1,483 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TechShop\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-05 02:00+0500\n"
+"PO-Revision-Date: 2026-05-05 00:00+0500\n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: templates/accounts/login.html:3 templates/accounts/login.html:9
+#: templates/accounts/login.html:21 templates/accounts/register.html:24
+#: templates/base/base.html:53
+msgid "Kirish"
+msgstr "Войти"
+
+#: templates/accounts/login.html:10
+msgid "Hisobingizga kiring"
+msgstr "Войдите в свой аккаунт"
+
+#: templates/accounts/login.html:24
+msgid "Hisob yo'qmi?"
+msgstr "Нет аккаунта?"
+
+#: templates/accounts/login.html:24
+msgid "Ro'yxatdan o'ting"
+msgstr "Зарегистрироваться"
+
+#: templates/accounts/register.html:3 templates/accounts/register.html:9
+#: templates/accounts/register.html:21 templates/products/home.html:156
+msgid "Ro'yxatdan o'tish"
+msgstr "Регистрация"
+
+#: templates/accounts/register.html:10
+msgid "Yangi hisob yarating"
+msgstr "Создайте новый аккаунт"
+
+#: templates/accounts/register.html:24
+msgid "Hisobingiz bormi?"
+msgstr "У вас уже есть аккаунт?"
+
+#: templates/base/base.html:19
+msgid "50,000 so'mdan buyurtmada yetkazib berish bepul"
+msgstr "Бесплатная доставка при заказе от 50,000 сум"
+
+#: templates/base/base.html:20
+msgid "+998 20 001 20 41 — har kuni 9:00–20:00"
+msgstr "+998 20 001 20 41 — каждый день 9:00–20:00"
+
+#: templates/base/base.html:29 templates/base/base.html:108
+#: templates/products/detail.html:13 templates/products/list.html:4
+msgid "Katalog"
+msgstr "Каталог"
+
+#: templates/base/base.html:33 templates/products/home.html:30
+msgid "Yangiliklar"
+msgstr "Новинки"
+
+#: templates/base/base.html:37
+msgid "Mahsulot qidiring..."
+msgstr "Поиск товаров..."
+
+#: templates/base/base.html:97
+msgid ""
+"O'zbekistondagi eng yaxshi oshxona texnikalari do'koni. Sifatli mahsulotlar,"
+" tez yetkazib berish."
+msgstr ""
+"Лучший магазин кухонной техники в Узбекистане. Качественные товары, быстрая "
+"доставка."
+
+#: templates/base/base.html:110
+msgid "Blenderlar"
+msgstr "Блендеры"
+
+#: templates/base/base.html:111
+msgid "Sok apparatlar"
+msgstr "Соковыжималки"
+
+#: templates/base/base.html:112
+msgid "Mikserlar"
+msgstr "Миксеры"
+
+#: templates/base/base.html:113
+msgid "Kombainlar"
+msgstr "Кухонные комбайны"
+
+#: templates/base/base.html:114
+msgid "Kofe apparatlar"
+msgstr "Кофемашины"
+
+#: templates/base/base.html:118
+msgid "Mijozlarga"
+msgstr "Клиентам"
+
+#: templates/base/base.html:120 templates/cart/cart.html:58
+#| msgid "Tez yetkazib berish"
+msgid "Yetkazib berish"
+msgstr "Доставка"
+
+#: templates/base/base.html:121 templates/orders/success.html:16
+#| msgid "Buyurtma berish"
+msgid "Buyurtmalarim"
+msgstr "Мои заказы"
+
+#: templates/base/base.html:122
+msgid "Bog'lanish"
+msgstr "Связаться"
+
+msgid "Bizning manzil"
+msgstr "Наш адрес"
+
+msgid "Ish vaqti"
+msgstr "Рабочее время"
+
+msgid "Dush–Yak: 9:00–20:00"
+msgstr "Пн-Вс: 9:00-20:00"
+
+#: templates/base/base.html:126
+msgid "Aloqa"
+msgstr "Контакты"
+
+#: templates/base/base.html:128
+msgid "Toshkent sh., Chilonzor t."
+msgstr "г. Ташкент, Чиланзарский р-н"
+
+#: templates/base/base.html:131
+msgid "Dush–Yak: 9:00–21:00"
+msgstr "Пн-Вс: 9:00-21:00"
+
+#: templates/base/base.html:136
+msgid "© 2025 TexnoRinok. Barcha huquqlar himoyalangan."
+msgstr "© 2025 TexnoRinok. Все права защищены."
+
+#: templates/cart/cart.html:4
+msgid "Savat"
+msgstr "Корзина"
+
+#: templates/cart/cart.html:9
+msgid "Savatingiz"
+msgstr "Ваша корзина"
+
+#: templates/cart/cart.html:25 templates/cart/cart.html:38
+#: templates/cart/cart.html:55 templates/cart/cart.html:63
+#: templates/orders/checkout.html:60 templates/orders/checkout.html:65
+#: templates/products/_product_card.html:31
+#: templates/products/_product_card.html:33 templates/products/detail.html:52
+#: templates/products/detail.html:54
+msgid "so'm"
+msgstr "сум"
+
+#: templates/cart/cart.html:42
+msgid "O\\"
+msgstr "О"
+
+#: templates/cart/cart.html:52
+#| msgid "Buyurtma berish"
+msgid "Buyurtma jami"
+msgstr "Итого заказа"
+
+#: templates/cart/cart.html:54 templates/products/home.html:33
+msgid "Mahsulotlar"
+msgstr "Товары"
+
+#: templates/cart/cart.html:54
+msgid "ta"
+msgstr "шт"
+
+#: templates/cart/cart.html:59
+msgid "Bepul"
+msgstr "Бесплатно"
+
+#: templates/cart/cart.html:62 templates/orders/checkout.html:64
+msgid "Jami"
+msgstr "Итого"
+
+#: templates/cart/cart.html:66 templates/orders/checkout.html:3
+#: templates/orders/checkout.html:8
+msgid "Buyurtma berish"
+msgstr "Оформить заказ"
+
+#: templates/cart/cart.html:69
+msgid "Xaridni davom ettirish"
+msgstr "Продолжить покупки"
+
+#: templates/cart/cart.html:77
+#| msgid "Savatingiz"
+msgid "Savatingiz bo'sh"
+msgstr "Ваша корзина пуста"
+
+#: templates/cart/cart.html:78
+msgid "Katalogdan mahsulot tanlang va savatga qo'shing"
+msgstr "Выберите товар из каталога и добавьте в корзину"
+
+#: templates/cart/cart.html:79 templates/products/home.html:27
+#| msgid "Katalog"
+msgid "Katalogga o'tish"
+msgstr "Перейти в каталог"
+
+#: templates/orders/checkout.html:12
+msgid "Yetkazib berish ma'lumotlari"
+msgstr "Информация о доставке"
+
+#: templates/orders/checkout.html:17
+msgid "Ism"
+msgstr "Имя"
+
+#: templates/orders/checkout.html:22
+msgid "Familiya"
+msgstr "Фамилия"
+
+#: templates/orders/checkout.html:28
+msgid "Telefon"
+msgstr "Телефон"
+
+#: templates/orders/checkout.html:37
+msgid "Shahar"
+msgstr "Город"
+
+#: templates/orders/checkout.html:41
+msgid "Manzil"
+msgstr "Адрес"
+
+#: templates/orders/checkout.html:45
+msgid "Izoh"
+msgstr "Комментарий"
+
+#: templates/orders/checkout.html:49
+#| msgid "Buyurtma berish"
+msgid "Buyurtmani tasdiqlash"
+msgstr "Подтвердить заказ"
+
+#: templates/orders/checkout.html:56
+#| msgid "Buyurtma berish"
+msgid "Buyurtmangiz"
+msgstr "Ваш заказ"
+
+#: templates/orders/success.html:3
+msgid "Buyurtma qabul qilindi"
+msgstr "Заказ принят"
+
+#: templates/orders/success.html:9
+msgid "Buyurtmangiz qabul qilindi!"
+msgstr "Ваш заказ принят!"
+
+#: templates/orders/success.html:10
+#| msgid "Buyurtma berish"
+msgid "Buyurtma raqami:"
+msgstr "Номер заказа:"
+
+#: templates/orders/success.html:11
+msgid "tez orada operator siz bilan bog'lanadi."
+msgstr "скоро оператор свяжется с вами."
+
+#: templates/orders/success.html:14
+msgid "Bosh sahifaga qaytish"
+msgstr "Вернуться на главную"
+
+#: templates/products/_product_card.html:18
+#| msgid "Savatga"
+msgid "Savatga qo\\"
+msgstr "Добавить в корзину"
+
+#: templates/products/_product_card.html:20
+msgid "Savatga"
+msgstr "В корзину"
+
+#: templates/products/detail.html:11
+msgid "Bosh sahifa"
+msgstr "Главная"
+
+#: templates/products/detail.html:65
+msgid "Mavjud"
+msgstr "В наличии"
+
+#: templates/products/detail.html:65
+msgid "Tugagan"
+msgstr "Закончился"
+
+#: templates/products/detail.html:73
+msgid "Miqdor"
+msgstr "Количество"
+
+#: templates/products/detail.html:82
+#| msgid "Savatga"
+msgid "Savatga qo'shish"
+msgstr "Добавить в корзину"
+
+#: templates/products/detail.html:88
+msgid "Toshkentga 1-2 kunda yetkazish"
+msgstr "Доставка по Ташкенту за 1-2 дня"
+
+#: templates/products/detail.html:89 templates/products/home.html:107
+msgid "Sertifikatlangan mahsulotlar"
+msgstr "Сертифицированные товары"
+
+#: templates/products/detail.html:90 templates/products/home.html:121
+msgid "Mutaxassis maslahati"
+msgstr "Консультация эксперта"
+
+#: templates/products/detail.html:98
+msgid "Tavsif"
+msgstr "Описание"
+
+#: templates/products/detail.html:100
+msgid "Xususiyatlar"
+msgstr "Характеристики"
+
+#: templates/products/detail.html:125
+msgid "O'xshash mahsulotlar"
+msgstr "Похожие товары"
+
+#: templates/products/home.html:4
+msgid "TexnoRinok — Oshxona Texnikalari Do'koni"
+msgstr "TexnoRinok — Магазин кухонной техники"
+
+#: templates/products/home.html:18
+msgid "O'zbekistonda #1 texnika do'koni"
+msgstr "Магазин техники №1 в Узбекистане"
+
+#: templates/products/home.html:20
+msgid "Oshxonangizni"
+msgstr "Обустройте вашу кухню"
+
+#: templates/products/home.html:21
+msgid "kuchli texnika"
+msgstr "мощной техникой"
+
+#: templates/products/home.html:22
+msgid "bilan bezang"
+msgstr " "
+
+#: templates/products/home.html:24
+msgid ""
+"Blenderlar, sok apparatlar, mikserlar va boshqa premium oshxona texnikalari."
+" Kafolat va tez yetkazib berish bilan."
+msgstr ""
+"Блендеры, соковыжималки, миксеры и другая премиальная кухонная техника. С "
+"гарантией и быстрой доставкой."
+
+#: templates/products/home.html:35
+msgid "Xaridorlar"
+msgstr "Покупатели"
+
+#: templates/products/home.html:37
+msgid "Qo'llab-quvvatlash"
+msgstr "Поддержка"
+
+#: templates/products/home.html:42
+msgid "Eng ko'p sotiladigan"
+msgstr "Самые продаваемые"
+
+#: templates/products/home.html:58 templates/products/list.html:13
+msgid "Kategoriyalar"
+msgstr "Категории"
+
+#: templates/products/home.html:59 templates/products/home.html:82
+#: templates/products/home.html:138
+msgid "Hammasini ko'rish"
+msgstr "Посмотреть все"
+
+#: templates/products/home.html:66 templates/products/list.html:68
+msgid "ta mahsulot"
+msgstr "товаров"
+
+#: templates/products/home.html:80
+msgid "Ko'p sotiladiganlar"
+msgstr "Хиты продаж"
+
+#: templates/products/home.html:100
+msgid "Tez yetkazib berish"
+msgstr "Быстрая доставка"
+
+#: templates/products/home.html:101
+msgid "Toshkent bo'yicha 1-2 kun ichida"
+msgstr "По Ташкенту в течение 1-2 дней"
+
+#: templates/products/home.html:108
+msgid "Barcha mahsulotlarga rasmiy kafolat"
+msgstr "Официальная гарантия на все товары"
+
+#: templates/products/home.html:114
+msgid "Qulay to'lov"
+msgstr "Удобная оплата"
+
+#: templates/products/home.html:115
+msgid "Click, Payme, Uzum Bank orqali"
+msgstr "Через Click, Payme, Uzum Bank"
+
+#: templates/products/home.html:122
+msgid "Siz uchun eng yaxshisini tanlashda yordam"
+msgstr "Поможем выбрать лучшее для вас"
+
+#: templates/products/home.html:136
+#| msgid "Yangiliklar"
+msgid "Yangi kelganlar"
+msgstr "Новые поступления"
+
+#: templates/products/home.html:154
+msgid "Birinchi xaridingizda"
+msgstr "При первой покупке"
+
+#: templates/products/home.html:154
+#, python-format
+msgid "10%% chegirma"
+msgstr "Скидка 10%%"
+
+#: templates/products/home.html:155
+msgid "Ro'yxatdan o'ting va maxsus chegirmadan foydalaning"
+msgstr "Зарегистрируйтесь и воспользуйтесь специальной скидкой"
+
+#: templates/products/list.html:15
+msgid "Barchasi"
+msgstr "Все"
+
+#: templates/products/list.html:30
+msgid "Brandlar"
+msgstr "Бренды"
+
+#: templates/products/list.html:44
+msgid "Narx oralig'i"
+msgstr "Диапазон цен"
+
+#: templates/products/list.html:52
+msgid "Qo'llash"
+msgstr "Применить"
+
+#: templates/products/list.html:64
+msgid "qidiruv natijalari"
+msgstr "результаты поиска"
+
+#: templates/products/list.html:66 templates/products/list.html:91
+#| msgid "Sertifikatlangan mahsulotlar"
+msgid "Barcha mahsulotlar"
+msgstr "Все товары"
+
+#: templates/products/list.html:72
+#| msgid "Yangiliklar"
+msgid "Yangi"
+msgstr "Новые"
+
+#: templates/products/list.html:73
+msgid "Arzondan qimmatga"
+msgstr "Сначала дешевые"
+
+#: templates/products/list.html:74
+msgid "Qimmatdan arzonga"
+msgstr "Сначала дорогие"
+
+#: templates/products/list.html:89
+#| msgid "Mahsulot qidiring..."
+msgid "Mahsulot topilmadi"
+msgstr "Товар не найден"
+
+#: templates/products/list.html:90
+msgid "Boshqa kalit so'z yoki filtrlarni sinab ko'ring"
+msgstr "Попробуйте другие ключевые слова или фильтры"
+
+msgid "Mening buyurtmalarim"
+msgstr "Мои заказы"
+
+msgid "Barcha buyurtmalaringiz tarixi va holati"
+msgstr "История и статус всех ваших заказов"
+
+msgid "xizmati"
+msgstr "служба"
+
+msgid "Tezkor yetkazib berish"
+msgstr "Экспресс-доставка"
+
+msgid "Viloyatlarga yuborish"
+msgstr "Доставка в регионы"
+
+msgid "Yetkazib berish narxi"
+msgstr "Стоимость доставки"
+
+msgid "Bizni kuzatib boring"
+msgstr "Следите за нами"
+
+msgid "Savollaringiz bormi? Biz sizga yordam berishdan mamnunmiz!"
+msgstr "У вас есть вопросы? Мы рады вам помочь!"

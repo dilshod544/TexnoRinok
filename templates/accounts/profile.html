@@ -1,0 +1,75 @@
+{% extends "base/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Profil" %} — TexnoRinok{% endblock %}
+
+{% block content %}
+<div class="profile-page" style="padding: 60px 0; background: var(--bg-2); min-height: 80vh;">
+    <div class="container">
+        <div class="profile-container" style="max-width: 900px; margin: 0 auto;">
+            <div class="profile-header" style="display: flex; align-items: center; gap: 24px; margin-bottom: 40px;">
+                <div class="profile-avatar" style="width: 100px; height: 100px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #fff; box-shadow: var(--accent-glow);">
+                    {{ request.user.username|slice:":1"|upper }}
+                </div>
+                <div>
+                    <h1 class="profile-title" style="font-family: var(--font-display); font-size: 36px; font-weight: 800; margin: 0;">{{ request.user.first_name }} {{ request.user.last_name|default:"" }}</h1>
+                    <p style="color: var(--text-2); margin: 4px 0 0;">@{{ request.user.username }}</p>
+                </div>
+            </div>
+
+            <div class="profile-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+                <!-- Sidebar Info -->
+                <div class="profile-sidebar">
+                    <div class="info-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px;">
+                        <h3 style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 20px;">{% trans "Ma'lumotlar" %}</h3>
+                        <div class="info-item" style="margin-bottom: 16px;">
+                            <label style="display: block; font-size: 12px; color: var(--text-3); margin-bottom: 4px;">Email</label>
+                            <p style="font-size: 14px; font-weight: 500;">{{ request.user.email }}</p>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 16px;">
+                            <label style="display: block; font-size: 12px; color: var(--text-3); margin-bottom: 4px;">{% trans "Telefon" %}</label>
+                            <p style="font-size: 14px; font-weight: 500;">{{ request.user.profile.phone_number|default:"-" }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label style="display: block; font-size: 12px; color: var(--text-3); margin-bottom: 4px;">{% trans "A'zolik" %}</label>
+                            <p style="font-size: 14px; font-weight: 500;">{{ request.user.date_joined|date:"d M Y" }}</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'accounts:logout' %}" class="btn-ghost" style="width: 100%; justify-content: center; color: var(--red); border-color: var(--red); opacity: 0.8;">
+                        {% trans "Chiqish" %}
+                    </a>
+                </div>
+
+                <!-- Main Content (Orders) -->
+                <div class="profile-main">
+                    <div class="orders-section" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 700;">{% trans "So'nggi buyurtmalar" %}</h2>
+                            <a href="{% url 'orders:list' %}" class="see-all">{% trans "Hammasi" %} →</a>
+                        </div>
+                        
+                        <div class="recent-orders">
+                            {% for order in request.user.order_set.all|slice:":3" %}
+                            <div class="order-item-mini" style="padding: 16px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <p style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Buyurtma #{{ order.pk }}</p>
+                                    <p style="font-size: 12px; color: var(--text-3);">{{ order.created_at|date:"d M Y" }}</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <p style="font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 4px;">{{ order.total_price|floatformat:0 }} {% trans "so'm" %}</p>
+                                    <span class="status status--{{ order.status }}" style="font-size: 10px; padding: 2px 8px; border-radius: 4px; background: var(--bg-4);">{{ order.get_status_display }}</span>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div style="text-align: center; padding: 40px 0; color: var(--text-3);">
+                                <p>{% trans "Hali buyurtmalar yo'q" %}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

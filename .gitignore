@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+*.log
+
+# Project Specific
+data_dump.json
+scratch/
+.system_generated/
+*.md
+!README.md
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store

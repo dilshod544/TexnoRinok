@@ -1,0 +1,93 @@
+{% extends "base/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Buyurtma" %} #{{ order.pk }} — TexnoRinok{% endblock %}
+
+{% block content %}
+<div class="order-detail-page" style="padding: 60px 0; background: var(--bg-2); min-height: 80vh;">
+    <div class="container" style="max-width: 1000px;">
+        <div style="margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <a href="{% url 'orders:list' %}" style="color: var(--text-3); font-size: 14px; text-decoration: none; margin-bottom: 12px; display: block;">← {% trans "Mening buyurtmalarim" %}</a>
+                <h1 style="font-family: var(--font-display); font-size: 32px; font-weight: 800;">{% trans "Buyurtma" %} #{{ order.pk }}</h1>
+                <p style="color: var(--text-3); margin-top: 5px;">{{ order.created_at|date:"d F, Y • H:i" }}</p>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 13px; color: var(--text-3); margin-bottom: 8px;">{% trans "Buyurtma holati" %}</div>
+                {% if order.status == 'pending' %}
+                    <span style="background: #fff9db; color: #f08c00; padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 700; border: 1px solid #ffe066;">🕒 {{ order.get_status_display }}</span>
+                {% elif order.status == 'confirmed' %}
+                    <span style="background: #e7f5ff; color: #1c7ed6; padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 700; border: 1px solid #74c0fc;">✅ {{ order.get_status_display }}</span>
+                {% elif order.status == 'delivered' %}
+                    <span style="background: #ebfbee; color: #2b8a3e; padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 700; border: 1px solid #69db7c;">🚚 {{ order.get_status_display }}</span>
+                {% else %}
+                    <span style="background: #fff5f5; color: #c92a2a; padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 700; border: 1px solid #ffa8a8;">❌ {{ order.get_status_display }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px;">
+            <!-- Left: Items -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 32px;">
+                    <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+                        <span>🛒</span> {% trans "Savat tarkibi" %}
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        {% for item in order.items.all %}
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--border-light);">
+                            <div style="display: flex; gap: 16px; align-items: center;">
+                                <div style="width: 50px; height: 50px; background: var(--bg-2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">📦</div>
+                                <div>
+                                    <h4 style="font-size: 15px; font-weight: 700; color: var(--text);">{{ item.product_name }}</h4>
+                                    <p style="font-size: 13px; color: var(--text-3);">{{ item.price|floatformat:0 }} UZS × {{ item.quantity }}</p>
+                                </div>
+                            </div>
+                            <div style="font-weight: 700; color: var(--text);">{{ item.subtotal|floatformat:0 }} UZS</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;">
+                        <span style="font-weight: 600; color: var(--text-2);">{% trans "Jami summa" %}:</span>
+                        <span style="font-size: 24px; font-weight: 900; color: var(--accent);">{{ order.total_price|floatformat:0 }} UZS</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Customer & Address -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 32px;">
+                    <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+                        <span>📍</span> {% trans "Yetkazib berish" %}
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div>
+                            <label style="font-size: 12px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">{% trans "Qabul qiluvchi" %}</label>
+                            <p style="font-weight: 600;">{{ order.first_name }} {{ order.last_name }}</p>
+                        </div>
+                        <div>
+                            <label style="font-size: 12px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">{% trans "Telefon" %}</label>
+                            <p style="font-weight: 600;">{{ order.phone }}</p>
+                        </div>
+                        <div>
+                            <label style="font-size: 12px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">{% trans "Manzil" %}</label>
+                            <p style="line-height: 1.5; color: var(--text-2);">{{ order.city }}, {{ order.address }}</p>
+                        </div>
+                        {% if order.comment %}
+                        <div style="padding: 16px; background: var(--bg-2); border-radius: 12px; border-left: 4px solid var(--accent);">
+                            <label style="font-size: 11px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 6px;">{% trans "Buyurtmaga izoh" %}</label>
+                            <p style="font-size: 13px; font-style: italic;">"{{ order.comment }}"</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div style="background: var(--accent-dim); border: 1px dashed var(--accent); border-radius: 24px; padding: 24px; text-align: center;">
+                    <p style="font-size: 13px; color: var(--text-2); line-height: 1.5;">{% trans "Buyurtma bo'yicha savollaringiz bo'lsa, biz bilan bog'laning." %}</p>
+                    <a href="tel:+998712000000" style="color: var(--accent); font-weight: 800; font-size: 18px; text-decoration: none; display: block; margin-top: 10px;">+998 71 200 00 00</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

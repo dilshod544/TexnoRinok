@@ -1,0 +1,14 @@
+{% extends "store_admin/base.html" %}
+{% block page_title %}Delete Product{% endblock %}
+
+{% block content %}
+<div class="admin-card" style="max-width:500px;">
+    <h3>Are you sure you want to delete "{{ product.name }}"?</h3>
+    <p>This action cannot be undone.</p>
+    <form method="POST" style="margin-top:20px; display:flex; gap:10px;">
+        {% csrf_token %}
+        <button type="submit" class="btn-primary" style="background:#e74c3c; border-color:#c0392b;">Yes, Delete</button>
+        <a href="{% url 'store_admin:product_list' %}" class="btn-outline-sm" style="padding:10px 20px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

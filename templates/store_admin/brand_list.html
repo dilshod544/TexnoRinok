@@ -1,0 +1,32 @@
+{% extends "store_admin/base.html" %}
+{% load i18n %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>🏷️ {% trans "Brandlar" %}</h2>
+    <a href="{% url 'store_admin:brand_add' %}" class="btn btn-primary">➕ {% trans "Yangi brend" %}</a>
+</div>
+
+<div class="table-responsive bg-white rounded shadow-sm p-3">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Nomi</th>
+                <th>Slug</th>
+                <th>Amallar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for brand in brands %}
+            <tr>
+                <td><strong>{{ brand.name }}</strong></td>
+                <td><code>{{ brand.slug }}</code></td>
+                <td>
+                    <a href="{% url 'store_admin:brand_edit' brand.pk %}" class="btn btn-sm btn-outline-primary" title="Tahrirlash">✏️</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

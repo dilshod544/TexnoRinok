@@ -1,0 +1,30 @@
+{% extends "store_admin/base.html" %}
+{% load i18n %}
+
+{% block admin_content %}
+<div class="mb-4">
+    <a href="{% url 'store_admin:brand_list' %}" class="text-decoration-none">← {% trans "Ro'yxatga qaytish" %}</a>
+    <h2 class="mt-2">{{ title }}</h2>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Brend nomi</label>
+                    {{ form.name }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Slug (Link)</label>
+                    {{ form.slug }}
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary px-5">✅ {% trans "Saqlash" %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

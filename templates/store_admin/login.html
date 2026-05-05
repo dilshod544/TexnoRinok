@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Admin Login" %} — TexnoRinok{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="container">
+        <div class="auth-card">
+            <h2 class="page-title">🔐 {% trans "Store Admin Login" %}</h2>
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn-primary" style="width:100%;">{% trans "Login" %}</button>
+            </form>
+            {% if messages %}
+            <div class="messages" style="margin-top:15px;">
+                {% for message in messages %}
+                <p class="error" style="color:red;">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

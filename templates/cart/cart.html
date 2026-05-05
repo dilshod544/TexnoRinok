@@ -1,0 +1,95 @@
+{% extends "base/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Savat" %} — TexnoRinok{% endblock %}
+
+{% block content %}
+<div class="cart-page">
+  <div class="container">
+    <h1 class="page-title">🛒 {% trans "Savatingiz" %}</h1>
+
+    {% if cart.item_count %}
+    <div class="cart-layout">
+      <div class="cart-items">
+        {% for item in cart.items.all %}
+        <div class="cart-item" id="item-{{ item.pk }}">
+          <div class="cart-item__img">
+            {% if item.product.image %}
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+            {% else %}
+              <div class="img-placeholder">📦</div>
+            {% endif %}
+          </div>
+          <div class="cart-item__info">
+            <a href="{{ item.product.get_absolute_url }}" class="cart-item__name">{{ item.product.name }}</a>
+            <span class="cart-item__price">{{ item.product.formatted_price }} {% trans "so'm" %}</span>
+          </div>
+          <div class="cart-item__qty">
+            <form method="post" action="{% url 'cart:update' item.pk %}" class="update-form">
+              {% csrf_token %}
+              <div class="qty-control qty-control--sm">
+                <button type="button" class="qty-btn" onclick="changeQty(this, -1)">−</button>
+                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="qty-input" onchange="this.form.submit()">
+                <button type="button" class="qty-btn" onclick="changeQty(this, 1)">+</button>
+              </div>
+            </form>
+          </div>
+          <div class="cart-item__subtotal">
+            {{ item.subtotal|floatformat:0 }} {% trans "so'm" %}
+          </div>
+          <form method="post" action="{% url 'cart:remove' item.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="remove-btn" title="{% trans 'O\'chirish' %}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            </button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="cart-summary">
+        <div class="summary-card">
+          <h3>{% trans "Buyurtma jami" %}</h3>
+          <div class="summary-row">
+            <span>{% trans "Mahsulotlar" %} ({{ cart.item_count }} {% trans "ta" %})</span>
+            <span>{{ cart.total|floatformat:0 }} {% trans "so'm" %}</span>
+          </div>
+          <div class="summary-row">
+            <span>{% trans "Yetkazib berish" %}</span>
+            <span class="text-green">{% trans "Bepul" %}</span>
+          </div>
+          <div class="summary-total">
+            <span>{% trans "Jami" %}</span>
+            <span>{{ cart.total|floatformat:0 }} {% trans "so'm" %}</span>
+          </div>
+          <a href="{% url 'orders:checkout' %}" class="btn-primary btn-xl" style="width:100%;text-align:center;display:block;margin-top:20px">
+            {% trans "Buyurtma berish" %} →
+          </a>
+          <a href="{% url 'products:list' %}" class="btn-ghost" style="width:100%;text-align:center;display:block;margin-top:10px">
+            ← {% trans "Xaridni davom ettirish" %}
+          </a>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">🛒</div>
+      <h3>{% trans "Savatingiz bo'sh" %}</h3>
+      <p>{% trans "Katalogdan mahsulot tanlang va savatga qo'shing" %}</p>
+      <a href="{% url 'products:list' %}" class="btn-primary">{% trans "Katalogga o'tish" %}</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function changeQty(btn, delta) {
+  const input = btn.parentElement.querySelector('input');
+  const newVal = Math.max(1, +input.value + delta);
+  input.value = newVal;
+  input.form.submit();
+}
+</script>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Tasdiqlash — ONLY FOR ADMINS</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+        body {
+            background: #0d0d0f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .login-box {
+            background: #1a1a20;
+            border: 1px solid #2a2a32;
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: white;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #a0a0b0;
+            font-size: 14px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .otp-input {
+            width: 100%;
+            background: #141417;
+            border: 1px solid #2a2a32;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 10px;
+            outline: none;
+            margin-bottom: 20px;
+        }
+        .otp-input:focus {
+            border-color: var(--accent);
+        }
+        .btn-verify {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-verify:hover {
+            background: var(--accent-hover);
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .error-msg {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .timer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="icon">🔐</div>
+        <h1>Xavfsizlik kaliti</h1>
+        <p>Admin panelga kirish uchun maxsus xavfsizlik kalitini kiriting.</p>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="error-msg">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="verify_code" value="1">
+            <input type="password" name="code" class="otp-input" placeholder="••••••••" required autofocus style="letter-spacing: 2px;">
+            <button type="submit" class="btn-verify">TASDIQLASH</button>
+        </form>
+    </div>
+
+    <script>
+        let timeLeft = 120;
+        const timerEl = document.getElementById('timer');
+        const interval = setInterval(() => {
+            timeLeft--;
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            timerEl.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                timerEl.textContent = "Kod muddati tugadi";
+                timerEl.style.color = "red";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{% extends "base/base.html" %}
+{% load static i18n product_tags %}
+
+{% block title %}{% trans "Katalog" %} — TexnoRinok{% endblock %}
+
+{% block content %}
+<div class="catalog-page">
+  <div class="container">
+    <div class="catalog-layout">
+      <!-- SIDEBAR -->
+      <aside class="catalog-sidebar">
+        <div class="sidebar-card">
+          <h3>{% trans "Kategoriyalar" %}</h3>
+          <ul class="filter-list">
+            <li><a href="{% url 'products:list' %}" class="{% if not active_category %}active{% endif %}">{% trans "Barchasi" %}</a></li>
+            {% for cat in categories %}
+            <li>
+              <a href="{% url 'products:list' %}?category={{ cat.slug }}"
+                 class="{% if active_category.slug == cat.slug %}active{% endif %}">
+                {{ cat.icon|default:"📦" }} {{ cat|get_translated_name:LANGUAGE_CODE }}
+                <span class="count">{{ cat.products.count }}</span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        {% if brands %}
+        <div class="sidebar-card">
+          <h3>{% trans "Brandlar" %}</h3>
+          <ul class="filter-list">
+            {% for brand in brands %}
+            <li>
+              <a href="?brand={{ brand.slug }}" class="{% if request.GET.brand == brand.slug %}active{% endif %}">
+                {{ brand.name }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        <div class="sidebar-card">
+          <h3>{% trans "Narx oralig'i" %}</h3>
+          <form method="get" id="price-filter">
+            <input type="hidden" name="category" value="{{ request.GET.category }}">
+            <div class="price-inputs">
+              <input type="number" name="min_price" placeholder="Min" value="{{ request.GET.min_price }}" class="form-input price-inp">
+              <span>—</span>
+              <input type="number" name="max_price" placeholder="Max" value="{{ request.GET.max_price }}" class="form-input price-inp">
+            </div>
+            <button type="submit" class="btn-primary btn-sm" style="width:100%;margin-top:10px">{% trans "Qo'llash" %}</button>
+          </form>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div class="catalog-main">
+        <div class="catalog-topbar">
+          <div class="catalog-info">
+            {% if active_category %}
+              <h1 class="page-title">{{ active_category|get_translated_name:LANGUAGE_CODE }}</h1>
+            {% elif search %}
+              <h1 class="page-title">"{{ search }}" {% trans "qidiruv natijalari" %}</h1>
+            {% else %}
+              <h1 class="page-title">{% trans "Barcha mahsulotlar" %}</h1>
+            {% endif %}
+            <span class="result-count">{{ products.count }} {% trans "ta mahsulot" %}</span>
+          </div>
+          <div class="sort-controls">
+            <select id="sort-select" onchange="window.location.href='?sort='+this.value+'{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}'">
+              <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>{% trans "Yangi" %}</option>
+              <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>{% trans "Arzondan qimmatga" %}</option>
+              <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>{% trans "Qimmatdan arzonga" %}</option>
+              <option value="name_asc" {% if sort == 'name_asc' %}selected{% endif %}>A-Z</option>
+            </select>
+          </div>
+        </div>
+
+        {% if products %}
+        <div class="products-grid">
+          {% for product in products %}
+          {% include "products/_product_card.html" with product=product %}
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+          <div class="empty-icon">🔍</div>
+          <h3>{% trans "Mahsulot topilmadi" %}</h3>
+          <p>{% trans "Boshqa kalit so'z yoki filtrlarni sinab ko'ring" %}</p>
+          <a href="{% url 'products:list' %}" class="btn-primary">{% trans "Barcha mahsulotlar" %}</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

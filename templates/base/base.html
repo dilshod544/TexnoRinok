@@ -1,0 +1,165 @@
+{% load static i18n product_tags %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}TexnoRinok — Oshxona Texnikalari va Uy jihozlari{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}TexnoRinok — O'zbekistondagi eng yaxshi oshxona texnikalari do'koni. Dyson, Bosch, Samsung va boshqa brendlar mahsulotlarini hamyonbop narxlarda sotib oling.{% endblock %}">
+  <meta name="keywords" content="{% block meta_keywords %}texnorinok, dyson, oshxona texnikasi, blender, mikser, toshkent texnika, uy jihozlari{% endblock %}">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:title" content="{% block og_title %}TexnoRinok — Sifatli Oshxona Texnikalari{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}O'zbekistondagi eng yaxshi oshxona texnikalari do'koni. Sifatli mahsulotlar, tez yetkazib berish.{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.jpg' %}{% endblock %}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  {% block extra_css %}{% endblock %}
+  {% block schema_org %}{% endblock %}
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="header-top">
+    <div class="container">
+      <span>📦 {% trans "50,000 so'mdan buyurtmada yetkazib berish bepul" %}</span>
+      <span>☎️ {% trans "+998 20 001 20 41 — har kuni 9:00–20:00" %}</span>
+    </div>
+  </div>
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="{% url 'products:home' %}" class="logo">
+        <span class="logo-mark">T</span><span class="logo-text">TexnoRinok</span>
+      </a>
+      <div class="nav-links">
+        <a href="{% url 'products:list' %}">{% trans "Katalog" %}</a>
+        {% for cat in menu_categories|slice:":2" %}
+        <a href="{% url 'products:list' %}?category={{ cat.slug }}">{{ cat|get_translated_name:LANGUAGE_CODE|default:cat.name }}</a>
+        {% endfor %}
+        <a href="{% url 'products:list' %}?sort=-created_at">{% trans "Yangiliklar" %}</a>
+      </div>
+      <div class="search-bar">
+        <form action="{% url 'products:list' %}" method="get">
+          <input type="text" name="q" placeholder="{% trans 'Mahsulot qidiring...' %}" value="{{ request.GET.q }}">
+          <button type="submit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </form>
+      </div>
+      <div class="header-actions">
+        <a href="{% url 'cart:cart' %}" class="btn-icon cart-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          {% if cart_count > 0 %}<span class="badge">{{ cart_count }}</span>{% endif %}
+        </a>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'accounts:profile' %}" class="btn-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </a>
+        {% else %}
+          <div style="display: flex; gap: 8px;">
+            <a href="{% url 'accounts:login' %}" class="btn-ghost" style="padding: 7px 16px; font-size: 13px;">{% trans "Kirish" %}</a>
+            <a href="{% url 'accounts:register' %}" class="btn-primary" style="padding: 7px 16px; font-size: 13px;">{% trans "Ro'yxatdan o'tish" %}</a>
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="lang-switcher" style="margin-left: 15px; display: flex; gap: 5px;">
+        <form action="{% url 'set_language' %}" method="post" style="display: inline-flex; gap: 5px;">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <button name="language" value="uz" class="lang-btn {% if LANGUAGE_CODE == 'uz' %}active{% endif %}" style="padding: 4px 8px; font-size: 12px; border: none; background: transparent; cursor: pointer;">🇺🇿 UZ</button>
+          <button name="language" value="ru" class="lang-btn {% if LANGUAGE_CODE == 'ru' %}active{% endif %}" style="padding: 4px 8px; font-size: 12px; border: none; background: transparent; cursor: pointer;">🇷🇺 RU</button>
+        </form>
+      </div>
+      <button class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- MESSAGES -->
+{% if messages %}
+<div class="messages-container">
+  {% for msg in messages %}
+  <div class="message message--{{ msg.tags }}">
+    {{ msg }}
+    <button class="msg-close">×</button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- MAIN -->
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="{% url 'products:home' %}" class="logo">
+          <span class="logo-mark">T</span><span class="logo-text">TexnoRinok</span>
+        </a>
+        <p>{% trans "O'zbekistondagi eng yaxshi oshxona texnikalari do'koni. Sifatli mahsulotlar, tez yetkazib berish." %}</p>
+        <div class="social-links">
+          <a href="https://t.me/texnorinokmalika1" target="_blank" aria-label="Telegram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.28l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.28z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/texnorinokmalika?igsh=MXY4bzUyenZjam1mOQ%3D%3D&utm_source=qr" target="_blank" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>{% trans "Katalog" %}</h4>
+        <ul>
+          <li><a href="{% url 'products:list' %}?category=blenders">{% trans "Blenderlar" %}</a></li>
+          <li><a href="{% url 'products:list' %}?category=juicers">{% trans "Sok apparatlar" %}</a></li>
+          <li><a href="{% url 'products:list' %}?category=mixers">{% trans "Mikserlar" %}</a></li>
+          <li><a href="{% url 'products:list' %}?category=food-processors">{% trans "Kombainlar" %}</a></li>
+          <li><a href="{% url 'products:list' %}?category=coffee-machines">{% trans "Kofe apparatlar" %}</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>{% trans "Mijozlarga" %}</h4>
+        <ul>
+          <li><a href="{% url 'products:delivery' %}">{% trans "Yetkazib berish" %}</a></li>
+          <li><a href="{% url 'orders:list' %}">{% trans "Buyurtmalarim" %}</a></li>
+          <li><a href="{% url 'products:contact' %}">{% trans "Bog'lanish" %}</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>{% trans "Aloqa" %}</h4>
+        <div class="contact-info">
+          <p>📍 {% trans "Toshkent sh., Malika-A8" %}</p>
+          <p>📞 +998 20 001 20 41</p>
+          <p>🕐 {% trans "Dush–Yak: 9:00–20:00" %}</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>{% trans "© 2025 TexnoRinok. Barcha huquqlar himoyalangan." %}</p>
+      <div class="payment-icons">
+        <span class="pay-badge">Click</span>
+        <span class="pay-badge">Payme</span>
+        <span class="pay-badge">Uzum</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
