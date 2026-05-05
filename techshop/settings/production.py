@@ -25,12 +25,9 @@ DATABASES = {
         default=config('DATABASE_URL', default=''),
         conn_max_age=600,
         conn_health_checks=True,
-        engine='django.db.backends.postgresql',
+        engine='django_pg8000',
     )
 }
 
-# Use pg8000 as the database driver (better for serverless/Vercel)
-# For now, we use default psycopg2 if available locally
-DATABASES['default']['OPTIONS'] = {
-    'sslmode': 'require',
-}
+# No extra options needed for pg8000 as it handles SSL/connection well
+DATABASES['default']['OPTIONS'] = {}
