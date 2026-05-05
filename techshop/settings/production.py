@@ -1,7 +1,10 @@
 from .base import *
 from decouple import config, Csv
 
-DEBUG = False
+DEBUG = True
+
+# Override logging for detailed output
+LOGGING['root']['level'] = 'DEBUG'
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 if '.vercel.app' not in ALLOWED_HOSTS:
@@ -20,18 +23,11 @@ CSRF_COOKIE_SECURE = True
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Database configuration using single DATABASE_URL env var
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('POSTGRES_DATABASE'),
-        'USER': config('POSTGRES_USER'),
-        'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('POSTGRES_HOST'),
-        'PORT': config('POSTGRES_PORT', default='5432'),
-    }
-}
-
-# SSL mode is required for Neon
-DATABASES['default']['OPTIONS'] = {
-    'sslmode': 'require',
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True,
+    )
 }
