@@ -11,28 +11,19 @@ if path not in sys.path:
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "techshop.settings.production")
 
-# Setup Django properly before running commands
+# IMPORTANT: Initialize Django first
 django.setup()
 
-# Run migrations automatically on Vercel (Disabled temporarily for debugging)
-# try:
-#     print("Starting migrations...")
-#     call_command('migrate', interactive=False)
-#     print("Migrations completed successfully.")
-# except Exception as e:
-#     import traceback
-#     print("Migration error occurred:")
-#     traceback.print_exc()
-
-# Get WSGI application with error reporting
+# Run migrations once on startup
 try:
-    app = get_wsgi_application()
-    application = app
-except Exception as e:
+    print("Executing database migrations...")
+    call_command('migrate', interactive=False)
+    print("Migrations successful.")
+except Exception:
     import traceback
-    print("CRITICAL: Failed to initialize WSGI application:")
+    print("AUTO-MIGRATION FAILED:")
     traceback.print_exc()
-    # Provide a simple error handler for Vercel
-    def application(environ, start_response):
-        start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
-        return [b"Internal Server Error during startup. Check Vercel logs for traceback."]
+
+# Vercel MUST see these at the top-level
+app = get_wsgi_application()
+application = app
