@@ -25,7 +25,7 @@ DATABASES = {
         default=config('DATABASE_URL', default=''),
         conn_max_age=600,
         conn_health_checks=True,
-        engine='django_pg8000',
+        engine='django.db.backends.postgresql',
     )
 }
 
