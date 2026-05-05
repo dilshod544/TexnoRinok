@@ -72,8 +72,13 @@ def product_list(request):
     }
     products = products.order_by(sort_options.get(sort, '-created_at'))
 
+    from django.core.paginator import Paginator
+    paginator = Paginator(products, 12)  # 12 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'products': products,
+        'products': page_obj,
         'categories': categories,
         'brands': brands,
         'active_category': active_category,

@@ -481,3 +481,60 @@ msgstr "Следите за нами"
 
 msgid "Savollaringiz bormi? Biz sizga yordam berishdan mamnunmiz!"
 msgstr "У вас есть вопросы? Мы рады вам помочь!"
+msgid "Buyurtma"
+msgstr "Заказ"
+
+msgid "Buyurtma holati"
+msgstr "Статус заказа"
+
+msgid "Savat tarkibi"
+msgstr "Состав корзины"
+
+msgid "Jami summa"
+msgstr "Общая сумма"
+
+msgid "Qabul qiluvchi"
+msgstr "Получатель"
+
+msgid "Buyurtma bo'yicha savollaringiz bo'lsa, biz bilan bog'laning."
+msgstr "Если у вас есть вопросы по заказу, свяжитесь с нами."
+msgid "Elektron pochta"
+msgstr "Электронная почта"
+
+msgid "Kutilmoqda"
+msgstr "Ожидание"
+
+msgid "Tasdiqlandi"
+msgstr "Подтверждено"
+
+msgid "Tayyorlanmoqda"
+msgstr "Готовится"
+
+msgid "Yetkazilmoqda"
+msgstr "Доставляется"
+
+msgid "Yetkazildi"
+msgstr "Доставлено"
+
+msgid "Bekor qilindi"
+msgstr "Отменено"
+
+msgid "Hali buyurtmalar yo'q"
+msgstr "Пока нет заказов"
+
+msgid "Sizda hali buyurtmalar yo'q"
+msgstr "У вас пока нет заказов"
+msgid "Hammasi"
+msgstr "Все"
+
+msgid "So'nggi buyurtmalar"
+msgstr "Последние заказы"
+
+msgid "Ma'lumotlar"
+msgstr "Информация"
+
+msgid "A'zolik"
+msgstr "Членство"
+
+msgid "Chiqish"
+msgstr "Выйти"

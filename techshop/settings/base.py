@@ -63,15 +63,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'techshop.wsgi.application'
 
-import dj_database_url
-
-# Database — PostgreSQL
+# Database — SQLite
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"postgres://{config('DB_USER', default='postgres')}:{config('DB_PASSWORD', default='postgres')}@{config('DB_HOST', default='localhost')}:{config('DB_PORT', default='5432')}/{config('DB_NAME', default='techshop')}",
-        conn_max_age=600,
-        ssl_require=False
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # Caching

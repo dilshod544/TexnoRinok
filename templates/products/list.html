@@ -65,7 +65,7 @@
             {% else %}
               <h1 class="page-title">{% trans "Barcha mahsulotlar" %}</h1>
             {% endif %}
-            <span class="result-count">{{ products.count }} {% trans "ta mahsulot" %}</span>
+            <span class="result-count">{{ products.paginator.count }} {% trans "ta mahsulot" %}</span>
           </div>
           <div class="sort-controls">
             <select id="sort-select" onchange="window.location.href='?sort='+this.value+'{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}'">
@@ -83,6 +83,28 @@
           {% include "products/_product_card.html" with product=product %}
           {% endfor %}
         </div>
+
+        <!-- PAGINATION -->
+        {% if products.has_other_pages %}
+        <div class="pagination" style="margin-top: 50px; display: flex; justify-content: center; gap: 10px;">
+            {% if products.has_previous %}
+                <a href="?page={{ products.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="btn-ghost" style="padding: 10px 20px; border-radius: 12px;">←</a>
+            {% endif %}
+
+            {% for i in products.paginator.page_range %}
+                {% if products.number == i %}
+                    <span class="btn-primary" style="padding: 10px 20px; border-radius: 12px;">{{ i }}</span>
+                {% elif i > products.number|add:'-3' and i < products.number|add:'3' %}
+                    <a href="?page={{ i }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="btn-ghost" style="padding: 10px 20px; border-radius: 12px;">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="btn-ghost" style="padding: 10px 20px; border-radius: 12px;">→</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
         {% else %}
         <div class="empty-state">
           <div class="empty-icon">🔍</div>
