@@ -16,9 +16,13 @@ django.setup()
 
 # Run migrations automatically on Vercel
 try:
+    print("Starting migrations...")
     call_command('migrate', interactive=False)
+    print("Migrations completed successfully.")
 except Exception as e:
-    print(f"Migration error: {e}")
+    import traceback
+    print("Migration error occurred:")
+    traceback.print_exc()
 
 # Get WSGI application
 app = get_wsgi_application()
