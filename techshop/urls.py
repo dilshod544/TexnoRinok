@@ -7,19 +7,19 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, RedirectView
 
 from django.contrib.sitemaps.views import sitemap
-from apps.products.sitemaps import ProductSitemap, CategorySitemap, StaticViewSitemap
+# from apps.products.sitemaps import ProductSitemap, CategorySitemap, StaticViewSitemap
 
-sitemaps = {
-    'static': StaticViewSitemap,
-    'categories': CategorySitemap,
-    'products': ProductSitemap,
-}
+# sitemaps = {
+#     'static': StaticViewSitemap,
+#     'categories': CategorySitemap,
+#     'products': ProductSitemap,
+# }
 
 from django.http import HttpResponse
 
 urlpatterns = [
     path('health/', lambda r: HttpResponse("OK")),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    # path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'img/favicon.png')),
     path('admin/', lambda r: redirect('store_admin:dashboard')), # Redirect /admin/ to custom panel

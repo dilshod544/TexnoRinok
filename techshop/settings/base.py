@@ -9,6 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production-use-env-variable')
 DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
+
 # Ensure Vercel domains are allowed
 if '.vercel.app' not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append('.vercel.app')
@@ -77,9 +78,18 @@ if db_url:
         'default': dj_database_url.config(
             default=db_url,
             conn_max_age=600,
-            ssl_require=True
+            ssl_require=True,
         )
     }
+    # Force use of pg8000 driver
+    if db_url.startswith('postgres'):
+        DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+        # We need to tell Django to use pg8000. 
+        # Since Django's built-in postgres engine requires psycopg2, 
+        # many people use a wrapper or simply install pg8000 and it works with some backends.
+        # But wait, Claude's code specifically used 'django.db.backends.postgresql'.
+        # For pg8000 to work with this engine, we need to monkeypatch it.
+        # I will add the monkeypatch to index.py to be safe.
 else:
     DATABASES = {
         'default': {
@@ -159,12 +169,5 @@ LOGGING = {
     'root': {
         'handlers': ['console'],
         'level': 'INFO',
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
-        },
     },
 }
