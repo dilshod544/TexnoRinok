@@ -16,6 +16,10 @@ try:
 except ImportError:
     try:
         from pg8000 import dbapi
+        dbapi.__version__ = "2.9.9"
+        dbapi.apilevel = "2.0"
+        dbapi.threadsafety = 1
+        dbapi.paramstyle = "pyformat"
         sys.modules["psycopg2"] = dbapi
         sys.modules["psycopg2.extensions"] = dbapi
         sys.modules["psycopg2.extras"] = dbapi
