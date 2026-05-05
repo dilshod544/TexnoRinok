@@ -65,16 +65,16 @@ WSGI_APPLICATION = 'techshop.wsgi.application'
 
 import dj_database_url
 
-# Database — PostgreSQL with env vars
+# Database — PostgreSQL
 DATABASES = {
     'default': dj_database_url.config(
         default=f"postgres://{config('DB_USER', default='postgres')}:{config('DB_PASSWORD', default='postgres')}@{config('DB_HOST', default='localhost')}:{config('DB_PORT', default='5432')}/{config('DB_NAME', default='techshop')}",
         conn_max_age=600,
-        conn_health_checks=True,
+        ssl_require=False
     )
 }
 
-# Caching for improved performance with remote database
+# Caching
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -112,7 +112,7 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 WHITENOISE_MANIFEST_STRICT = False
 
 # Media files
