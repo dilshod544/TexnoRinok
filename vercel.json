@@ -1,15 +1,11 @@
 {
-  "version": 2,
-  "functions": {
-    "techshop/wsgi.py": {
-      "runtime": "@vercel/python"
-    }
-  },
-  "routes": [
+  "builds": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
+      "src": "techshop/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
     {
       "src": "/(.*)",
       "dest": "techshop/wsgi.py"
