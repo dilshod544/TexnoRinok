@@ -10,13 +10,11 @@ if path not in sys.path:
 # 2. Set settings module BEFORE importing Django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "techshop.settings.production")
 
-# 3. Try to initialize Django, catch and display any errors
+# 3. Initialize Django
 try:
     from django.core.wsgi import get_wsgi_application
-    application = get_wsgi_application()
-    app = application
+    app = get_wsgi_application()
 except Exception as e:
-    # If Django fails to start, return the error as plain text
     error_msg = traceback.format_exc()
     print(f"Django startup error:\n{error_msg}", file=sys.stderr)
 
@@ -30,4 +28,5 @@ except Exception as e:
         start_response(status, response_headers)
         return [output]
 
-    application = app
+# Top-level export for Vercel
+application = app
