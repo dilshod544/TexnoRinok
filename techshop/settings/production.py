@@ -6,9 +6,16 @@ DEBUG = True
 # Override logging for detailed output
 LOGGING['root']['level'] = 'DEBUG'
 
+import os
+
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 if '.vercel.app' not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append('.vercel.app')
+
+# Render dynamic hostname support
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 import dj_database_url
 
