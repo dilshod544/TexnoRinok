@@ -63,17 +63,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'techshop.wsgi.application'
 
+import dj_database_url
+
 # Database — PostgreSQL with env vars
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='techshop'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default='postgres'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
-        'CONN_MAX_AGE': 600,  # Keep connections alive for 10 minutes to reduce latency
-    }
+    'default': dj_database_url.config(
+        default=f"postgres://{config('DB_USER', default='postgres')}:{config('DB_PASSWORD', default='postgres')}@{config('DB_HOST', default='localhost')}:{config('DB_PORT', default='5432')}/{config('DB_NAME', default='techshop')}",
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 # Caching for improved performance with remote database
