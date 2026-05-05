@@ -14,7 +14,7 @@ pip-delete-this-directory.txt
 # Django
 db.sqlite3
 db.sqlite3-journal
-media/
+# media/ (removed so current images are deployed to Render)
 
 *.log
 
