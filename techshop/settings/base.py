@@ -69,11 +69,13 @@ WSGI_APPLICATION = 'techshop.wsgi.application'
 
 import dj_database_url
 
-# Database — Switch between Vercel Postgres and local SQLite
-if config('POSTGRES_URL', default=None):
+# Database — Switch between Vercel/Neon Postgres and local SQLite
+db_url = config('POSTGRES_URL', default=config('DATABASE_URL', default=None))
+
+if db_url:
     DATABASES = {
         'default': dj_database_url.config(
-            default=config('POSTGRES_URL'),
+            default=db_url,
             conn_max_age=600,
             ssl_require=True
         )

@@ -16,12 +16,16 @@ django.setup()
 
 # Run migrations once on startup
 try:
+    from django.conf import settings
+    db_conn = settings.DATABASES['default']
+    print(f"Database engine: {db_conn['ENGINE']}")
+    
     print("Executing database migrations...")
     call_command('migrate', interactive=False)
     print("Migrations successful.")
-except Exception:
+except Exception as e:
     import traceback
-    print("AUTO-MIGRATION FAILED:")
+    print(f"AUTO-MIGRATION FAILED: {str(e)}")
     traceback.print_exc()
 
 # Vercel MUST see these at the top-level
