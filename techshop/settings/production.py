@@ -26,7 +26,7 @@ CSRF_COOKIE_SECURE = True
 # Database configuration using single DATABASE_URL env var
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL'),
+        default=config('POSTGRES_URL', default=config('DATABASE_URL', default='')),
         conn_max_age=600,
         ssl_require=True,
     )
