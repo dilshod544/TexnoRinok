@@ -21,13 +21,17 @@ CSRF_COOKIE_SECURE = True
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', default=''),
-        conn_max_age=600,
-        conn_health_checks=True,
-        engine='django.db.backends.postgresql',
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('POSTGRES_DATABASE'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('POSTGRES_HOST'),
+        'PORT': config('POSTGRES_PORT', default='5432'),
+    }
 }
 
-# No extra options needed for pg8000 as it handles SSL/connection well
-DATABASES['default']['OPTIONS'] = {}
+# SSL mode is required for Neon
+DATABASES['default']['OPTIONS'] = {
+    'sslmode': 'require',
+}
