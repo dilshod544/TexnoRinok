@@ -24,6 +24,15 @@ django.setup()
 #     print("Migration error occurred:")
 #     traceback.print_exc()
 
-# Get WSGI application
-app = get_wsgi_application()
-application = app
+# Get WSGI application with error reporting
+try:
+    app = get_wsgi_application()
+    application = app
+except Exception as e:
+    import traceback
+    print("CRITICAL: Failed to initialize WSGI application:")
+    traceback.print_exc()
+    # Provide a simple error handler for Vercel
+    def application(environ, start_response):
+        start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
+        return [b"Internal Server Error during startup. Check Vercel logs for traceback."]
