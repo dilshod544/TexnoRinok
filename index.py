@@ -10,23 +10,7 @@ if path not in sys.path:
 # 2. Set settings module BEFORE importing Django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "techshop.settings.production")
 
-# 3. Use pg8000 as psycopg2 replacement (pure Python, works on Vercel)
-try:
-    import psycopg2
-except ImportError:
-    try:
-        from pg8000 import dbapi
-        dbapi.__version__ = "2.9.9"
-        dbapi.apilevel = "2.0"
-        dbapi.threadsafety = 1
-        dbapi.paramstyle = "pyformat"
-        sys.modules["psycopg2"] = dbapi
-        sys.modules["psycopg2.extensions"] = dbapi
-        sys.modules["psycopg2.extras"] = dbapi
-    except ImportError:
-        pass
-
-# 4. Initialize Django
+# 3. Initialize Django
 try:
     from django.core.wsgi import get_wsgi_application
     app = get_wsgi_application()

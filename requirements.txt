@@ -1,5 +1,5 @@
 Django>=4.2,<5.0
-pg8000>=1.30.0
+psycopg[binary]>=3.1.8
 Pillow>=10.0
 python-decouple>=3.8
 django-modeltranslation>=0.18.11
