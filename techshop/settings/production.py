@@ -1,6 +1,7 @@
 from .base import *
 
 DEBUG = False
+ALLOWED_HOSTS = ['*']
 
 # Ensure you set the ALLOWED_HOSTS properly in the .env file in production
 # Example: ALLOWED_HOSTS=example.com,www.example.com
