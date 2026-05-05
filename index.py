@@ -1,15 +1,7 @@
 import os
 import sys
 
-# Pure Python PostgreSQL driver for Vercel compatibility
-try:
-    import pg8000.native
-    # Monkeypatch psycopg2 to use pg8000
-    # This allows Django's standard postgres backend to work without psycopg2 binary
-    from pg8000 import psycopg2
-    sys.modules["psycopg2"] = psycopg2
-except ImportError:
-    pass
+# Using psycopg2-binary directly from requirements.txt
 
 from django.core.wsgi import get_wsgi_application
 

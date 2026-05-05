@@ -1,7 +1,7 @@
 from .base import *
 from decouple import config, Csv
 
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = False
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 if '.vercel.app' not in ALLOWED_HOSTS:
