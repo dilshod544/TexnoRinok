@@ -1,5 +1,6 @@
 import os
 import sys
+import django
 from django.core.wsgi import get_wsgi_application
 from django.core.management import call_command
 
@@ -10,12 +11,15 @@ if path not in sys.path:
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "techshop.settings.production")
 
+# Setup Django properly before running commands
+django.setup()
+
 # Run migrations automatically on Vercel
 try:
     call_command('migrate', interactive=False)
 except Exception as e:
     print(f"Migration error: {e}")
 
-# MUST be at the absolute top-level for Vercel's build-time static analysis
+# Get WSGI application
 app = get_wsgi_application()
 application = app
