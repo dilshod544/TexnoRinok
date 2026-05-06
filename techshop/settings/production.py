@@ -46,3 +46,18 @@ else:
     # Keep the default from base.py (likely SQLite)
     pass
 
+
+# Force Supabase Storage for Production
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default='media')
+AWS_S3_ENDPOINT_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.ckzmzsgkuqyuauhwbzdr.supabase.co'
+AWS_S3_REGION_NAME = 'eu-central-1'
+AWS_S3_CUSTOM_DOMAIN = f'ckzmzsgkuqyuauhwbzdr.supabase.co/storage/v1/object/public/{AWS_STORAGE_BUCKET_NAME}'
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+
+DEFAULT_FILE_STORAGE = 'techshop.storage_backends.SupabaseMediaStorage'
+if 'storages' not in INSTALLED_APPS:
+    INSTALLED_APPS.append('storages')

@@ -127,13 +127,35 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 # Static files
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
-WHITENOISE_MANIFEST_STRICT = False
+# Storage settings
+USE_S3 = config('USE_S3', default=False, cast=bool)
 
-# Media files
+if USE_S3:
+    INSTALLED_APPS.append('storages')
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL = f'https://{config("AWS_STORAGE_BUCKET_NAME")}.ckzmzsgkuqyuauhwbzdr.supabase.co'
+    AWS_S3_REGION_NAME = 'eu-central-1'
+    
+    # SUPABASE PUBLIC URL FORMAT
+    AWS_S3_CUSTOM_DOMAIN = f'ckzmzsgkuqyuauhwbzdr.supabase.co/storage/v1/object/public/{AWS_STORAGE_BUCKET_NAME}'
+    
+    AWS_DEFAULT_ACL = None
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    AWS_QUERYSTRING_AUTH = False
+    AWS_S3_FILE_OVERWRITE = False
+    
+    DEFAULT_FILE_STORAGE = 'techshop.storage_backends.SupabaseMediaStorage'
+    # Optional: if you want static files on S3 too
+    # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+else:
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+    MEDIA_ROOT = BASE_DIR / 'media'
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+WHITENOISE_MANIFEST_STRICT = False
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
