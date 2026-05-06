@@ -127,7 +127,10 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 # Static files
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-# Storage settings
+# Static files (always use WhiteNoise for now)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+
 USE_S3 = config('USE_S3', default=False, cast=bool)
 
 if USE_S3:
@@ -147,11 +150,7 @@ if USE_S3:
     AWS_S3_FILE_OVERWRITE = False
     
     DEFAULT_FILE_STORAGE = 'techshop.storage_backends.SupabaseMediaStorage'
-    # Optional: if you want static files on S3 too
-    # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 else:
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
-    STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
     MEDIA_ROOT = BASE_DIR / 'media'
 
 MEDIA_URL = '/media/'
