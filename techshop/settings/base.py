@@ -81,15 +81,6 @@ if db_url:
             ssl_require=True,
         )
     }
-    # Force use of pg8000 driver
-    if db_url.startswith('postgres'):
-        DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-        # We need to tell Django to use pg8000. 
-        # Since Django's built-in postgres engine requires psycopg2, 
-        # many people use a wrapper or simply install pg8000 and it works with some backends.
-        # But wait, Claude's code specifically used 'django.db.backends.postgresql'.
-        # For pg8000 to work with this engine, we need to monkeypatch it.
-        # I will add the monkeypatch to index.py to be safe.
 else:
     DATABASES = {
         'default': {
@@ -97,6 +88,7 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
 
 # Caching
 CACHES = {

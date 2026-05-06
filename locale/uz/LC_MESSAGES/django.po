@@ -18,32 +18,32 @@ msgstr "Kirish"
 
 #: templates/accounts/login.html:10
 msgid "Hisobingizga kiring"
-msgstr ""
+msgstr "Hisobingizga kiring"
 
 #: templates/accounts/login.html:24
 msgid "Hisob yo'qmi?"
-msgstr ""
+msgstr "Hisobingiz yo'qmi?"
 
 #: templates/accounts/login.html:24
 msgid "Ro'yxatdan o'ting"
-msgstr ""
+msgstr "Ro'yxatdan o'ting"
 
 #: templates/accounts/register.html:3 templates/accounts/register.html:9
 #: templates/accounts/register.html:21 templates/products/home.html:156
 msgid "Ro'yxatdan o'tish"
-msgstr ""
+msgstr "Ro'yxatdan o'tish"
 
 #: templates/accounts/register.html:10
 msgid "Yangi hisob yarating"
-msgstr ""
+msgstr "Yangi hisob yarating"
 
 #: templates/accounts/register.html:24
 msgid "Hisobingiz bormi?"
-msgstr ""
+msgstr "Hisobingiz bormi?"
 
 #: templates/base/base.html:19
 msgid "50,000 so'mdan buyurtmada yetkazib berish bepul"
-msgstr ""
+msgstr "50,000 so'mdan buyurtmada yetkazib berish bepul"
 
 #: templates/base/base.html:20
 msgid "+998 20 001 20 41 — har kuni 9:00–20:00"
@@ -63,62 +63,65 @@ msgid "Mahsulot qidiring..."
 msgstr "Mahsulot qidiring..."
 
 #: templates/base/base.html:97
-msgid ""
-"O'zbekistondagi eng yaxshi oshxona texnikalari do'koni. Sifatli mahsulotlar, "
-"tez yetkazib berish."
-msgstr ""
+msgid "O'zbekistondagi eng yaxshi oshxona texnikalari do'koni. Sifatli mahsulotlar, tez yetkazib berish."
+msgstr "O'zbekistondagi eng yaxshi oshxona texnikalari do'koni. Sifatli mahsulotlar, tez yetkazib berish."
 
 #: templates/base/base.html:110
 msgid "Blenderlar"
-msgstr ""
+msgstr "Blenderlar"
 
 #: templates/base/base.html:111
 msgid "Sok apparatlar"
-msgstr ""
+msgstr "Sok apparatlar"
 
 #: templates/base/base.html:112
 msgid "Mikserlar"
-msgstr ""
+msgstr "Mikserlar"
 
 #: templates/base/base.html:113
 msgid "Kombainlar"
-msgstr ""
+msgstr "Kombainlar"
 
 #: templates/base/base.html:114
 msgid "Kofe apparatlar"
-msgstr ""
+msgstr "Kofe apparatlar"
 
 #: templates/base/base.html:118
 msgid "Mijozlarga"
-msgstr ""
+msgstr "Mijozlarga"
 
 #: templates/base/base.html:120 templates/cart/cart.html:58
-#, fuzzy
-#| msgid "Tez yetkazib berish"
 msgid "Yetkazib berish"
-msgstr "Tez yetkazib berish"
+msgstr "Yetkazib berish"
 
 #: templates/base/base.html:121 templates/orders/success.html:16
-#, fuzzy
-#| msgid "Buyurtma berish"
 msgid "Buyurtmalarim"
-msgstr "Buyurtma berish"
+msgstr "Buyurtmalarim"
 
 #: templates/base/base.html:122
 msgid "Bog'lanish"
-msgstr ""
+msgstr "Bog'lanish"
+
+msgid "Bizning manzil"
+msgstr "Bizning manzil"
+
+msgid "Ish vaqti"
+msgstr "Ish vaqti"
+
+msgid "Dush–Yak: 9:00–20:00"
+msgstr "Dush–Yak: 9:00–20:00"
 
 #: templates/base/base.html:126
 msgid "Aloqa"
-msgstr ""
+msgstr "Aloqa"
 
 #: templates/base/base.html:128
 msgid "Toshkent sh., Chilonzor t."
-msgstr ""
+msgstr "Toshkent sh., Malika-A8"
 
 #: templates/base/base.html:131
 msgid "Dush–Yak: 9:00–21:00"
-msgstr ""
+msgstr "Dush–Yak: 9:00–20:00"
 
 #: templates/base/base.html:136
 msgid "© 2025 TexnoRinok. Barcha huquqlar himoyalangan."
@@ -143,25 +146,23 @@ msgstr "so'm"
 
 #: templates/cart/cart.html:42
 msgid "O\\"
-msgstr ""
+msgstr "O'chirish"
 
 #: templates/cart/cart.html:52
-#, fuzzy
-#| msgid "Buyurtma berish"
 msgid "Buyurtma jami"
-msgstr "Buyurtma berish"
+msgstr "Buyurtma jami"
 
 #: templates/cart/cart.html:54 templates/products/home.html:33
 msgid "Mahsulotlar"
-msgstr ""
+msgstr "Mahsulotlar"
 
 #: templates/cart/cart.html:54
 msgid "ta"
-msgstr ""
+msgstr "ta"
 
 #: templates/cart/cart.html:59
 msgid "Bepul"
-msgstr ""
+msgstr "Bepul"
 
 #: templates/cart/cart.html:62 templates/orders/checkout.html:64
 msgid "Jami"
@@ -174,91 +175,79 @@ msgstr "Buyurtma berish"
 
 #: templates/cart/cart.html:69
 msgid "Xaridni davom ettirish"
-msgstr ""
+msgstr "Xaridni davom ettirish"
 
 #: templates/cart/cart.html:77
-#, fuzzy
-#| msgid "Savatingiz"
 msgid "Savatingiz bo'sh"
-msgstr "Savatingiz"
+msgstr "Savatingiz bo'sh"
 
 #: templates/cart/cart.html:78
 msgid "Katalogdan mahsulot tanlang va savatga qo'shing"
-msgstr ""
+msgstr "Katalogdan mahsulot tanlang va savatga qo'shing"
 
 #: templates/cart/cart.html:79 templates/products/home.html:27
-#, fuzzy
-#| msgid "Katalog"
 msgid "Katalogga o'tish"
-msgstr "Katalog"
+msgstr "Katalogga o'tish"
 
 #: templates/orders/checkout.html:12
 msgid "Yetkazib berish ma'lumotlari"
-msgstr ""
+msgstr "Yetkazib berish ma'lumotlari"
 
 #: templates/orders/checkout.html:17
 msgid "Ism"
-msgstr ""
+msgstr "Ism"
 
 #: templates/orders/checkout.html:22
 msgid "Familiya"
-msgstr ""
+msgstr "Familiya"
 
 #: templates/orders/checkout.html:28
 msgid "Telefon"
-msgstr ""
+msgstr "Telefon"
 
 #: templates/orders/checkout.html:37
 msgid "Shahar"
-msgstr ""
+msgstr "Shahar"
 
 #: templates/orders/checkout.html:41
 msgid "Manzil"
-msgstr ""
+msgstr "Manzil"
 
 #: templates/orders/checkout.html:45
 msgid "Izoh"
-msgstr ""
+msgstr "Izoh"
 
 #: templates/orders/checkout.html:49
-#, fuzzy
-#| msgid "Buyurtma berish"
 msgid "Buyurtmani tasdiqlash"
-msgstr "Buyurtma berish"
+msgstr "Buyurtmani tasdiqlash"
 
 #: templates/orders/checkout.html:56
-#, fuzzy
-#| msgid "Buyurtma berish"
 msgid "Buyurtmangiz"
-msgstr "Buyurtma berish"
+msgstr "Buyurtmangiz"
 
 #: templates/orders/success.html:3
 msgid "Buyurtma qabul qilindi"
-msgstr ""
+msgstr "Buyurtma qabul qilindi"
 
 #: templates/orders/success.html:9
 msgid "Buyurtmangiz qabul qilindi!"
-msgstr ""
+msgstr "Buyurtmangiz qabul qilindi!"
 
 #: templates/orders/success.html:10
-#, fuzzy
-#| msgid "Buyurtma berish"
 msgid "Buyurtma raqami:"
-msgstr "Buyurtma berish"
+msgstr "Buyurtma raqami:"
 
 #: templates/orders/success.html:11
 msgid "tez orada operator siz bilan bog'lanadi."
-msgstr ""
+msgstr "tez orada operator siz bilan bog'lanadi."
 
 #: templates/orders/success.html:14
 msgid "Bosh sahifaga qaytish"
-msgstr ""
+msgstr "Bosh sahifaga qaytish"
 
 #: templates/products/_product_card.html:18
-#, fuzzy
-#| msgid "Savatga"
 msgid "Savatga qo\\"
-msgstr "Savatga"
+msgstr "Savatga qo'shish"
 
 #: templates/products/_product_card.html:20
 msgid "Savatga"
@@ -266,29 +255,27 @@ msgstr "Savatga"
 
 #: templates/products/detail.html:11
 msgid "Bosh sahifa"
-msgstr ""
+msgstr "Bosh sahifa"
 
 #: templates/products/detail.html:65
 msgid "Mavjud"
-msgstr ""
+msgstr "Mavjud"
 
 #: templates/products/detail.html:65
 msgid "Tugagan"
-msgstr ""
+msgstr "Tugagan"
 
 #: templates/products/detail.html:73
 msgid "Miqdor"
-msgstr ""
+msgstr "Miqdor"
 
 #: templates/products/detail.html:82
-#, fuzzy
-#| msgid "Savatga"
 msgid "Savatga qo'shish"
-msgstr "Savatga"
+msgstr "Savatga qo'shish"
 
 #: templates/products/detail.html:88
 msgid "Toshkentga 1-2 kunda yetkazish"
-msgstr ""
+msgstr "Toshkentga 1-2 kunda yetkazish"
 
 #: templates/products/detail.html:89 templates/products/home.html:107
 msgid "Sertifikatlangan mahsulotlar"
@@ -300,15 +287,15 @@ msgstr "Mutaxassis maslahati"
 
 #: templates/products/detail.html:98
 msgid "Tavsif"
-msgstr ""
+msgstr "Tavsif"
 
 #: templates/products/detail.html:100
 msgid "Xususiyatlar"
-msgstr ""
+msgstr "Xususiyatlar"
 
 #: templates/products/detail.html:125
 msgid "O'xshash mahsulotlar"
-msgstr ""
+msgstr "O'xshash mahsulotlar"
 
 #: templates/products/home.html:4
 msgid "TexnoRinok — Oshxona Texnikalari Do'koni"
@@ -316,54 +303,56 @@ msgstr "TexnoRinok — Oshxona Texnikalari Do'koni"
 
 #: templates/products/home.html:18
 msgid "O'zbekistonda #1 texnika do'koni"
-msgstr ""
+msgstr "O'zbekistonda #1 texnika do'koni"
 
 #: templates/products/home.html:20
 msgid "Oshxonangizni"
-msgstr ""
+msgstr "Oshxonangizni"
 
 #: templates/products/home.html:21
 msgid "kuchli texnika"
-msgstr ""
+msgstr "kuchli texnika"
 
 #: templates/products/home.html:22
 msgid "bilan bezang"
-msgstr ""
+msgstr "bilan bezang"
 
 #: templates/products/home.html:24
 msgid ""
 "Blenderlar, sok apparatlar, mikserlar va boshqa premium oshxona texnikalari. "
 "Kafolat va tez yetkazib berish bilan."
 msgstr ""
+"Blenderlar, sok apparatlar, mikserlar va boshqa premium oshxona texnikalari. "
+"Kafolat va tez yetkazib berish bilan."
 
 #: templates/products/home.html:35
 msgid "Xaridorlar"
-msgstr ""
+msgstr "Xaridorlar"
 
 #: templates/products/home.html:37
 msgid "Qo'llab-quvvatlash"
-msgstr ""
+msgstr "Qo'llab-quvvatlash"
 
 #: templates/products/home.html:42
 msgid "Eng ko'p sotiladigan"
-msgstr ""
+msgstr "Eng ko'p sotiladigan"
 
 #: templates/products/home.html:58 templates/products/list.html:13
 msgid "Kategoriyalar"
-msgstr ""
+msgstr "Kategoriyalar"
 
 #: templates/products/home.html:59 templates/products/home.html:82
 #: templates/products/home.html:138
 msgid "Hammasini ko'rish"
-msgstr ""
+msgstr "Hammasini ko'rish"
 
 #: templates/products/home.html:66 templates/products/list.html:68
 msgid "ta mahsulot"
-msgstr ""
+msgstr "ta mahsulot"
 
 #: templates/products/home.html:80
 msgid "Ko'p sotiladiganlar"
-msgstr ""
+msgstr "Ko'p sotiladiganlar"
 
 #: templates/products/home.html:100
 msgid "Tez yetkazib berish"
@@ -371,11 +360,11 @@ msgstr "Tez yetkazib berish"
 
 #: templates/products/home.html:101
 msgid "Toshkent bo'yicha 1-2 kun ichida"
-msgstr ""
+msgstr "Toshkent bo'yicha 1-2 kun ichida"
 
 #: templates/products/home.html:108
 msgid "Barcha mahsulotlarga rasmiy kafolat"
-msgstr ""
+msgstr "Barcha mahsulotlarga rasmiy kafolat"
 
 #: templates/products/home.html:114
 msgid "Qulay to'lov"
@@ -383,77 +372,147 @@ msgstr "Qulay to'lov"
 
 #: templates/products/home.html:115
 msgid "Click, Payme, Uzum Bank orqali"
-msgstr ""
+msgstr "Click, Payme, Uzum Bank orqali"
 
 #: templates/products/home.html:122
 msgid "Siz uchun eng yaxshisini tanlashda yordam"
-msgstr ""
+msgstr "Siz uchun eng yaxshisini tanlashda yordam"
 
 #: templates/products/home.html:136
-#, fuzzy
-#| msgid "Yangiliklar"
 msgid "Yangi kelganlar"
-msgstr "Yangiliklar"
+msgstr "Yangi kelganlar"
 
 #: templates/products/home.html:154
 msgid "Birinchi xaridingizda"
-msgstr ""
+msgstr "Birinchi xaridingizda"
 
 #: templates/products/home.html:154
 #, python-format
 msgid "10%% chegirma"
-msgstr ""
+msgstr "10%% chegirma"
 
 #: templates/products/home.html:155
 msgid "Ro'yxatdan o'ting va maxsus chegirmadan foydalaning"
-msgstr ""
+msgstr "Ro'yxatdan o'ting va maxsus chegirmadan foydalaning"
 
 #: templates/products/list.html:15
 msgid "Barchasi"
-msgstr ""
+msgstr "Barchasi"
 
 #: templates/products/list.html:30
 msgid "Brandlar"
-msgstr ""
+msgstr "Brendlar"
 
 #: templates/products/list.html:44
 msgid "Narx oralig'i"
-msgstr ""
+msgstr "Narx oralig'i"
 
 #: templates/products/list.html:52
 msgid "Qo'llash"
-msgstr ""
+msgstr "Qo'llash"
 
 #: templates/products/list.html:64
 msgid "qidiruv natijalari"
-msgstr ""
+msgstr "qidiruv natijalari"
 
 #: templates/products/list.html:66 templates/products/list.html:91
-#, fuzzy
-#| msgid "Sertifikatlangan mahsulotlar"
 msgid "Barcha mahsulotlar"
-msgstr "Sertifikatlangan mahsulotlar"
+msgstr "Barcha mahsulotlar"
 
 #: templates/products/list.html:72
-#, fuzzy
-#| msgid "Yangiliklar"
 msgid "Yangi"
-msgstr "Yangiliklar"
+msgstr "Yangi"
 
 #: templates/products/list.html:73
 msgid "Arzondan qimmatga"
-msgstr ""
+msgstr "Arzondan qimmatga"
 
 #: templates/products/list.html:74
 msgid "Qimmatdan arzonga"
-msgstr ""
+msgstr "Qimmatdan arzonga"
 
 #: templates/products/list.html:89
-#, fuzzy
-#| msgid "Mahsulot qidiring..."
 msgid "Mahsulot topilmadi"
-msgstr "Mahsulot qidiring..."
+msgstr "Mahsulot topilmadi"
 
 #: templates/products/list.html:90
 msgid "Boshqa kalit so'z yoki filtrlarni sinab ko'ring"
-msgstr ""
+msgstr "Boshqa kalit so'z yoki filtrlarni sinab ko'ring"
+
+msgid "Mening buyurtmalarim"
+msgstr "Mening buyurtmalarim"
+
+msgid "Barcha buyurtmalaringiz tarixi va holati"
+msgstr "Barcha buyurtmalaringiz tarixi va holati"
+
+msgid "Tezkor yetkazib berish"
+msgstr "Tezkor yetkazib berish"
+
+msgid "Viloyatlarga yuborish"
+msgstr "Viloyatlarga yuborish"
+
+msgid "Yetkazib berish narxi"
+msgstr "Yetkazib berish narxi"
+
+msgid "Bizni kuzatib boring"
+msgstr "Bizni kuzatib boring"
+
+msgid "Savollaringiz bormi? Biz sizga yordam berishdan mamnunmiz!"
+msgstr "Savollaringiz bormi? Biz sizga yordam berishdan mamnunmiz!"
+
+msgid "Buyurtma"
+msgstr "Buyurtma"
+
+msgid "Buyurtma holati"
+msgstr "Buyurtma holati"
+
+msgid "Savat tarkibi"
+msgstr "Savat tarkibi"
+
+msgid "Jami summa"
+msgstr "Jami summa"
+
+msgid "Qabul qiluvchi"
+msgstr "Qabul qiluvchi"
+
+msgid "Buyurtma bo'yicha savollaringiz bo'lsa, biz bilan bog'laning."
+msgstr "Buyurtma bo'yicha savollaringiz bo'lsa, biz bilan bog'laning."
+
+msgid "Kutilmoqda"
+msgstr "Kutilmoqda"
+
+msgid "Tasdiqlandi"
+msgstr "Tasdiqlandi"
+
+msgid "Tayyorlanmoqda"
+msgstr "Tayyorlanmoqda"
+
+msgid "Yetkazilmoqda"
+msgstr "Yetkazilmoqda"
+
+msgid "Yetkazildi"
+msgstr "Yetkazildi"
+
+msgid "Bekor qilindi"
+msgstr "Bekor qilindi"
+
+msgid "Hali buyurtmalar yo'q"
+msgstr "Hali buyurtmalar yo'q"
+
+msgid "Sizda hali buyurtmalar yo'q"
+msgstr "Sizda hali buyurtmalar yo'q"
+
+msgid "Hammasi"
+msgstr "Hammasi"
+
+msgid "So'nggi buyurtmalar"
+msgstr "So'nggi buyurtmalar"
+
+msgid "Ma'lumotlar"
+msgstr "Ma'lumotlar"
+
+msgid "A'zolik"
+msgstr "A'zolik"
+
+msgid "Chiqish"
+msgstr "Chiqish"

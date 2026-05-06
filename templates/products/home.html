@@ -17,13 +17,7 @@
       <div class="hero-text">
         <div class="hero-badge">🏆 {% trans "O'zbekistonda #1 texnika do'koni" %}</div>
         <h1 class="hero-title">
-          {% if LANGUAGE_CODE == 'ru' %}
-            Добро пожаловать<br>
-            <span class="gradient-text">в наш магазин!</span>
-          {% else %}
-            Do'konimizga<br>
-            <span class="gradient-text">Xush kelibsiz!</span>
-          {% endif %}
+          {% blocktrans %}Do'konimizga<br><span class="gradient-text">Xush kelibsiz!</span>{% endblocktrans %}
         </h1>
         <p class="hero-desc">{% trans "Blenderlar, sok apparatlar, mikserlar va boshqa premium oshxona texnikalari. Kafolat va tez yetkazib berish bilan." %}</p>
         <div class="hero-actions">
@@ -46,8 +40,6 @@
           <div class="product-badge-float">🔥 {% trans "Eng ko'p sotiladigan" %}</div>
           <div class="hero-img-placeholder">
             <div class="blender-icon">🍹</div>
-            <div class="circle-deco circle-deco--1"></div>
-            <div class="circle-deco circle-deco--2"></div>
           </div>
         </div>
       </div>
@@ -64,10 +56,10 @@
     </div>
     <div class="categories-grid">
       {% for category in categories %}
-      <a href="{{ category.get_absolute_url }}" class="cat-card cat-card--orange">
+      <a href="{{ category.get_absolute_url }}" class="cat-card reveal-item">
         <div class="cat-icon">{{ category.icon|default:"📦" }}</div>
-        <h3>{{ category|get_translated_name:LANGUAGE_CODE }}</h3>
-        <span>{{ category.product_count }} {% trans "ta mahsulot" %}</span>
+        <h3>{{ category.name }}</h3>
+        <span>{{ category.num_products }} {% trans "ta mahsulot" %}</span>
       </a>
       {% endfor %}
     </div>
@@ -94,42 +86,6 @@
 </section>
 {% endif %}
 
-<!-- FEATURES BANNER -->
-<section class="features-banner">
-  <div class="container">
-    <div class="features-grid">
-      <div class="feature-item">
-        <div class="feature-icon">🚚</div>
-        <div>
-          <h4>{% trans "Tez yetkazib berish" %}</h4>
-          <p>{% trans "Toshkent bo'yicha 1-2 kun ichida" %}</p>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">✅</div>
-        <div>
-          <h4>{% trans "Sertifikatlangan mahsulotlar" %}</h4>
-          <p>{% trans "Barcha mahsulotlarga rasmiy kafolat" %}</p>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">💳</div>
-        <div>
-          <h4>{% trans "Qulay to'lov" %}</h4>
-          <p>{% trans "Click, Payme, Uzum Bank orqali" %}</p>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">👨‍💼</div>
-        <div>
-          <h4>{% trans "Mutaxassis maslahati" %}</h4>
-          <p>{% trans "Siz uchun eng yaxshisini tanlashda yordam" %}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- NEW ARRIVALS -->
 {% if new_arrivals %}
 <section class="section products-section">
@@ -150,14 +106,42 @@
 </section>
 {% endif %}
 
+<!-- FEATURES BANNER -->
+<section class="section" data-reveal>
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-item reveal-item">
+        <div class="feature-icon">🚚</div>
+        <h4>{% trans "Tez yetkazib berish" %}</h4>
+        <p>{% trans "Toshkent bo'yicha 1-2 kun ichida" %}</p>
+      </div>
+      <div class="feature-item reveal-item">
+        <div class="feature-icon">✅</div>
+        <h4>{% trans "Sertifikatlangan" %}</h4>
+        <p>{% trans "Barcha mahsulotlarga rasmiy kafolat" %}</p>
+      </div>
+      <div class="feature-item reveal-item">
+        <div class="feature-icon">💳</div>
+        <h4>{% trans "Qulay to'lov" %}</h4>
+        <p>{% trans "Click, Payme, Uzum Bank" %}</p>
+      </div>
+      <div class="feature-item reveal-item">
+        <div class="feature-icon">👨‍💼</div>
+        <h4>{% trans "Mutaxassis maslahati" %}</h4>
+        <p>{% trans "Siz uchun eng yaxshisini tanlashda yordam" %}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA BANNER -->
-<section class="cta-banner">
+<section class="cta-banner" data-reveal>
   <div class="container">
     <div class="cta-inner">
       <div class="cta-text">
         <h2>{% trans "Birinchi xaridingizda" %} <span class="accent">{% trans "10% chegirma" %}</span></h2>
         <p>{% trans "Ro'yxatdan o'ting va maxsus chegirmadan foydalaning" %}</p>
-        <a href="{% url 'accounts:register' %}" class="btn-primary">{% trans "Ro'yxatdan o'tish" %}</a>
+        <a href="{% url 'accounts:register' %}" class="btn-primary btn-xl">{% trans "Ro'yxatdan o'tish" %}</a>
       </div>
       <div class="cta-visual">🎁</div>
     </div>

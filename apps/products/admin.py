@@ -1,34 +1,29 @@
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin, TranslationTabularInline
 from .models import Category, Brand, Product, ProductImage, ProductFeature
-
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
     max_num = 5
 
-
-class ProductFeatureInline(admin.TabularInline):
+class ProductFeatureInline(TranslationTabularInline):
     model = ProductFeature
     extra = 3
 
-
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin):
     list_display = ['name', 'icon', 'slug', 'order', 'product_count']
     prepopulated_fields = {'slug': ('name',)}
     list_editable = ['order']
-    fields = ['name', 'name_uz', 'name_ru', 'slug', 'icon', 'image', 'order']
-
 
 @admin.register(Brand)
-class BrandAdmin(admin.ModelAdmin):
+class BrandAdmin(TranslationAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
 
-
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(TranslationAdmin):
     list_display = ['image_preview', 'name', 'category', 'brand', 'price', 'stock', 'is_available', 'is_featured', 'is_bestseller']
     list_filter = ['category', 'brand', 'is_available', 'is_featured', 'is_bestseller']
     list_editable = ['price', 'stock', 'is_available', 'is_featured', 'is_bestseller']

@@ -21,7 +21,7 @@ urlpatterns = [
     path('health/', lambda r: HttpResponse("OK")),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
-    path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'img/favicon.png')),
+    path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'img/favicon.png?v=2')),
     path('admin/', lambda r: redirect('store_admin:dashboard')), # Redirect /admin/ to custom panel
     path('django-admin/', custom_admin_site.urls),  # Use custom admin site with dashboard
     path('admin-panel/', include('apps.store_admin.urls')),

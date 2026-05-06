@@ -4,29 +4,75 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Auto-close messages
-  document.querySelectorAll('.message').forEach(msg => {
-    setTimeout(() => msg.remove(), 5000);
-    msg.querySelector('.msg-close')?.addEventListener('click', () => msg.remove());
+  // --- REVEAL ON SCROLL ANIMATION ---
+  const revealElements = document.querySelectorAll('[data-reveal]');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        // If it's a grid, reveal children with delay
+        const children = entry.target.querySelectorAll('.reveal-item');
+        children.forEach((child, i) => {
+          setTimeout(() => child.classList.add('revealed'), i * 100);
+        });
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  revealElements.forEach(el => revealObserver.observe(el));
+
+  // Auto-apply reveal to common elements
+  document.querySelectorAll('.product-card, .cat-card, .feature-item, .section-header, .hero-content > *').forEach((el, i) => {
+    el.setAttribute('data-reveal', '');
+    if (i < 8) el.classList.add('reveal-delay-' + (i % 3 + 1));
   });
 
-  // Sticky header shadow
-  const header = document.getElementById('header');
-  if (header) {
-    window.addEventListener('scroll', () => {
-      header.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.4)' : 'none';
-    });
+  // --- MOBILE MENU ---
+  const hamburger = document.getElementById('hamburger');
+  const body = document.body;
+  
+  if (hamburger) {
+    // Create mobile menu dynamically if it doesn't exist
+    let mobileNav = document.querySelector('.mobile-nav');
+    if (!mobileNav) {
+      mobileNav = document.createElement('div');
+      mobileNav.className = 'mobile-nav';
+      const navLinks = document.querySelector('.nav-links')?.innerHTML || '';
+      mobileNav.innerHTML = `
+        <div class="mobile-nav-close">×</div>
+        <div style="display:flex; flex-direction:column; gap:20px; margin-top:20px;">
+          ${navLinks}
+        </div>
+      `;
+      body.appendChild(mobileNav);
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'mobile-nav-overlay';
+      body.appendChild(overlay);
+      
+      const closeBtn = mobileNav.querySelector('.mobile-nav-close');
+      const toggleMenu = (show) => {
+        mobileNav.classList.toggle('active', show);
+        overlay.classList.toggle('active', show);
+        body.style.overflow = show ? 'hidden' : '';
+      };
+      
+      hamburger.addEventListener('click', () => toggleMenu(true));
+      closeBtn.addEventListener('click', () => toggleMenu(false));
+      overlay.addEventListener('click', () => toggleMenu(false));
+    }
   }
 
-  // Add to cart AJAX
+  // --- AJAX ADD TO CART ---
   document.querySelectorAll('.add-to-cart-form').forEach(form => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = form.querySelector('.btn-add-cart');
       const original = btn.innerHTML;
-      btn.innerHTML = '✓ Qo\'shildi!';
-      btn.style.background = '#22c55e';
-
+      btn.innerHTML = '✓';
+      btn.style.width = btn.offsetWidth + 'px'; // Keep width
+      
       try {
         const res = await fetch(form.action, {
           method: 'POST',
@@ -35,33 +81,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const data = await res.json();
         if (data.success) {
-          // Update cart badge
-          const badge = document.querySelector('.cart-btn .badge');
-          if (badge) {
-            badge.textContent = data.count;
-          } else if (data.count > 0) {
-            const cartBtn = document.querySelector('.cart-btn');
-            if (cartBtn) {
-              const b = document.createElement('span');
-              b.className = 'badge';
-              b.textContent = data.count;
-              cartBtn.appendChild(b);
-            }
-          }
+          updateCartBadge(data.count);
           showToast(data.message || "Savatga qo'shildi!", 'success');
         }
       } catch (err) {
         showToast('Xatolik yuz berdi', 'error');
       }
-
-      setTimeout(() => {
-        btn.innerHTML = original;
-        btn.style.background = '';
-      }, 2000);
+      setTimeout(() => { btn.innerHTML = original; btn.style.width = ''; }, 2000);
     });
   });
 
-  // Toast notification
+  function updateCartBadge(count) {
+    const badge = document.querySelector('.cart-btn .badge');
+    if (badge) {
+      badge.textContent = count;
+      badge.style.transform = 'scale(1.2)';
+      setTimeout(() => badge.style.transform = 'scale(1)', 200);
+    } else if (count > 0) {
+      const cartBtn = document.querySelector('.cart-btn');
+      if (cartBtn) {
+        const b = document.createElement('span');
+        b.className = 'badge';
+        b.textContent = count;
+        cartBtn.appendChild(b);
+      }
+    }
+  }
+
   function showToast(message, type = 'success') {
     const container = document.querySelector('.messages-container') || (() => {
       const c = document.createElement('div');
@@ -72,66 +118,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const toast = document.createElement('div');
     toast.className = `message message--${type}`;
-    toast.innerHTML = `${message}<button class="msg-close">×</button>`;
-    toast.querySelector('.msg-close').addEventListener('click', () => toast.remove());
+    toast.innerHTML = `<span>${message}</span><button class="msg-close">×</button>`;
+    toast.querySelector('.msg-close').addEventListener('click', () => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(20px)';
+      setTimeout(() => toast.remove(), 300);
+    });
     container.appendChild(toast);
-    setTimeout(() => toast.remove(), 4000);
+    setTimeout(() => {
+      if (toast.parentElement) {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        setTimeout(() => toast.remove(), 300);
+      }
+    }, 4000);
   }
 
-  // Hamburger menu
-  const hamburger = document.getElementById('hamburger');
-  if (hamburger) {
-    hamburger.addEventListener('click', () => {
-      // Simple mobile nav toggle
-      const nav = document.querySelector('.nav-links');
-      if (nav) {
-        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-        nav.style.flexDirection = 'column';
-        nav.style.position = 'absolute';
-        nav.style.top = '100%';
-        nav.style.left = '0';
-        nav.style.right = '0';
-        nav.style.background = 'var(--bg)';
-        nav.style.padding = '16px 24px';
-        nav.style.borderBottom = '1px solid var(--border)';
-        nav.style.zIndex = '99';
-      }
-    });
-  }
-
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const href = a.getAttribute('href');
-      if (href && href !== '#' && href.startsWith('#')) {
-        const target = document.querySelector(href);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    });
+  // --- UTILS ---
+  document.querySelectorAll('img').forEach(img => {
+    if (!img.getAttribute('loading')) img.setAttribute('loading', 'lazy');
   });
 
-  // Intersection Observer for fade-in animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.product-card, .cat-card, .feature-item').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
+  // Sticky Header
+  const header = document.getElementById('header');
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+    if (currentScroll > 50) {
+      header.style.background = 'rgba(13, 13, 15, 0.95)';
+      header.style.boxShadow = '0 4px 30px rgba(0,0,0,0.5)';
+    } else {
+      header.style.background = 'rgba(13, 13, 15, 0.85)';
+      header.style.boxShadow = 'none';
+    }
+    lastScroll = currentScroll;
   });
-
-  // Custom visible class
-  document.head.insertAdjacentHTML('beforeend', `
-    <style>.visible { opacity: 1 !important; transform: translateY(0) !important; }</style>
-  `);
 });

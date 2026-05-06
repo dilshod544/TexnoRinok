@@ -18,7 +18,7 @@
               <a href="{% url 'products:list' %}?category={{ cat.slug }}"
                  class="{% if active_category.slug == cat.slug %}active{% endif %}">
                 {{ cat.icon|default:"📦" }} {{ cat|get_translated_name:LANGUAGE_CODE }}
-                <span class="count">{{ cat.products.count }}</span>
+                <span class="count">{{ cat.num_products }}</span>
               </a>
             </li>
             {% endfor %}

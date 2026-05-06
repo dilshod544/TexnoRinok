@@ -15,6 +15,12 @@ def get_or_create_cart(request):
     return cart
 
 
+def _invalidate_cart_cache(request):
+    """Сбрасываем кэш счётчика корзины в сессии после любого изменения."""
+    if 'cart_count_cache' in request.session:
+        del request.session['cart_count_cache']
+
+
 def cart_view(request):
     cart = get_or_create_cart(request)
     return render(request, 'cart/cart.html', {'cart': cart})
@@ -33,8 +39,11 @@ def add_to_cart(request, product_id):
         item.quantity = quantity
     item.save()
 
+    _invalidate_cart_cache(request)
+    new_count = cart.items.count()
+
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return JsonResponse({'success': True, 'count': cart.item_count, 'message': "Savatga qo'shildi!"})
+        return JsonResponse({'success': True, 'count': new_count, 'message': "Savatga qo'shildi!"})
     return redirect('cart:cart')
 
 
@@ -42,9 +51,10 @@ def add_to_cart(request, product_id):
 def remove_from_cart(request, item_id):
     item = get_object_or_404(CartItem, pk=item_id)
     item.delete()
+    _invalidate_cart_cache(request)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         cart = get_or_create_cart(request)
-        return JsonResponse({'success': True, 'count': cart.item_count, 'total': str(cart.total)})
+        return JsonResponse({'success': True, 'count': cart.items.count(), 'total': str(cart.total)})
     return redirect('cart:cart')
 
 
@@ -57,12 +67,13 @@ def update_cart(request, item_id):
         item.save()
     else:
         item.delete()
+    _invalidate_cart_cache(request)
     cart = get_or_create_cart(request)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({
             'success': True,
             'subtotal': str(item.subtotal) if quantity > 0 else '0',
             'total': str(cart.total),
-            'count': cart.item_count
+            'count': cart.items.count(),
         })
     return redirect('cart:cart')

@@ -1,36 +1,54 @@
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Q
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q, Count
+from django.core.cache import cache
+from django.core.paginator import Paginator
 from .models import Product, Category, Brand
 
 
-from django.core.cache import cache
-
 def home(request):
-    # Try to get data from cache
     context = cache.get('home_context')
     if not context:
-        featured_products = Product.objects.select_related('category').filter(is_available=True, is_featured=True)[:8]
-        bestsellers = Product.objects.select_related('category').filter(is_available=True, is_bestseller=True)[:8]
-        categories = Category.objects.all()[:6]
-        new_arrivals = Product.objects.select_related('category').filter(is_available=True).order_by('-created_at')[:8]
+        print("DEBUG: Home context cache empty. Fetching from DB...")
+        # list() — важно! Иначе QuerySet кэшируется невычисленным и всё равно идёт в БД
+        featured_products = list(
+            Product.objects.select_related('category')
+            .filter(is_available=True, is_featured=True)[:8]
+        )
+        bestsellers = list(
+            Product.objects.select_related('category')
+            .filter(is_available=True, is_bestseller=True)[:8]
+        )
+        categories = list(
+            Category.objects.annotate(
+                num_products=Count('products', filter=Q(products__is_available=True))
+            ).order_by('order', 'name')[:6]
+        )
+        new_arrivals = list(
+            Product.objects.select_related('category')
+            .filter(is_available=True).order_by('-created_at')[:8]
+        )
         context = {
             'featured_products': featured_products,
             'bestsellers': bestsellers,
             'categories': categories,
             'new_arrivals': new_arrivals,
         }
-        cache.set('home_context', context, 60 * 5)  # Cache for 5 minutes
-    
+        cache.set('home_context', context, 60 * 5)
+
     return render(request, 'products/home.html', context)
 
 
 def product_list(request):
-    # Cache categories and brands for sidebar (1 hour)
-    categories = cache.get('all_categories')
+    categories = cache.get('menu_categories')
     if not categories:
-        categories = list(Category.objects.all())
-        cache.set('all_categories', categories, 3600)
-        
+        from django.db.models import Count, Q
+        categories = list(
+            Category.objects.annotate(
+                num_products=Count('products', filter=Q(products__is_available=True))
+            ).order_by('order', 'name')
+        )
+        cache.set('menu_categories', categories, 60 * 15)
+
     brands = cache.get('all_brands')
     if not brands:
         brands = list(Brand.objects.all())
@@ -47,12 +65,13 @@ def product_list(request):
 
     active_category = None
     if category_slug:
-        active_category = Category.objects.filter(slug=category_slug).first()
+        # Ищем из уже закэшированного списка — без доп. запроса в БД
+        active_category = next((c for c in categories if c.slug == category_slug), None)
         if active_category:
             products = products.filter(category=active_category)
 
     if brand_slug:
-        products = products.filter(brand__slug=brand_slug)
+        products = products.filter(brand=brand_slug)
 
     if search:
         products = products.filter(
@@ -60,9 +79,15 @@ def product_list(request):
         )
 
     if min_price:
-        products = products.filter(price__gte=min_price)
+        try:
+            products = products.filter(price__gte=int(min_price))
+        except ValueError:
+            pass
     if max_price:
-        products = products.filter(price__lte=max_price)
+        try:
+            products = products.filter(price__lte=int(max_price))
+        except ValueError:
+            pass
 
     sort_options = {
         'price_asc': 'price',
@@ -72,10 +97,8 @@ def product_list(request):
     }
     products = products.order_by(sort_options.get(sort, '-created_at'))
 
-    from django.core.paginator import Paginator
-    paginator = Paginator(products, 12)  # 12 products per page
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    paginator = Paginator(products, 12)
+    page_obj = paginator.get_page(request.GET.get('page'))
 
     context = {
         'products': page_obj,
@@ -89,10 +112,16 @@ def product_list(request):
 
 
 def product_detail(request, slug):
-    product = get_object_or_404(Product, slug=slug, is_available=True)
-    related = Product.objects.filter(
-        category=product.category, is_available=True
-    ).exclude(pk=product.pk)[:4]
+    product = get_object_or_404(
+        Product.objects.select_related('category').prefetch_related('features', 'images'),
+        slug=slug,
+        is_available=True,
+    )
+    related = list(
+        Product.objects.select_related('category')
+        .filter(category=product.category, is_available=True)
+        .exclude(pk=product.pk)[:4]
+    )
     context = {
         'product': product,
         'related': related,
@@ -101,13 +130,17 @@ def product_detail(request, slug):
 
 
 def category_view(request, slug):
-    category = Category.objects.filter(slug=slug).first()
-    if not category:
-        return redirect('products:list')
-    products = Product.objects.filter(category=category, is_available=True)
+    category = get_object_or_404(Category, slug=slug)
+    products = (
+        Product.objects.select_related('category')
+        .filter(category=category, is_available=True)
+        .order_by('-created_at')
+    )
+    paginator = Paginator(products, 12)
+    page_obj = paginator.get_page(request.GET.get('page'))
     context = {
         'category': category,
-        'products': products,
+        'products': page_obj,
     }
     return render(request, 'products/category.html', context)
 

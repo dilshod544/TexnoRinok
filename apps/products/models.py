@@ -14,6 +14,10 @@ class Category(models.Model):
         verbose_name = "Kategoriya"
         verbose_name_plural = "Kategoriyalar"
         ordering = ['order', 'name']
+        indexes = [
+            models.Index(fields=['slug']),
+            models.Index(fields=['order', 'name']),
+        ]
 
     def __str__(self):
         return self.name
@@ -63,9 +67,9 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=0, verbose_name="Narx (so'm)")
     old_price = models.DecimalField(max_digits=12, decimal_places=0, null=True, blank=True, verbose_name="Eski narx")
     image = models.ImageField(upload_to='products/', verbose_name="Asosiy rasm")
-    is_available = models.BooleanField(default=True, verbose_name="Mavjudmi?")
-    is_featured = models.BooleanField(default=False, verbose_name="Tanlanganmi?")
-    is_bestseller = models.BooleanField(default=False, verbose_name="Xaridorgirmi?")
+    is_available = models.BooleanField(default=True, verbose_name="Mavjudmi?", db_index=True)
+    is_featured = models.BooleanField(default=False, verbose_name="Tanlanganmi?", db_index=True)
+    is_bestseller = models.BooleanField(default=False, verbose_name="Xaridorgirmi?", db_index=True)
     stock = models.PositiveIntegerField(default=100, verbose_name="Zaxiradagi miqdor")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -74,6 +78,13 @@ class Product(models.Model):
         verbose_name = "Mahsulot"
         verbose_name_plural = "Mahsulotlar"
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['slug']),
+            models.Index(fields=['category', 'is_available']),
+            models.Index(fields=['is_available', 'is_featured']),
+            models.Index(fields=['is_available', 'is_bestseller']),
+            models.Index(fields=['is_available', '-created_at']),
+        ]
 
     def __str__(self):
         return self.name
