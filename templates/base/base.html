@@ -92,7 +92,7 @@
       <h4>{% trans "Kategoriyalar" %}</h4>
       {% get_categories as all_categories %}
       {% for cat in all_categories %}
-        <a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a>
+        <a href="{{ cat.get_absolute_url }}">{{ cat|get_translated_name:LANGUAGE_CODE }}</a>
       {% endfor %}
     </div>
     <div class="sidebar-section">

@@ -65,6 +65,13 @@ http://localhost:8000/admin/ ga kiring va:
 - **Animatsiyalar**: CSS animatsiyalar + IntersectionObserver
 - **AJAX savat**: Sahifani yangilashsiz mahsulot qo'shish
 
+## Xavfsizlik va Optimizatsiya
+
+- **Admin Panel**: Xavfsizlik kaliti `.env` dagi `ADMIN_PANEL_SECRET` orqali boshqariladi.
+- **Database**: Muhim maydonlar (is_available, brand, slug) uchun indekslar qo'shilgan.
+- **Cache**: Home va Menu uchun Django cache tizimi qo'llanilgan.
+- **Logging**: Console o'rniga standart Python logging ishlatiladi.
+
 ## To'lov tizimlari (kelajakda qo'shish uchun)
 
 - Click: https://docs.click.uz

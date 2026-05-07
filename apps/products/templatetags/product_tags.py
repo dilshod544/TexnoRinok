@@ -1,11 +1,29 @@
 from django import template
+from django.db.models import Count
 
 register = template.Library()
+
+@register.filter
+def get_translated_name(obj, lang_code):
+    """
+    Returns the translated name field (e.g. name_ru or name_uz).
+    """
+    if not obj:
+        return ""
+    
+    # Try name_ru, name_uz etc.
+    attr_name = f"name_{lang_code}"
+    if hasattr(obj, attr_name):
+        val = getattr(obj, attr_name)
+        if val:
+            return val
+            
+    # Fallback to base name
+    return getattr(obj, 'name', str(obj))
 
 @register.simple_tag
 def get_categories():
     from apps.products.models import Category
-    from django.db.models import Count
     return Category.objects.annotate(num_products=Count('products')).filter(num_products__gt=0)
 
 @register.simple_tag(takes_context=True)

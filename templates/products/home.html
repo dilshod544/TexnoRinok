@@ -58,7 +58,7 @@
       {% for category in categories %}
       <a href="{{ category.get_absolute_url }}" class="cat-card reveal-item" data-reveal="zoom-in">
         <div class="cat-icon">{{ category.icon|default:"📦" }}</div>
-        <h3>{{ category.name }}</h3>
+        <h3>{{ category|get_translated_name:LANGUAGE_CODE }}</h3>
         <span>{{ category.num_products }} {% trans "ta mahsulot" %}</span>
       </a>
       {% endfor %}
