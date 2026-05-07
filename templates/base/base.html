@@ -22,7 +22,7 @@
 <header class="header" id="header">
   <nav class="navbar">
     <div class="container navbar-inner">
-      <a href="{% url 'products:home' %}" class="logo">
+      <a href="{% url 'products:home' %}" class="logo" data-reveal="fade-right">
         <span class="logo-mark">T</span><span class="logo-text">TexnoRinok</span>
       </a>
       
@@ -101,21 +101,21 @@
           <a href="https://www.instagram.com/texnorinokmalika" target="_blank">IG</a>
         </div>
       </div>
-      <div class="footer-col">
+      <div class="footer-col" data-reveal="fade-up" class="reveal-delay-1">
         <h4>{% trans "Katalog" %}</h4>
         <ul>
           <li><a href="{% url 'products:list' %}">{% trans "Barcha mahsulotlar" %}</a></li>
           <li><a href="{% url 'products:list' %}?sort=-created_at">{% trans "Yangi kelganlar" %}</a></li>
         </ul>
       </div>
-      <div class="footer-col">
+      <div class="footer-col" data-reveal="fade-up" class="reveal-delay-2">
         <h4>{% trans "Mijozlarga" %}</h4>
         <ul>
           <li><a href="{% url 'products:delivery' %}">{% trans "Yetkazib berish" %}</a></li>
           <li><a href="{% url 'products:contact' %}">{% trans "Bog'lanish" %}</a></li>
         </ul>
       </div>
-      <div class="footer-col">
+      <div class="footer-col" data-reveal="fade-up" class="reveal-delay-3">
         <h4>{% trans "Aloqa" %}</h4>
         <div class="contact-info">
           <p>📍 {% trans "Toshkent sh., Malika-A8" %}</p>

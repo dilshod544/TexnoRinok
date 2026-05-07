@@ -14,7 +14,7 @@
   </div>
   <div class="container">
     <div class="hero-content">
-      <div class="hero-text">
+      <div class="hero-text" data-reveal="fade-right">
         <div class="hero-badge">🏆 {% trans "O'zbekistonda #1 texnika do'koni" %}</div>
         <h1 class="hero-title">
           {% blocktrans %}Do'konimizga<br><span class="gradient-text">Xush kelibsiz!</span>{% endblocktrans %}
@@ -32,10 +32,10 @@
           <div class="stat-divider"></div>
           <div class="stat"><span class="stat-num">50K+</span><span class="stat-label">{% trans "Xaridorlar" %}</span></div>
           <div class="stat-divider"></div>
-          <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">{% trans "Qo'llab-quvvatlash" %}</span></div>
+          <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">{% trans "Yordam" %}</span></div>
         </div>
       </div>
-      <div class="hero-visual">
+      <div class="hero-visual" data-reveal="fade-left">
         <div class="hero-card hero-card--float">
           <div class="product-badge-float">🔥 {% trans "Eng ko'p sotiladigan" %}</div>
           <div class="hero-img-placeholder">
@@ -56,7 +56,7 @@
     </div>
     <div class="categories-grid">
       {% for category in categories %}
-      <a href="{{ category.get_absolute_url }}" class="cat-card reveal-item">
+      <a href="{{ category.get_absolute_url }}" class="cat-card reveal-item" data-reveal="zoom-in">
         <div class="cat-icon">{{ category.icon|default:"📦" }}</div>
         <h3>{{ category.name }}</h3>
         <span>{{ category.num_products }} {% trans "ta mahsulot" %}</span>

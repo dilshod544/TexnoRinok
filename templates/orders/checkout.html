@@ -8,7 +8,7 @@
     <h1 class="page-title" style="font-family: var(--font-display); font-size: 32px; font-weight: 800; margin-bottom: 40px;">📋 {% trans "Buyurtma berish" %}</h1>
     
     <div class="checkout-layout" style="display: grid; grid-template-columns: 1.8fr 1fr; gap: 40px;">
-      <div class="checkout-form-wrap">
+      <div class="checkout-form-wrap" data-reveal="fade-right">
         
         {% if addresses %}
         <div class="saved-addresses" style="margin-bottom: 30px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
@@ -70,7 +70,7 @@
         </div>
       </div>
 
-      <div class="order-summary-wrap">
+      <div class="order-summary-wrap" data-reveal="fade-left">
         <div class="summary-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; position: sticky; top: 100px;">
           <h3 style="font-size: 20px; margin-bottom: 25px;">🛍️ {% trans "Sizning buyurtmangiz" %}</h3>
           <div class="items-list" style="margin-bottom: 20px;">

@@ -17,9 +17,6 @@ def send_sms(phone, message):
         clean_phone = '998' + clean_phone
         
     logger.info(f"SMS to {clean_phone}: {message}")
-    print(f"--- SMS SENT TO {clean_phone} ---")
-    print(f"Message: {message}")
-    print(f"--------------------------------")
     
     # Real API implementation example (uncomment and configure if you have Eskiz token)
     # ESKIZ_TOKEN = getattr(settings, 'ESKIZ_TOKEN', None)

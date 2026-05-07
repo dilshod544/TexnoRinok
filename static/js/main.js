@@ -10,23 +10,34 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('revealed');
-        // If it's a grid, reveal children with delay
+        
+        // Stagger children if it's a container
         const children = entry.target.querySelectorAll('.reveal-item');
-        children.forEach((child, i) => {
-          setTimeout(() => child.classList.add('revealed'), i * 100);
-        });
+        if (children.length > 0) {
+          children.forEach((child, i) => {
+            child.style.transitionDelay = `${(i + 1) * 0.1}s`;
+            setTimeout(() => child.classList.add('revealed'), 50);
+          });
+        }
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-  revealElements.forEach(el => revealObserver.observe(el));
-
-  // Auto-apply reveal to common elements
-  document.querySelectorAll('.product-card, .cat-card, .feature-item, .section-header, .hero-content > *').forEach((el, i) => {
-    el.setAttribute('data-reveal', '');
-    if (i < 8) el.classList.add('reveal-delay-' + (i % 3 + 1));
+  // Auto-tag common elements for animation if not already tagged
+  const selectors = [
+    '.section-title', '.product-card', '.cat-card', 
+    '.feature-item', '.hero-text > *', '.hero-visual',
+    '.footer-col', '.category-header'
+  ];
+  
+  document.querySelectorAll(selectors.join(', ')).forEach((el, i) => {
+    if (!el.hasAttribute('data-reveal')) {
+      el.setAttribute('data-reveal', 'fade-up');
+    }
   });
+
+  document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
 
   // --- MOBILE MENU ---
   const hamburger = document.getElementById('hamburger');

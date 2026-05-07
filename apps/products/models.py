@@ -34,9 +34,8 @@ class Category(models.Model):
     def product_count(self):
         return self.products.filter(is_available=True).count()
 
-    def get_translated_name(self, lang_code):
-        # This will be handled by modeltranslation now
-        return self.name
+    def get_absolute_url(self):
+        return reverse('products:category', kwargs={'slug': self.slug})
 
 
 class Brand(models.Model):
@@ -59,7 +58,7 @@ class Brand(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', verbose_name="Kategoriya")
-    brand = models.CharField(max_length=100, blank=True, verbose_name="Brend")
+    brand = models.CharField(max_length=100, blank=True, verbose_name="Brend", db_index=True)
     name = models.CharField(max_length=300, verbose_name="Mahsulot nomi")
     slug = models.SlugField(unique=True, blank=True, verbose_name="Slug (Link nomi)")
     description = models.TextField(verbose_name="To'liq tavsif", blank=True)

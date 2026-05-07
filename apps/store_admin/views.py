@@ -6,39 +6,39 @@ from datetime import timedelta
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from decouple import config
 from apps.orders.models import Order
 from apps.products.models import Product, Category, Brand
 from .forms import ProductAdminForm, CategoryAdminForm
 
+from django.contrib.auth.models import User
+
 def is_admin(user):
     return user.is_authenticated and user.is_superuser
-
-import random
-from django.utils import timezone
 
 def admin_login(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
             return redirect('store_admin:dashboard')
-        else:
-            logout(request)
+        logout(request)
     
     if request.method == 'POST':
         # Step 2: Verify Static Security Key
         if 'verify_code' in request.POST:
             user_id = request.session.get('pending_admin_id')
-            
             if not user_id:
                 messages.error(request, "Sessiya muddati tugagan. Iltimos, qaytadan login qiling.")
                 return redirect('store_admin:login')
                 
-            if request.POST.get('code') == "qadirdonlar12":
-                from django.contrib.auth.models import User
+            # Get secret code from environment
+            admin_secret = config('ADMIN_PANEL_SECRET', default='qadirdonlar12')
+            
+            if request.POST.get('code') == admin_secret:
                 try:
                     user = User.objects.get(pk=user_id)
                     login(request, user)
-                    # Cleanup
-                    if 'pending_admin_id' in request.session: del request.session['pending_admin_id']
+                    if 'pending_admin_id' in request.session: 
+                        del request.session['pending_admin_id']
                     return redirect('store_admin:dashboard')
                 except User.DoesNotExist:
                     messages.error(request, "Foydalanuvchi topilmadi.")
@@ -54,8 +54,7 @@ def admin_login(request):
             if user.is_superuser:
                 request.session['pending_admin_id'] = user.id
                 return render(request, 'store_admin/login_verify.html')
-            else:
-                messages.error(request, "Faqat administratorlar kirishi mumkin.")
+            messages.error(request, "Faqat administratorlar kirishi mumkin.")
         else:
             messages.error(request, "Login yoki parol noto'g'ri.")
     else:

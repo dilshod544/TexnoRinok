@@ -8,8 +8,7 @@ from .models import Product, Category, Brand
 def home(request):
     context = cache.get('home_context')
     if not context:
-        print("DEBUG: Home context cache empty. Fetching from DB...")
-        # list() — важно! Иначе QuerySet кэшируется невычисленным и всё равно идёт в БД
+        # list() is important to evaluate the queryset before caching
         featured_products = list(
             Product.objects.select_related('category')
             .filter(is_available=True, is_featured=True)[:8]
@@ -18,7 +17,7 @@ def home(request):
             Product.objects.select_related('category')
             .filter(is_available=True, is_bestseller=True)[:8]
         )
-        categories = list(
+        categories_list = list(
             Category.objects.annotate(
                 num_products=Count('products', filter=Q(products__is_available=True))
             ).order_by('order', 'name')[:6]
@@ -30,7 +29,7 @@ def home(request):
         context = {
             'featured_products': featured_products,
             'bestsellers': bestsellers,
-            'categories': categories,
+            'categories': categories_list,
             'new_arrivals': new_arrivals,
         }
         cache.set('home_context', context, 60 * 5)
@@ -39,15 +38,14 @@ def home(request):
 
 
 def product_list(request):
-    categories = cache.get('menu_categories')
-    if not categories:
-        from django.db.models import Count, Q
-        categories = list(
+    categories_list = cache.get('menu_categories')
+    if not categories_list:
+        categories_list = list(
             Category.objects.annotate(
                 num_products=Count('products', filter=Q(products__is_available=True))
             ).order_by('order', 'name')
         )
-        cache.set('menu_categories', categories, 60 * 15)
+        cache.set('menu_categories', categories_list, 60 * 15)
 
     brands = cache.get('all_brands')
     if not brands:
@@ -66,7 +64,7 @@ def product_list(request):
     active_category = None
     if category_slug:
         # Ищем из уже закэшированного списка — без доп. запроса в БД
-        active_category = next((c for c in categories if c.slug == category_slug), None)
+        active_category = next((c for c in categories_list if c.slug == category_slug), None)
         if active_category:
             products = products.filter(category=active_category)
 
@@ -102,7 +100,7 @@ def product_list(request):
 
     context = {
         'products': page_obj,
-        'categories': categories,
+        'categories': categories_list,
         'brands': brands,
         'active_category': active_category,
         'search': search,
