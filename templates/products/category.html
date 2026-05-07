@@ -10,8 +10,8 @@
         <div class="section-header" style="margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end;">
             <div>
                 <nav style="margin-bottom: 15px; font-size: 14px; color: var(--text-3);">
-                    <a href="{% url 'products:home' %}" style="color: inherit; text-decoration: none;">{% trans "Bosh sahifa" %}</a> • 
-                    <a href="{% url 'products:list' %}" style="color: inherit; text-decoration: none;">{% trans "Katalog" %}</a>
+                    <a href="{% url 'products:home' %}" style="color: inherit; text-decoration: none;">{% ui_translate 'home' %}</a> • 
+                    <a href="{% url 'products:list' %}" style="color: inherit; text-decoration: none;">{% ui_translate 'catalog' %}</a>
                 </nav>
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <div style="font-size: 40px;">{{ category.icon|default:"📦" }}</div>
@@ -33,7 +33,7 @@
             <div style="font-size: 60px; margin-bottom: 24px;">📭</div>
             <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">{% trans "Bu kategoriyada hozircha mahsulotlar yo'q" %}</h3>
             <p style="color: var(--text-2); margin-bottom: 30px;">{% trans "Tez orada yangi mahsulotlar qo'shiladi." %}</p>
-            <a href="{% url 'products:list' %}" class="btn-primary" style="padding: 14px 32px; border-radius: 12px;">{% trans "Barcha mahsulotlar" %}</a>
+            <a href="{% url 'products:list' %}" class="btn-primary" style="padding: 14px 32px; border-radius: 12px;">{% ui_translate 'all_products' %}</a>
         </div>
         {% endif %}
     </div>

@@ -1,19 +1,19 @@
 {% extends "base/base.html" %}
-{% load i18n %}
+{% load i18n product_tags %}
 
-{% block title %}{% trans "Buyurtma" %} #{{ order.pk }} — TexnoRinok{% endblock %}
+{% block title %}{% ui_translate 'order' %} #{{ order.pk }} — TexnoRinok{% endblock %}
 
 {% block content %}
 <div class="order-detail-page" style="padding: 60px 0; background: var(--bg-2); min-height: 80vh;">
     <div class="container" style="max-width: 1000px;">
         <div style="margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end;">
             <div>
-                <a href="{% url 'orders:list' %}" style="color: var(--text-3); font-size: 14px; text-decoration: none; margin-bottom: 12px; display: block;">← {% trans "Mening buyurtmalarim" %}</a>
-                <h1 style="font-family: var(--font-display); font-size: 32px; font-weight: 800;">{% trans "Buyurtma" %} #{{ order.pk }}</h1>
+                <a href="{% url 'orders:list' %}" style="color: var(--text-3); font-size: 14px; text-decoration: none; margin-bottom: 12px; display: block;">← {% ui_translate 'my_orders' %}</a>
+                <h1 style="font-family: var(--font-display); font-size: 32px; font-weight: 800;">{% ui_translate 'order' %} #{{ order.pk }}</h1>
                 <p style="color: var(--text-3); margin-top: 5px;">{{ order.created_at|date:"d F, Y • H:i" }}</p>
             </div>
             <div style="text-align: right;">
-                <div style="font-size: 13px; color: var(--text-3); margin-bottom: 8px;">{% trans "Buyurtma holati" %}</div>
+                <div style="font-size: 13px; color: var(--text-3); margin-bottom: 8px;">{% ui_translate 'order_status' %}</div>
                 {% if order.status == 'pending' %}
                     <span style="background: #fff9db; color: #f08c00; padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 700; border: 1px solid #ffe066;">🕒 {{ order.get_status_display }}</span>
                 {% elif order.status == 'confirmed' %}
@@ -31,7 +31,7 @@
             <div style="display: flex; flex-direction: column; gap: 20px;">
                 <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 32px;">
                     <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
-                        <span>🛒</span> {% trans "Savat tarkibi" %}
+                        <span>🛒</span> {% ui_translate 'cart_contents' %}
                     </h3>
                     <div style="display: flex; flex-direction: column; gap: 20px;">
                         {% for item in order.items.all %}
@@ -48,7 +48,7 @@
                         {% endfor %}
                     </div>
                     <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; padding-top: 10px;">
-                        <span style="font-weight: 600; color: var(--text-2);">{% trans "Jami summa" %}:</span>
+                        <span style="font-weight: 600; color: var(--text-2);">{% ui_translate 'total_amount' %}:</span>
                         <span style="font-size: 24px; font-weight: 900; color: var(--accent);">{{ order.total_price|floatformat:0 }} UZS</span>
                     </div>
                 </div>
@@ -58,24 +58,24 @@
             <div style="display: flex; flex-direction: column; gap: 20px;">
                 <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 32px;">
                     <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
-                        <span>📍</span> {% trans "Yetkazib berish" %}
+                        <span>📍</span> {% ui_translate 'delivery' %}
                     </h3>
                     <div style="display: flex; flex-direction: column; gap: 16px;">
                         <div>
-                            <label style="font-size: 12px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">{% trans "Qabul qiluvchi" %}</label>
+                            <label style="font-size: 12px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">{% ui_translate 'receiver' %}</label>
                             <p style="font-weight: 600;">{{ order.first_name }} {{ order.last_name }}</p>
                         </div>
                         <div>
-                            <label style="font-size: 12px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">{% trans "Telefon" %}</label>
+                            <label style="font-size: 12px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">{% ui_translate 'phone' %}</label>
                             <p style="font-weight: 600;">{{ order.phone }}</p>
                         </div>
                         <div>
-                            <label style="font-size: 12px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">{% trans "Manzil" %}</label>
+                            <label style="font-size: 12px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">{% ui_translate 'address' %}</label>
                             <p style="line-height: 1.5; color: var(--text-2);">{{ order.city }}, {{ order.address }}</p>
                         </div>
                         {% if order.comment %}
                         <div style="padding: 16px; background: var(--bg-2); border-radius: 12px; border-left: 4px solid var(--accent);">
-                            <label style="font-size: 11px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 6px;">{% trans "Buyurtmaga izoh" %}</label>
+                            <label style="font-size: 11px; color: var(--text-3); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 6px;">{% ui_translate 'order_comment' %}</label>
                             <p style="font-size: 13px; font-style: italic;">"{{ order.comment }}"</p>
                         </div>
                         {% endif %}
@@ -83,7 +83,7 @@
                 </div>
 
                 <div style="background: var(--accent-dim); border: 1px dashed var(--accent); border-radius: 24px; padding: 24px; text-align: center;">
-                    <p style="font-size: 13px; color: var(--text-2); line-height: 1.5;">{% trans "Buyurtma bo'yicha savollaringiz bo'lsa, biz bilan bog'laning." %}</p>
+                    <p style="font-size: 13px; color: var(--text-2); line-height: 1.5;">{% ui_translate 'order_questions' %}</p>
                     <a href="tel:+998200012041" style="color: var(--accent); font-weight: 800; font-size: 18px; text-decoration: none; display: block; margin-top: 10px;">+998 20 001 20 41</a>
                 </div>
             </div>

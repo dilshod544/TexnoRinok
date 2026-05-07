@@ -1,9 +1,9 @@
 {% extends "store_admin/base.html" %}
-{% load i18n %}
+{% load i18n product_tags %}
 
 {% block admin_content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>🏷️ {% trans "Brandlar" %}</h2>
+    <h2>🏷️ {% ui_translate 'brands' %}</h2>
     <a href="{% url 'store_admin:brand_add' %}" class="btn btn-primary">➕ {% trans "Yangi brend" %}</a>
 </div>
 

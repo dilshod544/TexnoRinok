@@ -1,14 +1,14 @@
 {% extends "base/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Buyurtmalarim" %} — TexnoRinok{% endblock %}
+{% block title %}{% ui_translate 'my_orders' %} — TexnoRinok{% endblock %}
 
 {% block content %}
 <div class="orders-page" style="padding: 60px 0; background: var(--bg-2); min-height: 80vh;">
     <div class="container" style="max-width: 900px;">
         <div style="margin-bottom: 40px; text-align: center;">
-            <h1 style="font-family: var(--font-display); font-size: 36px; font-weight: 800;">{% trans "Mening buyurtmalarim" %}</h1>
-            <p style="color: var(--text-2); margin-top: 10px;">{% trans "Barcha buyurtmalaringiz tarixi va holati" %}</p>
+            <h1 style="font-family: var(--font-display); font-size: 36px; font-weight: 800;">{% ui_translate 'my_orders' %}</h1>
+            <p style="color: var(--text-2); margin-top: 10px;">{% ui_translate 'order_history_desc' %}</p>
         </div>
 
         <div class="orders-container" style="display: flex; flex-direction: column; gap: 20px;">
@@ -17,7 +17,7 @@
                 <div style="display: flex; gap: 24px; align-items: center;">
                     <div style="width: 60px; height: 60px; background: var(--bg-3); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px;">📦</div>
                     <div>
-                        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">{% trans "Buyurtma" %} #{{ order.pk }}</h3>
+                        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">{% ui_translate 'order' %} #{{ order.pk }}</h3>
                         <p style="font-size: 13px; color: var(--text-3);">{{ order.created_at|date:"d M, Y • H:i" }}</p>
                     </div>
                 </div>
@@ -36,16 +36,16 @@
                             <span style="background: #fff5f5; color: #c92a2a; padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 700;">❌ {{ order.get_status_display }}</span>
                         {% endif %}
                         
-                        <a href="{% url 'orders:detail' order.pk %}" class="btn-ghost" style="padding: 8px 16px; font-size: 13px; border-radius: 10px;">{% trans "Tafsilotlar" %} →</a>
+                        <a href="{% url 'orders:detail' order.pk %}" class="btn-ghost" style="padding: 8px 16px; font-size: 13px; border-radius: 10px;">{% ui_translate 'details' %} →</a>
                     </div>
                 </div>
             </div>
             {% empty %}
             <div style="text-align: center; padding: 80px 20px; background: var(--surface); border: 1px dashed var(--border); border-radius: 30px;">
                 <div style="font-size: 60px; margin-bottom: 24px;">📭</div>
-                <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">{% trans "Sizda hali buyurtmalar yo'q" %}</h3>
-                <p style="color: var(--text-2); margin-bottom: 30px;">{% trans "Oshxonangiz uchun eng yaxshi texnikalarni katalogimizdan toping." %}</p>
-                <a href="{% url 'products:list' %}" class="btn-primary" style="padding: 14px 32px; border-radius: 12px;">{% trans "Xaridni boshlash" %}</a>
+                <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">{% ui_translate 'no_orders' %}</h3>
+                <p style="color: var(--text-2); margin-bottom: 30px;">{% ui_translate 'cart_empty_desc' %}</p>
+                <a href="{% url 'products:list' %}" class="btn-primary" style="padding: 14px 32px; border-radius: 12px;">{% ui_translate 'start_shopping' %}</a>
             </div>
             {% endfor %}
         </div>

@@ -1,13 +1,13 @@
 {% extends "base/base.html" %}
-{% load i18n %}
+{% load i18n product_tags %}
 
-{% block title %}{% trans "Bog'lanish" %} — TexnoRinok{% endblock %}
+{% block title %}{% ui_translate 'contact' %} — TexnoRinok{% endblock %}
 
 {% block content %}
 <div class="contact-page">
     <div class="container">
         <div class="contact-header">
-            <h1 class="page-title">{% trans "Bog'lanish" %}</h1>
+            <h1 class="page-title">{% ui_translate 'contact' %}</h1>
             <p>{% trans "Savollaringiz bormi? Biz sizga yordam berishdan mamnunmiz!" %}</p>
         </div>
         
@@ -24,7 +24,7 @@
                 <div class="detail-item">
                     <div class="detail-icon">📞</div>
                     <div class="detail-content">
-                        <h3>{% trans "Telefon" %}</h3>
+                        <h3>{% ui_translate 'phone' %}</h3>
                         <p>+998 20 001 20 41</p>
                     </div>
                 </div>

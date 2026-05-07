@@ -1,12 +1,13 @@
+{% load product_tags %}
 {% extends "base/base.html" %}
 {% load static i18n %}
 
-{% block title %}{% trans "Savat" %} — TexnoRinok{% endblock %}
+{% block title %}{% ui_translate 'cart' %} — TexnoRinok{% endblock %}
 
 {% block content %}
 <div class="cart-page">
   <div class="container">
-    <h1 class="page-title">🛒 {% trans "Savatingiz" %}</h1>
+    <h1 class="page-title">🛒 {% ui_translate 'your_cart' %}</h1>
 
     {% if cart.item_count %}
     <div class="cart-layout">
@@ -22,7 +23,7 @@
           </div>
           <div class="cart-item__info">
             <a href="{{ item.product.get_absolute_url }}" class="cart-item__name">{{ item.product.name }}</a>
-            <span class="cart-item__price">{{ item.product.formatted_price }} {% trans "so'm" %}</span>
+            <span class="cart-item__price">{{ item.product.formatted_price }} {% ui_translate 'currency' %}</span>
           </div>
           <div class="cart-item__qty">
             <form method="post" action="{% url 'cart:update' item.pk %}" class="update-form">
@@ -35,7 +36,7 @@
             </form>
           </div>
           <div class="cart-item__subtotal">
-            {{ item.subtotal|floatformat:0 }} {% trans "so'm" %}
+            {{ item.subtotal|floatformat:0 }} {% ui_translate 'currency' %}
           </div>
           <form method="post" action="{% url 'cart:remove' item.pk %}">
             {% csrf_token %}
@@ -49,24 +50,24 @@
 
       <div class="cart-summary" data-reveal="fade-left">
         <div class="summary-card">
-          <h3>{% trans "Buyurtma jami" %}</h3>
+          <h3>{% ui_translate 'order_total' %}</h3>
           <div class="summary-row">
-            <span>{% trans "Mahsulotlar" %} ({{ cart.item_count }} {% trans "ta" %})</span>
-            <span>{{ cart.total|floatformat:0 }} {% trans "so'm" %}</span>
+            <span>{% ui_translate 'products_count' %} ({{ cart.item_count }} {% ui_translate 'pcs' %})</span>
+            <span>{{ cart.total|floatformat:0 }} {% ui_translate 'currency' %}</span>
           </div>
           <div class="summary-row">
-            <span>{% trans "Yetkazib berish" %}</span>
-            <span class="text-green">{% trans "Bepul" %}</span>
+            <span>{% ui_translate 'delivery' %}</span>
+            <span class="text-green">{% ui_translate 'free' %}</span>
           </div>
           <div class="summary-total">
-            <span>{% trans "Jami" %}</span>
-            <span>{{ cart.total|floatformat:0 }} {% trans "so'm" %}</span>
+            <span>{% ui_translate 'total' %}</span>
+            <span>{{ cart.total|floatformat:0 }} {% ui_translate 'currency' %}</span>
           </div>
           <a href="{% url 'orders:checkout' %}" class="btn-primary btn-xl" style="width:100%;text-align:center;display:block;margin-top:20px">
-            {% trans "Buyurtma berish" %} →
+            {% ui_translate 'checkout_title' %} →
           </a>
           <a href="{% url 'products:list' %}" class="btn-ghost" style="width:100%;text-align:center;display:block;margin-top:10px">
-            ← {% trans "Xaridni davom ettirish" %}
+            ← {% ui_translate 'continue_shopping' %}
           </a>
         </div>
       </div>
@@ -74,8 +75,8 @@
     {% else %}
     <div class="empty-state">
       <div class="empty-icon">🛒</div>
-      <h3>{% trans "Savatingiz bo'sh" %}</h3>
-      <p>{% trans "Katalogdan mahsulot tanlang va savatga qo'shing" %}</p>
+      <h3>{% ui_translate 'cart_empty' %}</h3>
+      <p>{% ui_translate 'cart_empty_desc' %}</p>
       <a href="{% url 'products:list' %}" class="btn-primary">{% trans "Katalogga o'tish" %}</a>
     </div>
     {% endif %}

@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
-{% load i18n %}
+{% load i18n product_tags %}
 
-{% block title %}{% trans "Yetkazib berish" %} — TexnoRinok{% endblock %}
+{% block title %}{% ui_translate 'delivery' %} — TexnoRinok{% endblock %}
 
 {% block content %}
 <div class="delivery-page" style="padding: 80px 0; background: var(--bg-2); min-height: 80vh; overflow: hidden; position: relative;">
@@ -12,7 +12,7 @@
         <div class="section-header" style="text-align: center; margin-bottom: 60px;">
             <span class="section-tag">⚡️ {% trans "XIZMAT KO'RSATISH" %}</span>
             <h1 class="page-title" style="font-family: var(--font-display); font-size: 48px; font-weight: 800; margin-top: 10px;">
-                {% trans "Yetkazib berish" %} <span class="gradient-text">{% trans "xizmati" %}</span>
+                {% ui_translate 'delivery' %} <span class="gradient-text">{% trans "xizmati" %}</span>
             </h1>
             <p style="color: var(--text-2); max-width: 600px; margin: 20px auto 0; font-size: 16px; line-height: 1.7;">
                 {% trans "Biz sizning buyurtmangizni butun O'zbekiston bo'ylab eng qisqa vaqtlarda va xavfsiz holatda yetkazib beramiz." %}

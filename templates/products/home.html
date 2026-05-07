@@ -1,11 +1,10 @@
 {% extends "base/base.html" %}
 {% load static i18n product_tags %}
 
-{% block title %}{% trans "TexnoRinok — Oshxona Texnikalari Do'koni" %}{% endblock %}
+{% block title %}TexnoRinok — {% ui_translate 'footer_desc' %}{% endblock %}
 
 {% block content %}
-
-<!-- HERO SECTION -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero-bg">
     <div class="hero-blob hero-blob--1"></div>
@@ -28,19 +27,17 @@
           <a href="{% url 'products:list' %}?sort=-created_at" class="btn-ghost btn-lg">{% ui_translate 'news' %} →</a>
         </div>
         <div class="hero-stats">
-          <div class="stat"><span class="stat-num">5,000+</span><span class="stat-label">{% trans "Mahsulotlar" %}</span></div>
+          <div class="stat"><span class="stat-num">5,000+</span><span class="stat-label">{% ui_translate 'all_products' %}</span></div>
           <div class="stat-divider"></div>
-          <div class="stat"><span class="stat-num">50K+</span><span class="stat-label">{% trans "Xaridorlar" %}</span></div>
-          <div class="stat-divider"></div>
-          <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">{% trans "Yordam" %}</span></div>
+          <div class="stat"><span class="stat-num">10k+</span><span class="stat-label">{% ui_translate 'confirm_order' %}</span></div>
         </div>
       </div>
       <div class="hero-visual" data-reveal="fade-left">
-        <div class="hero-card hero-card--float">
-          <div class="product-badge-float">🔥 {% trans "Eng ko'p sotiladigan" %}</div>
-          <div class="hero-img-placeholder">
-            <div class="blender-icon">🍹</div>
-          </div>
+        <div class="hero-card">
+          <div class="product-badge-float">Premium</div>
+          <div class="blender-icon">🍹</div>
+          <div class="circle-deco circle-deco--1"></div>
+          <div class="circle-deco circle-deco--2"></div>
         </div>
       </div>
     </div>
@@ -51,11 +48,11 @@
 <section class="section categories-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">{% trans "Kategoriyalar" %}</h2>
-      <a href="{% url 'products:list' %}" class="see-all">{% trans "Hammasini ko'rish" %} →</a>
+      <h2 class="section-title">{% ui_translate 'categories' %}</h2>
+      <a href="{% url 'products:list' %}" class="see-all">{% ui_translate 'all_products' %} →</a>
     </div>
     <div class="categories-grid">
-      {% for category in categories %}
+      {% for category in menu_categories %}
       <a href="{{ category.get_absolute_url }}" class="cat-card reveal-item" data-reveal="zoom-in">
         <div class="cat-icon">{{ category.icon|default:"📦" }}</div>
         <h3>{{ category|get_translated_name:LANGUAGE_CODE }}</h3>
@@ -72,80 +69,46 @@
   <div class="container">
     <div class="section-header">
       <div>
-        <span class="section-tag">🔥 TOP</span>
-        <h2 class="section-title">{% trans "Ko'p sotiladiganlar" %}</h2>
+        <span class="section-tag">Hot Choice</span>
+        <h2 class="section-title">{% ui_translate 'sort_expensive' %}</h2>
       </div>
-      <a href="{% url 'products:list' %}?sort=-created_at" class="see-all">{% trans "Hammasini ko'rish" %} →</a>
+      <a href="{% url 'products:list' %}" class="see-all">{% ui_translate 'all_products' %} →</a>
     </div>
     <div class="products-grid">
       {% for product in bestsellers %}
-      {% include "products/_product_card.html" with product=product %}
+        {% include "products/_product_card.html" with product=product %}
       {% endfor %}
     </div>
   </div>
 </section>
 {% endif %}
 
-<!-- NEW ARRIVALS -->
-{% if new_arrivals %}
-<section class="section products-section">
-  <div class="container">
-    <div class="section-header">
-      <div>
-        <span class="section-tag">✨ NEW</span>
-        <h2 class="section-title">{% trans "Yangi kelganlar" %}</h2>
-      </div>
-      <a href="{% url 'products:list' %}?sort=-created_at" class="see-all">{% trans "Hammasini ko'rish" %} →</a>
-    </div>
-    <div class="products-grid">
-      {% for product in new_arrivals %}
-      {% include "products/_product_card.html" with product=product %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
-{% endif %}
-
-<!-- FEATURES BANNER -->
-<section class="section" data-reveal>
+<!-- FEATURES -->
+<section class="section features-banner">
   <div class="container">
     <div class="features-grid">
       <div class="feature-item reveal-item">
         <div class="feature-icon">🚚</div>
-        <h4>{% trans "Tez yetkazib berish" %}</h4>
-        <p>{% trans "Toshkent bo'yicha 1-2 kun ichida" %}</p>
+        <div>
+          <h4>{% ui_translate 'delivery' %}</h4>
+          <p>{% ui_translate 'footer_desc' %}</p>
+        </div>
       </div>
       <div class="feature-item reveal-item">
-        <div class="feature-icon">✅</div>
-        <h4>{% trans "Sertifikatlangan" %}</h4>
-        <p>{% trans "Barcha mahsulotlarga rasmiy kafolat" %}</p>
-      </div>
-      <div class="feature-item reveal-item">
-        <div class="feature-icon">💳</div>
-        <h4>{% trans "Qulay to'lov" %}</h4>
-        <p>{% trans "Click, Payme, Uzum Bank" %}</p>
+        <div class="feature-icon">🛡️</div>
+        <div>
+          <h4>Kafolat</h4>
+          <p>1 yil rasmiy kafolat</p>
+        </div>
       </div>
       <div class="feature-item reveal-item">
         <div class="feature-icon">👨‍💼</div>
-        <h4>{% ui_translate 'contact' %}</h4>
-        <p>24/7 {% ui_translate 'apply' %}</p>
+        <div>
+          <h4>{% ui_translate 'contact' %}</h4>
+          <p>24/7 {% ui_translate 'apply' %}</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- CTA BANNER -->
-<section class="cta-banner" data-reveal>
-  <div class="container">
-    <div class="cta-inner">
-      <div class="cta-text">
-        <h2>{% trans "Birinchi xaridingizda" %} <span class="accent">{% trans "10% chegirma" %}</span></h2>
-        <p>{% trans "Ro'yxatdan o'ting va maxsus chegirmadan foydalaning" %}</p>
-        <a href="{% url 'accounts:register' %}" class="btn-primary btn-xl">{% trans "Ro'yxatdan o'tish" %}</a>
-      </div>
-      <div class="cta-visual">🎁</div>
-    </div>
-  </div>
-</section>
-
 {% endblock %}

@@ -93,10 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await res.json();
         if (data.success) {
           updateCartBadge(data.count);
-          showToast(data.message || "Savatga qo'shildi!", 'success');
+          showToast(data.message || window.JS_TRANSLATIONS?.added_to_cart || "Savatga qo'shildi!", 'success');
         }
       } catch (err) {
-        showToast('Xatolik yuz berdi', 'error');
+        showToast(window.JS_TRANSLATIONS?.error || 'Xatolik yuz berdi', 'error');
       }
       setTimeout(() => { btn.innerHTML = original; btn.style.width = ''; }, 2000);
     });

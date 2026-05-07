@@ -4,9 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}TexnoRinok — Oshxona Texnikalari va Uy jihozlari{% endblock %}</title>
+  <title>{% block title %}TexnoRinok — {% ui_translate 'footer_desc' %}{% endblock %}</title>
   
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">
   <link rel="apple-touch-icon" href="{% static 'img/favicon.png' %}?v=2">
   <link rel="shortcut icon" href="{% static 'img/favicon.png' %}?v=2">
@@ -18,7 +17,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="header" id="header">
   <nav class="navbar">
     <div class="container navbar-inner">
@@ -50,12 +48,7 @@
         </a>
         
         {% if request.user.is_authenticated %}
-          {% if request.user.is_superuser %}
-            <a href="{% url 'store_admin:dashboard' %}" class="btn-icon" title="{% trans 'Admin Panel' %}">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            </a>
-          {% endif %}
-          <a href="{% url 'accounts:profile' %}" class="btn-icon" title="{% trans 'Profil' %}">
+          <a href="{% url 'accounts:profile' %}" class="btn-icon" title="{% ui_translate 'profile' %}">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </a>
         {% else %}
@@ -72,7 +65,6 @@
   </nav>
 </header>
 
-<!-- SIDEBAR DRAWER -->
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
@@ -90,8 +82,7 @@
     </div>
     <div class="sidebar-section">
       <h4>{% ui_translate 'categories' %}</h4>
-      {% get_categories as all_categories %}
-      {% for cat in all_categories %}
+      {% for cat in menu_categories %}
         <a href="{{ cat.get_absolute_url }}">{{ cat|get_translated_name:LANGUAGE_CODE }}</a>
       {% endfor %}
     </div>
@@ -103,18 +94,17 @@
   </nav>
   <div class="sidebar-footer">
     {% if request.user.is_authenticated %}
-      <a href="{% url 'accounts:profile' %}" class="btn-primary">{% trans "Profil" %}</a>
+      <a href="{% url 'accounts:profile' %}" class="btn-primary">{% ui_translate 'profile' %}</a>
       <form action="{% url 'accounts:logout' %}" method="post" style="display:inline">
         {% csrf_token %}
-        <button type="submit" class="btn-ghost">{% trans "Chiqish" %}</button>
+        <button type="submit" class="btn-ghost">{% ui_translate 'logout' %}</button>
       </form>
     {% else %}
-      <a href="{% url 'accounts:login' %}" class="btn-primary">{% trans "Kirish" %}</a>
+      <a href="{% url 'accounts:login' %}" class="btn-primary">{% ui_translate 'login' %}</a>
     {% endif %}
   </div>
 </aside>
 
-<!-- MESSAGES -->
 {% if messages %}
 <div class="messages-container">
   {% for msg in messages %}
@@ -130,15 +120,14 @@
   {% block content %}{% endblock %}
 </main>
 
-<!-- MOBILE BOTTOM NAV -->
 <div class="mobile-bottom-nav">
   <a href="{% url 'products:home' %}" class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span>{% trans "Asosiy" %}</span>
+    <span>{% ui_translate 'home' %}</span>
   </a>
   <a href="{% url 'products:list' %}" class="nav-item {% if request.resolver_match.url_name == 'list' %}active{% endif %}">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-    <span>{% trans "Katalog" %}</span>
+    <span>{% ui_translate 'catalog' %}</span>
   </a>
   <a href="{% url 'cart:cart' %}" class="nav-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %}">
     <div class="nav-icon-wrap">
@@ -149,7 +138,7 @@
   </a>
   <a href="{% url 'accounts:profile' %}" class="nav-item {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span>{% trans "Profil" %}</span>
+    <span>{% ui_translate 'profile' %}</span>
   </a>
 </div>
 
@@ -160,40 +149,46 @@
         <a href="{% url 'products:home' %}" class="logo">
           <span class="logo-mark">T</span><span class="logo-text">TexnoRinok</span>
         </a>
-        <p>{% trans "O'zbekistondagi eng yaxshi oshxona texnikalari do'koni. Sifatli mahsulotlar, tez yetkazib berish." %}</p>
+        <p>{% ui_translate 'footer_desc' %}</p>
         <div class="social-links">
           <a href="https://t.me/texnorinokmalika1" target="_blank">TG</a>
           <a href="https://www.instagram.com/texnorinokmalika" target="_blank">IG</a>
         </div>
       </div>
-      <div class="footer-col" data-reveal="fade-up" class="reveal-delay-1">
-        <h4>{% trans "Katalog" %}</h4>
+      <div class="footer-col">
+        <h4>{% ui_translate 'catalog' %}</h4>
         <ul>
-          <li><a href="{% url 'products:list' %}">{% trans "Barcha mahsulotlar" %}</a></li>
-          <li><a href="{% url 'products:list' %}?sort=-created_at">{% trans "Yangi kelganlar" %}</a></li>
+          <li><a href="{% url 'products:list' %}">{% ui_translate 'all_products' %}</a></li>
+          <li><a href="{% url 'products:list' %}?sort=-created_at">{% ui_translate 'news' %}</a></li>
         </ul>
       </div>
-      <div class="footer-col" data-reveal="fade-up" class="reveal-delay-2">
-        <h4>{% trans "Mijozlarga" %}</h4>
+      <div class="footer-col">
+        <h4>{% ui_translate 'contact' %}</h4>
         <ul>
-          <li><a href="{% url 'products:delivery' %}">{% trans "Yetkazib berish" %}</a></li>
-          <li><a href="{% url 'products:contact' %}">{% trans "Bog'lanish" %}</a></li>
+          <li><a href="{% url 'products:delivery' %}">{% ui_translate 'delivery' %}</a></li>
+          <li><a href="{% url 'products:contact' %}">{% ui_translate 'contact' %}</a></li>
         </ul>
       </div>
-      <div class="footer-col" data-reveal="fade-up" class="reveal-delay-3">
-        <h4>{% trans "Aloqa" %}</h4>
+      <div class="footer-col">
+        <h4>{% ui_translate 'contact' %}</h4>
         <div class="contact-info">
-          <p>📍 {% trans "Toshkent sh., Malika-A8" %}</p>
+          <p>📍 {% ui_translate 'address_text' %}</p>
           <p>📞 +998 20 001 20 41</p>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>{% trans "© 2025 TexnoRinok. Barcha huquqlar himoyalangan." %}</p>
+      <p>© 2025 TexnoRinok. {% ui_translate 'rights' %}</p>
     </div>
   </div>
 </footer>
 
+<script>
+  window.JS_TRANSLATIONS = {
+    added_to_cart: "{% ui_translate 'added_to_cart' %}",
+    error: "{% ui_translate 'error' %}"
+  };
+</script>
 <script src="{% static 'js/main.js' %}"></script>
 {% block extra_js %}{% endblock %}
 </body>

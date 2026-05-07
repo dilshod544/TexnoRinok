@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
-{% load i18n %}
+{% load i18n product_tags %}
 
-{% block title %}{% trans "Profil" %} — TexnoRinok{% endblock %}
+{% block title %}{% ui_translate 'profile' %} — TexnoRinok{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -59,9 +59,9 @@
             <div class="admin-notice" style="background: rgba(255, 184, 0, 0.1); border: 1px solid var(--accent); border-radius: 12px; padding: 15px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <span style="font-size: 20px;">⚡</span>
-                    <span style="color: var(--accent); font-weight: 700; font-size: 14px;">{% trans "Siz administrator hisobidasiz" %}</span>
+                    <span style="color: var(--accent); font-weight: 700; font-size: 14px;">{% ui_translate 'admin_account' %}</span>
                 </div>
-                <a href="{% url 'store_admin:dashboard' %}" class="btn-primary" style="padding: 6px 16px; font-size: 12px;">{% trans "Admin Panelga o'tish" %}</a>
+                <a href="{% url 'store_admin:dashboard' %}" class="btn-primary" style="padding: 6px 16px; font-size: 12px;">{% ui_translate 'go_to_admin' %}</a>
             </div>
             {% endif %}
 
@@ -72,35 +72,35 @@
                     </div>
                     <div>
                         <h1 style="font-family: var(--font-display); font-size: 28px; font-weight: 800; margin: 0;">{{ request.user.get_full_name|default:request.user.username }}</h1>
-                        <p style="color: var(--text-2); margin: 4px 0 0;">@{{ request.user.username }} • {% if request.user.is_superuser %}<span style="color: var(--accent); font-weight: 700;">ADMIN</span>{% else %}{% trans "A'zo" %}{% endif %}: {{ request.user.date_joined|date:"d.m.Y" }}</p>
+                        <p style="color: var(--text-2); margin: 4px 0 0;">@{{ request.user.username }} • {% if request.user.is_superuser %}<span style="color: var(--accent); font-weight: 700;">ADMIN</span>{% else %}{% ui_translate 'member' %}{% endif %}: {{ request.user.date_joined|date:"d.m.Y" }}</p>
                     </div>
                 </div>
                 <a href="{% url 'accounts:logout' %}" class="btn-ghost" style="color: var(--red); border-color: var(--red); opacity: 0.8;">
-                    {% trans "Chiqish" %}
+                    {% ui_translate 'logout' %}
                 </a>
             </div>
 
             <div class="profile-content-wrap" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
                 <!-- Tabs Navigation -->
                 <div class="profile-tabs-nav" style="display: flex; border-bottom: 1px solid var(--border); background: var(--bg-1);">
-                    <button class="tab-btn {% if active_tab == 'info' %}active{% endif %}" onclick="switchTab('info')">👤 {% trans "Ma'lumotlar" %}</button>
-                    <button class="tab-btn {% if active_tab == 'addresses' %}active{% endif %}" onclick="switchTab('addresses')">📍 {% trans "Manzillar" %}</button>
-                    <button class="tab-btn {% if active_tab == 'orders' %}active{% endif %}" onclick="switchTab('orders')">📦 {% trans "Buyurtmalar" %}</button>
+                    <button class="tab-btn {% if active_tab == 'info' %}active{% endif %}" onclick="switchTab('info')">👤 {% ui_translate 'personal_info' %}</button>
+                    <button class="tab-btn {% if active_tab == 'addresses' %}active{% endif %}" onclick="switchTab('addresses')">📍 {% ui_translate 'my_addresses' %}</button>
+                    <button class="tab-btn {% if active_tab == 'orders' %}active{% endif %}" onclick="switchTab('orders')">📦 {% ui_translate 'orders_history' %}</button>
                 </div>
 
                 <!-- Tab Content: Info -->
                 <div id="tab-info" class="profile-tab-content {% if active_tab == 'info' %}active{% endif %}" style="padding: 40px;">
-                    <h3 style="margin-bottom: 25px; font-size: 20px;">{% trans "Shaxsiy ma'lumotlar" %}</h3>
+                    <h3 style="margin-bottom: 25px; font-size: 20px;">{% ui_translate 'personal_info' %}</h3>
                     <form method="post" style="max-width: 600px;">
                         {% csrf_token %}
                         <input type="hidden" name="update_profile" value="1">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                             <div class="form-group">
-                                <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% trans "Ism" %}</label>
+                                <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% ui_translate 'first_name' %}</label>
                                 {{ u_form.first_name }}
                             </div>
                             <div class="form-group">
-                                <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% trans "Familiya" %}</label>
+                                <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% ui_translate 'last_name' %}</label>
                                 {{ u_form.last_name }}
                             </div>
                         </div>
@@ -110,29 +110,29 @@
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
                             <div class="form-group">
-                                <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% trans "Telefon" %}</label>
+                                <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% ui_translate 'phone' %}</label>
                                 {{ p_form.phone_number }}
                             </div>
                             <div class="form-group">
-                                <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% trans "Tug'ilgan sana" %}</label>
+                                <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% ui_translate 'birth_date' %}</label>
                                 {{ p_form.birth_date }}
                             </div>
                         </div>
-                        <button type="submit" class="btn-primary">{% trans "Saqlash" %}</button>
+                        <button type="submit" class="btn-primary">{% ui_translate 'save' %}</button>
                     </form>
                 </div>
 
                 <!-- Tab Content: Addresses -->
                 <div id="tab-addresses" class="profile-tab-content {% if active_tab == 'addresses' %}active{% endif %}" style="padding: 40px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                        <h3 style="font-size: 20px; margin: 0;">{% trans "Mening manzillarim" %}</h3>
-                        <a href="{% url 'accounts:address_create' %}" class="btn-primary" style="padding: 8px 20px; font-size: 14px;">+ {% trans "Yangi manzil" %}</a>
+                        <h3 style="font-size: 20px; margin: 0;">{% ui_translate 'my_addresses' %}</h3>
+                        <a href="{% url 'accounts:address_create' %}" class="btn-primary" style="padding: 8px 20px; font-size: 14px;">+ {% ui_translate 'new_address' %}</a>
                     </div>
 
                     <div class="addresses-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         {% for addr in addresses %}
                         <div class="address-card {% if addr.is_default %}default{% endif %}">
-                            {% if addr.is_default %}<span class="default-badge">{% trans "Asosiy" %}</span>{% endif %}
+                            {% if addr.is_default %}<span class="default-badge">{% ui_translate 'home' %}</span>{% endif %}
                             <h4 style="margin: 0 0 10px; font-size: 16px;">{{ addr.get_label_display }}</h4>
                             <p style="font-size: 14px; color: var(--text-2); margin-bottom: 15px;">
                                 {{ addr.full_name }}<br>
@@ -140,16 +140,16 @@
                                 {{ addr.city }}, {{ addr.address }}
                             </p>
                             <div style="display: flex; gap: 12px; border-top: 1px solid var(--border); pt: 12px; margin-top: 12px;">
-                                <a href="{% url 'accounts:address_update' addr.pk %}" style="font-size: 13px; color: var(--accent);">{% trans "Tahrirlash" %}</a>
+                                <a href="{% url 'accounts:address_update' addr.pk %}" style="font-size: 13px; color: var(--accent);">{% ui_translate 'edit' %}</a>
                                 <form action="{% url 'accounts:address_delete' addr.pk %}" method="post" style="display: inline;" onsubmit="return confirm('O\'chirishni tasdiqlaysizmi?')">
                                     {% csrf_token %}
-                                    <button type="submit" style="background:none; border:none; padding:0; font-size: 13px; color: var(--red); cursor: pointer;">{% trans "O'chirish" %}</button>
+                                    <button type="submit" style="background:none; border:none; padding:0; font-size: 13px; color: var(--red); cursor: pointer;">{% ui_translate 'delete' %}</button>
                                 </form>
                             </div>
                         </div>
                         {% empty %}
                         <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-3);">
-                            <p>{% trans "Manzillar qo'shilmagan" %}</p>
+                            <p>{% ui_translate 'no_addresses' %}</p>
                         </div>
                         {% endfor %}
                     </div>
@@ -157,7 +157,7 @@
 
                 <!-- Tab Content: Orders -->
                 <div id="tab-orders" class="profile-tab-content {% if active_tab == 'orders' %}active{% endif %}" style="padding: 40px;">
-                    <h3 style="margin-bottom: 25px; font-size: 20px;">{% trans "Buyurtmalar tarixi" %}</h3>
+                    <h3 style="margin-bottom: 25px; font-size: 20px;">{% ui_translate 'orders_history' %}</h3>
                     <div class="orders-list">
                         {% for order in orders %}
                         <div class="order-card" style="background: var(--bg-3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
@@ -174,13 +174,13 @@
                                 </div>
                             </div>
                             <div style="text-align: right;">
-                                <div style="font-size: 18px; font-weight: 800; color: var(--accent); margin-bottom: 8px;">{{ order.total_price|floatformat:0 }} {% trans "so'm" %}</div>
+                                <div style="font-size: 18px; font-weight: 800; color: var(--accent); margin-bottom: 8px;">{{ order.total_price|floatformat:0 }} {% ui_translate 'currency' %}</div>
                                 <span class="status-badge status-{{ order.status }}" style="font-size: 12px; padding: 4px 12px; border-radius: 20px; background: var(--bg-1);">{{ order.get_status_display }}</span>
                             </div>
                         </div>
                         {% empty %}
                         <div style="text-align: center; padding: 40px; color: var(--text-3);">
-                            <p>{% trans "Sizda hali buyurtmalar yo'q" %}</p>
+                            <p>{% ui_translate 'no_orders' %}</p>
                         </div>
                         {% endfor %}
                     </div>

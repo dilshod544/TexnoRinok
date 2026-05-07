@@ -1,9 +1,9 @@
 {% extends "store_admin/base.html" %}
-{% load i18n %}
+{% load i18n product_tags %}
 
 {% block admin_content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>📂 {% trans "Kategoriyalar" %}</h2>
+    <h2>📂 {% ui_translate 'categories' %}</h2>
     <a href="{% url 'store_admin:category_add' %}" class="btn btn-primary">➕ {% trans "Yangi kategoriya" %}</a>
 </div>
 

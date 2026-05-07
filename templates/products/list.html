@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load static i18n product_tags %}
 
-{% block title %}{% trans "Katalog" %} — TexnoRinok{% endblock %}
+{% block title %}{% ui_translate 'catalog' %} — TexnoRinok{% endblock %}
 
 {% block content %}
 <div class="catalog-page">
@@ -10,7 +10,7 @@
       <!-- SIDEBAR -->
       <aside class="catalog-sidebar">
         <div class="sidebar-card">
-          <h3>{% trans "Kategoriyalar" %}</h3>
+          <h3>{% ui_translate 'categories' %}</h3>
           <ul class="filter-list">
             <li><a href="{% url 'products:list' %}" class="{% if not active_category %}active{% endif %}">{% ui_translate 'all_products' %}</a></li>
             {% for cat in categories %}
@@ -27,7 +27,7 @@
 
         {% if brands %}
         <div class="sidebar-card">
-          <h3>{% trans "Brandlar" %}</h3>
+          <h3>{% ui_translate 'brands' %}</h3>
           <ul class="filter-list">
             {% for brand in brands %}
             <li>
@@ -41,7 +41,7 @@
         {% endif %}
 
         <div class="sidebar-card">
-          <h3>{% trans "Narx oralig'i" %}</h3>
+          <h3>{% ui_translate 'price_range' %}</h3>
           <form method="get" id="price-filter">
             <input type="hidden" name="category" value="{{ request.GET.category }}">
             <div class="price-inputs">
@@ -49,7 +49,7 @@
               <span>—</span>
               <input type="number" name="max_price" placeholder="Max" value="{{ request.GET.max_price }}" class="form-input price-inp">
             </div>
-            <button type="submit" class="btn-primary btn-sm" style="width:100%;margin-top:10px">{% trans "Qo'llash" %}</button>
+            <button type="submit" class="btn-primary btn-sm" style="width:100%;margin-top:10px">{% ui_translate 'apply' %}</button>
           </form>
         </div>
       </aside>
@@ -71,11 +71,11 @@
             {% if active_category %}
               <h1 class="page-title">{{ active_category|get_translated_name:LANGUAGE_CODE }}</h1>
             {% elif search %}
-              <h1 class="page-title">"{{ search }}" {% trans "qidiruv natijalari" %}</h1>
+              <h1 class="page-title">"{{ search }}" {% ui_translate 'search_results' %}</h1>
             {% else %}
-              <h1 class="page-title">{% trans "Barcha mahsulotlar" %}</h1>
+              <h1 class="page-title">{% ui_translate 'all_products' %}</h1>
             {% endif %}
-            <span class="result-count">{{ products.paginator.count }} {% trans "ta mahsulot" %}</span>
+            <span class="result-count">{{ products.paginator.count }} {% ui_translate 'products_count_suffix' %}</span>
           </div>
           <div class="sort-controls">
             <select id="sort-select" onchange="window.location.href='?sort='+this.value+'{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}'">
@@ -117,9 +117,9 @@
         {% else %}
         <div class="empty-state">
           <div class="empty-icon">🔍</div>
-          <h3>{% trans "Mahsulot topilmadi" %}</h3>
-          <p>{% trans "Boshqa kalit so'z yoki filtrlarni sinab ko'ring" %}</p>
-          <a href="{% url 'products:list' %}" class="btn-primary">{% trans "Barcha mahsulotlar" %}</a>
+          <h3>{% ui_translate 'no_products_found' %}</h3>
+          <p>{% ui_translate 'try_other_filters' %}</p>
+          <a href="{% url 'products:list' %}" class="btn-primary">{% ui_translate 'all_products' %}</a>
         </div>
         {% endif %}
       </div>

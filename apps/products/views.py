@@ -6,7 +6,9 @@ from .models import Product, Category, Brand
 
 
 def home(request):
-    context = cache.get('home_context')
+    lang = getattr(request, 'LANGUAGE_CODE', 'uz')[:2]
+    cache_key = f'home_context_{lang}'
+    context = cache.get(cache_key)
     if not context:
         # list() is important to evaluate the queryset before caching
         featured_products = list(
@@ -32,20 +34,22 @@ def home(request):
             'categories': categories_list,
             'new_arrivals': new_arrivals,
         }
-        cache.set('home_context', context, 60 * 5)
+        cache.set(cache_key, context, 60 * 5)
 
     return render(request, 'products/home.html', context)
 
 
 def product_list(request):
-    categories_list = cache.get('menu_categories')
+    lang = getattr(request, 'LANGUAGE_CODE', 'uz')[:2]
+    cache_key = f'menu_categories_{lang}'
+    categories_list = cache.get(cache_key)
     if not categories_list:
         categories_list = list(
             Category.objects.annotate(
                 num_products=Count('products', filter=Q(products__is_available=True))
             ).order_by('order', 'name')
         )
-        cache.set('menu_categories', categories_list, 60 * 15)
+        cache.set(cache_key, categories_list, 60 * 15)
 
     brands = cache.get('all_brands')
     if not brands:
