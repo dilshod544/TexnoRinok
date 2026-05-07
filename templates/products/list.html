@@ -56,6 +56,16 @@
 
       <!-- MAIN CONTENT -->
       <div class="catalog-main">
+        <!-- Mobile Categories Scroll -->
+        <div class="mobile-categories">
+          <a href="{% url 'products:list' %}" class="mobile-cat-item {% if not active_category %}active{% endif %}">{% trans "Barchasi" %}</a>
+          {% for cat in categories %}
+            <a href="{% url 'products:list' %}?category={{ cat.slug }}" 
+               class="mobile-cat-item {% if active_category.slug == cat.slug %}active{% endif %}">
+               {{ cat.icon|default:"📦" }} {{ cat|get_translated_name:LANGUAGE_CODE }}
+            </a>
+          {% endfor %}
+        </div>
         <div class="catalog-topbar">
           <div class="catalog-info">
             {% if active_category %}

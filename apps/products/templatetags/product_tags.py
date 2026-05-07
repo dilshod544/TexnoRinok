@@ -2,8 +2,16 @@ from django import template
 
 register = template.Library()
 
-@register.filter
-def get_translated_name(obj, lang_code):
-    # modeltranslation automatically returns the correct field (e.g. name_ru) 
-    # when accessing the base field (e.g. name) if the language is active.
-    return obj.name
+@register.simple_tag(takes_context=True)
+def translate_url(context, lang_code):
+    path = context.get('request').path
+    from django.urls import resolve, reverse
+    from django.utils.translation import activate
+    
+    try:
+        view = resolve(path)
+        activate(lang_code)
+        url = reverse(view.view_name, args=view.args, kwargs=view.kwargs)
+        return url
+    except Exception:
+        return f"/{lang_code}/"

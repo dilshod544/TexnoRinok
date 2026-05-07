@@ -34,14 +34,14 @@
 
       <div class="header-actions">
         <div class="lang-switcher">
-          <form action="{% url 'set_language' %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.path }}">
-            <div class="lang-toggle">
-              <button name="language" value="uz" class="{% if LANGUAGE_CODE == 'uz' %}active{% endif %}">UZ</button>
-              <button name="language" value="ru" class="{% if LANGUAGE_CODE == 'ru' %}active{% endif %}">RU</button>
-            </div>
-          </form>
+          <div class="lang-pills">
+            <a href="{% translate_url 'uz' %}" class="lang-pill {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">
+              <span>UZ</span>
+            </a>
+            <a href="{% translate_url 'ru' %}" class="lang-pill {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">
+              <span>RU</span>
+            </a>
+          </div>
         </div>
 
         <a href="{% url 'cart:cart' %}" class="btn-icon cart-btn">
@@ -64,13 +64,55 @@
           </a>
         {% endif %}
 
-        <button class="hamburger" id="hamburger">
+        <button class="hamburger-btn" id="sidebar-toggle" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
       </div>
     </div>
   </nav>
 </header>
+
+<!-- SIDEBAR DRAWER -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="{% url 'products:home' %}" class="logo">
+      <span class="logo-mark">T</span><span class="logo-text">TexnoRinok</span>
+    </a>
+    <button class="sidebar-close" id="sidebar-close">&times;</button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section">
+      <h4>{% trans "Asosiy" %}</h4>
+      <a href="{% url 'products:home' %}">{% trans "Bosh sahifa" %}</a>
+      <a href="{% url 'products:list' %}">{% trans "Katalog" %}</a>
+      <a href="{% url 'products:list' %}?sort=-created_at">{% trans "Yangiliklar" %}</a>
+    </div>
+    <div class="sidebar-section">
+      <h4>{% trans "Kategoriyalar" %}</h4>
+      {% get_categories as all_categories %}
+      {% for cat in all_categories %}
+        <a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a>
+      {% endfor %}
+    </div>
+    <div class="sidebar-section">
+      <h4>{% trans "Mijozlarga" %}</h4>
+      <a href="{% url 'products:delivery' %}">{% trans "Yetkazib berish" %}</a>
+      <a href="{% url 'products:contact' %}">{% trans "Bog'lanish" %}</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    {% if request.user.is_authenticated %}
+      <a href="{% url 'accounts:profile' %}" class="btn-primary">{% trans "Profil" %}</a>
+      <form action="{% url 'accounts:logout' %}" method="post" style="display:inline">
+        {% csrf_token %}
+        <button type="submit" class="btn-ghost">{% trans "Chiqish" %}</button>
+      </form>
+    {% else %}
+      <a href="{% url 'accounts:login' %}" class="btn-primary">{% trans "Kirish" %}</a>
+    {% endif %}
+  </div>
+</aside>
 
 <!-- MESSAGES -->
 {% if messages %}
@@ -87,6 +129,29 @@
 <main>
   {% block content %}{% endblock %}
 </main>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="mobile-bottom-nav">
+  <a href="{% url 'products:home' %}" class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>{% trans "Asosiy" %}</span>
+  </a>
+  <a href="{% url 'products:list' %}" class="nav-item {% if request.resolver_match.url_name == 'list' %}active{% endif %}">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    <span>{% trans "Katalog" %}</span>
+  </a>
+  <a href="{% url 'cart:cart' %}" class="nav-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %}">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      {% if cart_count > 0 %}<span class="badge">{{ cart_count }}</span>{% endif %}
+    </div>
+    <span>{% trans "Savat" %}</span>
+  </a>
+  <a href="{% url 'accounts:profile' %}" class="nav-item {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>{% trans "Profil" %}</span>
+  </a>
+</div>
 
 <footer class="footer">
   <div class="container">
