@@ -2315,24 +2315,25 @@ html {
 }
 
 /* --- SYSTEMATIC SIDEBAR FIX --- */
-.sidebar {
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
-  width: 300px;
-  max-width: 85vw;
-  height: 100vh !important;
-  background: var(--bg-2) !important;
-  z-index: 9999 !important;
-  transform: translateX(101%); /* 101% to be safe */
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 0 !important;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.5) !important;
-  visibility: hidden;
-  overflow: hidden;
-}
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 300px;
+    max-width: 85vw;
+    height: 100vh !important;
+    background: var(--bg-2) !important;
+    z-index: 9999 !important;
+    transform: translateX(101%); /* 101% to be safe */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5) !important;
+    visibility: hidden;
+    overflow: hidden;
+  }
 
 .sidebar-header {
   padding: 20px 24px;
@@ -2455,31 +2456,32 @@ html {
   gap: 10px;
 }
 
-.desktop-only {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+  .desktop-only {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
 
-.sidebar.active {
-  transform: translateX(0);
-  visibility: visible;
-}
+  .sidebar.active {
+    transform: translateX(0);
+    visibility: visible;
+  }
 
-.sidebar-overlay {
-  position: fixed !important;
-  inset: 0 !important;
-  background: rgba(0,0,0,0.7) !important;
-  backdrop-filter: blur(8px) !important;
-  z-index: 9998 !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  transition: opacity 0.3s ease !important;
-}
+  .sidebar-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0,0,0,0.7) !important;
+    backdrop-filter: blur(8px) !important;
+    z-index: 9998 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.3s ease !important;
+  }
 
-.sidebar-overlay.active {
-  opacity: 1 !important;
-  visibility: visible !important;
+  .sidebar-overlay.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
 }
 
 /* --- CHIPS / MOBILE CATEGORIES --- */
