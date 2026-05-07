@@ -10,12 +10,12 @@
     
     <div class="container" style="position: relative; z-index: 2;">
         <div class="section-header" style="text-align: center; margin-bottom: 60px;">
-            <span class="section-tag">⚡️ {% trans "XIZMAT KO'RSATISH" %}</span>
+            <span class="section-tag">⚡️ {% ui_translate 'service_badge' %}</span>
             <h1 class="page-title" style="font-family: var(--font-display); font-size: 48px; font-weight: 800; margin-top: 10px;">
-                {% ui_translate 'delivery' %} <span class="gradient-text">{% trans "xizmati" %}</span>
+                {% ui_translate 'delivery' %} <span class="gradient-text">{% ui_translate 'delivery_service' %}</span>
             </h1>
             <p style="color: var(--text-2); max-width: 600px; margin: 20px auto 0; font-size: 16px; line-height: 1.7;">
-                {% trans "Biz sizning buyurtmangizni butun O'zbekiston bo'ylab eng qisqa vaqtlarda va xavfsiz holatda yetkazib beramiz." %}
+                {% ui_translate 'delivery_desc_full' %}
             </p>
         </div>
 
@@ -23,35 +23,35 @@
             <!-- Fast Delivery -->
             <div class="delivery-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; transition: 0.3s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
                 <div style="font-size: 48px; margin-bottom: 24px;">🚀</div>
-                <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 16px;">{% trans "Tezkor yetkazib berish" %}</h3>
+                <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 16px;">{% ui_translate 'fast_delivery' %}</h3>
                 <p style="color: var(--text-2); line-height: 1.6; font-size: 14px;">
-                    {% trans "Toshkent shahri bo'ylab buyurtmangiz 24 soat ichida eshigingiz tagida bo'ladi. Biz vaqtingizni qadrlaymiz." %}
+                    {% ui_translate 'fast_delivery_desc' %}
                 </p>
             </div>
 
             <!-- Regions -->
             <div class="delivery-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; transition: 0.3s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
                 <div style="font-size: 48px; margin-bottom: 24px;">🗺️</div>
-                <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 16px;">{% trans "Viloyatlarga yuborish" %}</h3>
+                <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 16px;">{% ui_translate 'regions_delivery' %}</h3>
                 <p style="color: var(--text-2); line-height: 1.6; font-size: 14px;">
-                    {% trans "Viloyat markazlariga yetkazib berish 48-72 soat davomida amalga oshiriladi. BTS yoki boshqa kuryerlik xizmatlari orqali." %}
+                    {% ui_translate 'regions_delivery_desc' %}
                 </p>
             </div>
 
             <!-- Pricing -->
             <div class="delivery-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; transition: 0.3s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
                 <div style="font-size: 48px; margin-bottom: 24px;">💰</div>
-                <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 16px;">{% trans "Yetkazib berish narxi" %}</h3>
+                <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 16px;">{% ui_translate 'delivery_pricing' %}</h3>
                 <p style="color: var(--text-2); line-height: 1.6; font-size: 14px;">
-                    {% trans "Toshkent shahri ichida yetkazib berish bepul (50,000 so'mdan yuqori buyurtmalar uchun). Boshqa hollarda 30,000 so'm." %}
+                    {% ui_translate 'delivery_pricing_desc' %}
                 </p>
             </div>
         </div>
 
         <div class="cta-mini" style="margin-top: 60px; text-align: center; padding: 40px; background: var(--accent-dim); border-radius: var(--radius-lg); border: 1px dashed var(--accent);">
-            <h4 style="font-weight: 700; margin-bottom: 10px;">{% trans "Savollaringiz bormi?" %}</h4>
-            <p style="font-size: 14px; color: var(--text-2); margin-bottom: 20px;">{% trans "Bizning qo'llab-quvvatlash jamoamiz sizga yordam berishga tayyor." %}</p>
-            <a href="{% url 'products:contact' %}" class="btn-primary">{% trans "Biz bilan bog'lanish" %}</a>
+            <h4 style="font-weight: 700; margin-bottom: 10px;">{% ui_translate 'have_questions' %}</h4>
+            <p style="font-size: 14px; color: var(--text-2); margin-bottom: 20px;">{% ui_translate 'support_desc' %}</p>
+            <a href="{% url 'products:contact' %}" class="btn-primary">{% ui_translate 'contact_us' %}</a>
         </div>
     </div>
 </div>

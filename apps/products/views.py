@@ -22,7 +22,7 @@ def home(request):
         categories_list = list(
             Category.objects.annotate(
                 num_products=Count('products', filter=Q(products__is_available=True))
-            ).order_by('order', 'name')[:6]
+            ).order_by('order', 'name')[:5]
         )
         new_arrivals = list(
             Product.objects.select_related('category')

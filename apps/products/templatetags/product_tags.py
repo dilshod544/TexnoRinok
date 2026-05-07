@@ -114,6 +114,20 @@ UI_TRANSLATIONS = {
         'start_shopping': 'Xaridni boshlash',
         'order_history_desc': 'Barcha buyurtmalaringiz tarixi va holati',
         
+        # Delivery Page
+        'service_badge': 'XIZMAT KO\'RSATISH',
+        'delivery_service': 'xizmati',
+        'delivery_desc_full': 'Biz sizning buyurtmangizni butun O\'zbekiston bo\'ylab eng qisqa vaqtlarda va xavfsiz holatda yetkazib beramiz.',
+        'fast_delivery': 'Tezkor yetkazib berish',
+        'fast_delivery_desc': 'Toshkent shahri bo\'ylab buyurtmangiz 24 soat ichida eshigingiz tagida bo\'ladi. Biz vaqtingizni qadrlaymiz.',
+        'regions_delivery': 'Viloyatlarga yuborish',
+        'regions_delivery_desc': 'Viloyat markazlariga yetkazib berish 48-72 soat davomida amalga oshiriladi. BTS yoki boshqa kuryerlik xizmatlari orqali.',
+        'delivery_pricing': 'Yetkazib berish narxi',
+        'delivery_pricing_desc': 'Toshkent shahri ichida yetkazib berish bepul (50,000 so\'mdan yuqori buyurtmalar uchun). Boshqa hollarda 30,000 so\'m.',
+        'have_questions': 'Savollaringiz bormi?',
+        'support_desc': 'Bizning qo\'llab-quvvatlash jamoamiz sizga yordam berishga tayyor.',
+        'contact_us': 'Biz bilan bog\'lanish',
+        
         # Footer
         'footer_desc': 'O\'zbekistondagi eng yaxshi oshxona texnikalari do\'koni. Sifatli mahsulotlar, tez yetkazib berish.',
         'rights': 'Barcha huquqlar himoyalangan.',
@@ -227,6 +241,20 @@ UI_TRANSLATIONS = {
         'details': 'Подробнее',
         'start_shopping': 'Начать покупки',
         'order_history_desc': 'История и статус всех ваших заказов',
+        
+        # Delivery Page
+        'service_badge': 'ОБСЛУЖИВАНИЕ',
+        'delivery_service': 'сервис',
+        'delivery_desc_full': 'Мы доставим ваш заказ по всему Узбекистану в кратчайшие сроки и в полной сохранности.',
+        'fast_delivery': 'Быстрая доставка',
+        'fast_delivery_desc': 'Ваш заказ по Ташкенту будет у вашей двери в течение 24 часов. Мы ценим ваше время.',
+        'regions_delivery': 'Доставка в регионы',
+        'regions_delivery_desc': 'Доставка в областные центры осуществляется в течение 48-72 часов через BTS или другие курьерские службы.',
+        'delivery_pricing': 'Стоимость доставки',
+        'delivery_pricing_desc': 'Доставка по Ташкенту бесплатная (для заказов свыше 50,000 сум). В остальных случаях 30,000 сум.',
+        'have_questions': 'Есть вопросы?',
+        'support_desc': 'Наша служба поддержки готова вам помочь.',
+        'contact_us': 'Связаться с нами',
         
         # Footer
         'footer_desc': 'Лучший магазин кухонной техники в Узбекистане. Качественные товары, быстрая доставка.',

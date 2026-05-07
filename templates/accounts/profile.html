@@ -65,7 +65,7 @@
             </div>
             {% endif %}
 
-            <div class="profile-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; background: var(--surface); padding: 30px; border-radius: var(--radius); border: 1px solid var(--border);">
+            <div class="profile-header-flex">
                 <div style="display: flex; align-items: center; gap: 24px;">
                     <div class="profile-avatar" style="width: 80px; height: 80px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #fff; box-shadow: var(--accent-glow);">
                         {{ request.user.username|slice:":1"|upper }}
@@ -82,7 +82,7 @@
 
             <div class="profile-content-wrap" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
                 <!-- Tabs Navigation -->
-                <div class="profile-tabs-nav" style="display: flex; border-bottom: 1px solid var(--border); background: var(--bg-1);">
+                <div class="profile-tabs-nav profile-tabs-scroll">
                     <button class="tab-btn {% if active_tab == 'info' %}active{% endif %}" onclick="switchTab('info')">👤 {% ui_translate 'personal_info' %}</button>
                     <button class="tab-btn {% if active_tab == 'addresses' %}active{% endif %}" onclick="switchTab('addresses')">📍 {% ui_translate 'my_addresses' %}</button>
                     <button class="tab-btn {% if active_tab == 'orders' %}active{% endif %}" onclick="switchTab('orders')">📦 {% ui_translate 'orders_history' %}</button>
@@ -94,7 +94,7 @@
                     <form method="post" style="max-width: 600px;">
                         {% csrf_token %}
                         <input type="hidden" name="update_profile" value="1">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div class="form-grid-2" style="margin-bottom: 20px;">
                             <div class="form-group">
                                 <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% ui_translate 'first_name' %}</label>
                                 {{ u_form.first_name }}
@@ -108,7 +108,7 @@
                             <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">Email</label>
                             {{ u_form.email }}
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                        <div class="form-grid-2" style="margin-bottom: 30px;">
                             <div class="form-group">
                                 <label style="display: block; font-size: 13px; color: var(--text-3); margin-bottom: 6px;">{% ui_translate 'phone' %}</label>
                                 {{ p_form.phone_number }}
@@ -129,7 +129,7 @@
                         <a href="{% url 'accounts:address_create' %}" class="btn-primary" style="padding: 8px 20px; font-size: 14px;">+ {% ui_translate 'new_address' %}</a>
                     </div>
 
-                    <div class="addresses-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="addresses-grid">
                         {% for addr in addresses %}
                         <div class="address-card {% if addr.is_default %}default{% endif %}">
                             {% if addr.is_default %}<span class="default-badge">{% ui_translate 'home' %}</span>{% endif %}
@@ -160,7 +160,7 @@
                     <h3 style="margin-bottom: 25px; font-size: 20px;">{% ui_translate 'orders_history' %}</h3>
                     <div class="orders-list">
                         {% for order in orders %}
-                        <div class="order-card" style="background: var(--bg-3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                        <div class="order-card-flex">
                             <div>
                                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
                                     <span style="font-weight: 700;">#{{ order.pk }}</span>

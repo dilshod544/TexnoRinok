@@ -39,41 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
 
-  // --- MOBILE MENU ---
-  const hamburger = document.getElementById('hamburger');
-  const body = document.body;
-  
-  if (hamburger) {
-    // Create mobile menu dynamically if it doesn't exist
-    let mobileNav = document.querySelector('.mobile-nav');
-    if (!mobileNav) {
-      mobileNav = document.createElement('div');
-      mobileNav.className = 'mobile-nav';
-      const navLinks = document.querySelector('.nav-links')?.innerHTML || '';
-      mobileNav.innerHTML = `
-        <div class="mobile-nav-close">×</div>
-        <div style="display:flex; flex-direction:column; gap:20px; margin-top:20px;">
-          ${navLinks}
-        </div>
-      `;
-      body.appendChild(mobileNav);
-      
-      const overlay = document.createElement('div');
-      overlay.className = 'mobile-nav-overlay';
-      body.appendChild(overlay);
-      
-      const closeBtn = mobileNav.querySelector('.mobile-nav-close');
-      const toggleMenu = (show) => {
-        mobileNav.classList.toggle('active', show);
-        overlay.classList.toggle('active', show);
-        body.style.overflow = show ? 'hidden' : '';
-      };
-      
-      hamburger.addEventListener('click', () => toggleMenu(true));
-      closeBtn.addEventListener('click', () => toggleMenu(false));
-      overlay.addEventListener('click', () => toggleMenu(false));
-    }
-  }
 
   // --- AJAX ADD TO CART ---
   document.querySelectorAll('.add-to-cart-form').forEach(form => {
