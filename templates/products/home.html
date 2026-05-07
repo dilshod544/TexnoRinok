@@ -59,7 +59,7 @@
       <a href="{{ category.get_absolute_url }}" class="cat-card reveal-item" data-reveal="zoom-in">
         <div class="cat-icon">{{ category.icon|default:"📦" }}</div>
         <h3>{{ category|get_translated_name:LANGUAGE_CODE }}</h3>
-        <span>{{ category.num_products }} {% ui_translate 'all_products' LANGUAGE_CODE %}</span>
+        <span>{{ category.num_products }} {% ui_translate 'all_products' %}</span>
       </a>
       {% endfor %}
     </div>
@@ -127,8 +127,8 @@
       </div>
       <div class="feature-item reveal-item">
         <div class="feature-icon">👨‍💼</div>
-        <h4>{% ui_translate 'contact' LANGUAGE_CODE %}</h4>
-        <p>24/7 {% ui_translate 'apply' LANGUAGE_CODE %}</p>
+        <h4>{% ui_translate 'contact' %}</h4>
+        <p>24/7 {% ui_translate 'apply' %}</p>
       </div>
     </div>
   </div>

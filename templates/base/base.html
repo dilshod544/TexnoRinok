@@ -89,16 +89,16 @@
       <a href="{% url 'products:list' %}?sort=-created_at">{% ui_translate 'news' %}</a>
     </div>
     <div class="sidebar-section">
-      <h4>{% ui_translate 'categories' LANGUAGE_CODE %}</h4>
+      <h4>{% ui_translate 'categories' %}</h4>
       {% get_categories as all_categories %}
       {% for cat in all_categories %}
         <a href="{{ cat.get_absolute_url }}">{{ cat|get_translated_name:LANGUAGE_CODE }}</a>
       {% endfor %}
     </div>
     <div class="sidebar-section">
-      <h4>{% ui_translate 'contact' LANGUAGE_CODE %}</h4>
-      <a href="{% url 'products:delivery' %}">{% ui_translate 'delivery' LANGUAGE_CODE %}</a>
-      <a href="{% url 'products:contact' %}">{% ui_translate 'contact' LANGUAGE_CODE %}</a>
+      <h4>{% ui_translate 'contact' %}</h4>
+      <a href="{% url 'products:delivery' %}">{% ui_translate 'delivery' %}</a>
+      <a href="{% url 'products:contact' %}">{% ui_translate 'contact' %}</a>
     </div>
   </nav>
   <div class="sidebar-footer">
