@@ -31,6 +31,7 @@
       </div>
 
       <div class="header-actions">
+        <!-- Desktop Language Switcher -->
         <div class="lang-switcher desktop-only">
           <div class="lang-pills">
             <a href="{% translate_url 'uz' %}" class="lang-pill {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">UZ</a>
@@ -38,6 +39,20 @@
           </div>
         </div>
 
+        <!-- Profile Icon (Desktop Only) -->
+        <div class="desktop-only">
+          {% if request.user.is_authenticated %}
+            <a href="{% url 'accounts:profile' %}" class="btn-icon" title="{% ui_translate 'profile' %}">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </a>
+          {% else %}
+            <a href="{% url 'accounts:login' %}" class="btn-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            </a>
+          {% endif %}
+        </div>
+
+        <!-- Cart (Always visible) -->
         <a href="{% url 'cart:cart' %}" class="btn-icon cart-btn">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           {% if cart_count > 0 %}<span class="badge">{{ cart_count }}</span>{% endif %}
@@ -51,51 +66,64 @@
   </nav>
 </header>
 
-<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <a href="{% url 'products:home' %}" class="logo">
       <span class="logo-mark">T</span><span class="logo-text">TexnoRinok</span>
     </a>
-    <div class="lang-switcher mobile-only" style="margin-left: auto; margin-right: 15px;">
-        <div class="lang-pills">
-            <a href="{% translate_url 'uz' %}" class="lang-pill {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">UZ</a>
-            <a href="{% translate_url 'ru' %}" class="lang-pill {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">RU</a>
-        </div>
-    </div>
     <button class="sidebar-close" id="sidebar-close">&times;</button>
   </div>
-  <nav class="sidebar-nav">
-    <div class="sidebar-section">
-      <h4>{% ui_translate 'home' %}</h4>
-      <a href="{% url 'products:home' %}">{% ui_translate 'home' %}</a>
-      <a href="{% url 'products:list' %}">{% ui_translate 'catalog' %}</a>
-      <a href="{% url 'products:list' %}?sort=-created_at">{% ui_translate 'news' %}</a>
+  
+  <div class="sidebar-content">
+    <!-- Lang Switcher (Mobile Only) -->
+    <div class="sidebar-section mobile-only">
+      <div class="lang-pills">
+        <a href="{% translate_url 'uz' %}" class="lang-pill {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">UZ</a>
+        <a href="{% translate_url 'ru' %}" class="lang-pill {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">RU</a>
+      </div>
     </div>
+
+    <!-- Navigation -->
     <div class="sidebar-section">
-      <h4>{% ui_translate 'categories' %}</h4>
-      {% for cat in menu_categories %}
-        <a href="{{ cat.get_absolute_url }}">{{ cat|get_translated_name:LANGUAGE_CODE }}</a>
-      {% endfor %}
+      <h4 class="sidebar-title">{% ui_translate 'home' %}</h4>
+      <nav class="sidebar-nav">
+        <a href="{% url 'products:home' %}">🏠 {% ui_translate 'home' %}</a>
+        <a href="{% url 'products:list' %}">📦 {% ui_translate 'catalog' %}</a>
+        <a href="{% url 'products:list' %}?sort=-created_at">✨ {% ui_translate 'news' %}</a>
+        <a href="{% url 'products:delivery' %}">🚚 {% ui_translate 'delivery' %}</a>
+      </nav>
     </div>
+
+    <!-- Categories Grid -->
     <div class="sidebar-section">
-      <h4>{% ui_translate 'contact' %}</h4>
-      <a href="{% url 'products:delivery' %}">{% ui_translate 'delivery' %}</a>
-      <a href="{% url 'products:contact' %}">{% ui_translate 'contact' %}</a>
+      <h4 class="sidebar-title">{% ui_translate 'categories' %}</h4>
+      <div class="sidebar-categories">
+        {% for cat in menu_categories %}
+        <a href="{{ cat.get_absolute_url }}" class="sidebar-cat-link">
+          <span class="icon">{{ cat.icon|default:"📦" }}</span>
+          <span class="name">{{ cat|get_translated_name:LANGUAGE_CODE }}</span>
+        </a>
+        {% endfor %}
+      </div>
     </div>
-  </nav>
-  <div class="sidebar-footer">
-    {% if request.user.is_authenticated %}
-      <a href="{% url 'accounts:profile' %}" class="btn-primary">{% ui_translate 'profile' %}</a>
-      <form action="{% url 'accounts:logout' %}" method="post" style="display:inline">
-        {% csrf_token %}
-        <button type="submit" class="btn-ghost">{% ui_translate 'logout' %}</button>
-      </form>
-    {% else %}
-      <a href="{% url 'accounts:login' %}" class="btn-primary">{% ui_translate 'login' %}</a>
-    {% endif %}
+
+    <!-- Footer Action -->
+    <div class="sidebar-section sidebar-footer-actions">
+      {% if request.user.is_authenticated %}
+        <div class="sidebar-btn-grid">
+          <a href="{% url 'accounts:profile' %}" class="btn-primary">👤 {% ui_translate 'profile' %}</a>
+          <form action="{% url 'accounts:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-ghost">🚪 {% ui_translate 'logout' %}</button>
+          </form>
+        </div>
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="btn-primary w-full">🔑 {% ui_translate 'login' %}</a>
+      {% endif %}
+    </div>
   </div>
 </aside>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 {% if messages %}
 <div class="messages-container">
