@@ -7,7 +7,7 @@ from .models import Product, Category, Brand
 
 def home(request):
     lang = getattr(request, 'LANGUAGE_CODE', 'uz')[:2]
-    cache_key = f'home_context_{lang}'
+    cache_key = f'home_context_v2_{lang}'
     context = cache.get(cache_key)
     if not context:
         # list() is important to evaluate the queryset before caching

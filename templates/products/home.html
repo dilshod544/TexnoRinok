@@ -52,7 +52,7 @@
       <a href="{% url 'products:list' %}" class="see-all">{% ui_translate 'all_products' %} →</a>
     </div>
     <div class="categories-grid">
-      {% for category in menu_categories %}
+      {% for category in categories %}
       <a href="{{ category.get_absolute_url }}" class="cat-card reveal-item" data-reveal="zoom-in">
         <div class="cat-icon">{{ category.icon|default:"📦" }}</div>
         <h3>{{ category|get_translated_name:LANGUAGE_CODE }}</h3>
