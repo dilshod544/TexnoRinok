@@ -2318,6 +2318,7 @@ html {
 /* --- SYSTEMATIC SIDEBAR FIX --- */
 @media (max-width: 768px) {
   .sidebar {
+    display: flex !important;
     position: fixed !important;
     top: 0 !important;
     right: 0 !important;
@@ -2524,6 +2525,15 @@ html {
 .sidebar,
 .sidebar-overlay {
   display: none !important;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: flex !important;
+  }
+  .sidebar-overlay {
+    display: block !important;
+  }
 }
 
 /* --- CHECKOUT SPECIFIC --- */
