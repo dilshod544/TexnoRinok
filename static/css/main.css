@@ -2265,6 +2265,7 @@ html {
   
   .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .products-grid { overflow: visible !important; }
+  .mobile-categories { display: flex; }
   
   .sidebar { width: min(280px, 85%) !important; }
   
@@ -2333,6 +2334,9 @@ html {
     box-shadow: -10px 0 30px rgba(0,0,0,0.5) !important;
     visibility: hidden;
     overflow: hidden;
+  }
+  .sidebar-overlay {
+    display: block !important;
   }
 
 .sidebar-header {
@@ -2486,7 +2490,7 @@ html {
 
 /* --- CHIPS / MOBILE CATEGORIES --- */
 .mobile-categories {
-  display: flex;
+  display: none;
   overflow-x: auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
@@ -2514,6 +2518,12 @@ html {
   background: var(--accent);
   color: #fff;
   border-color: var(--accent);
+}
+
+/* Mobile sidebar/overlay must stay hidden on desktop */
+.sidebar,
+.sidebar-overlay {
+  display: none !important;
 }
 
 /* --- CHECKOUT SPECIFIC --- */
