@@ -83,32 +83,35 @@
 </section>
 {% endif %}
 
-<!-- FEATURES -->
-<section class="section features-banner">
-  <div class="container">
-    <div class="features-grid">
-      <div class="feature-item reveal-item">
-        <div class="feature-icon">🚚</div>
-        <div>
-          <h4>{% ui_translate 'delivery' %}</h4>
-          <p>{% ui_translate 'footer_desc' %}</p>
+  <!-- FEATURES SECTION -->
+  <section class="features-section" data-reveal>
+    <div class="container">
+      <div class="features-grid-new">
+        <div class="feature-card-new">
+          <div class="feature-icon-new">🚚</div>
+          <div class="feature-info-new">
+            <h3>{% ui_translate 'fast_delivery' %}</h3>
+            <p>{% ui_translate 'delivery_time_text' %}</p>
+          </div>
         </div>
-      </div>
-      <div class="feature-item reveal-item">
-        <div class="feature-icon">🛡️</div>
-        <div>
-          <h4>{% ui_translate 'warranty' %}</h4>
-          <p>{% ui_translate 'warranty_desc' %}</p>
+        
+        <div class="feature-card-new">
+          <div class="feature-icon-new">🛡️</div>
+          <div class="feature-info-new">
+            <h3>{% ui_translate 'warranty' %}</h3>
+            <p>{% ui_translate 'warranty_desc' %}</p>
+          </div>
         </div>
-      </div>
-      <div class="feature-item reveal-item">
-        <div class="feature-icon">👨‍💼</div>
-        <div>
-          <h4>{% ui_translate 'contact' %}</h4>
-          <p>24/7 {% ui_translate 'apply' %}</p>
+        
+        <div class="feature-card-new">
+          <div class="feature-icon-new">👨‍🔧</div>
+          <div class="feature-info-new">
+            <h3>{% ui_translate 'contact' %}</h3>
+            <p>{% ui_translate 'expert_advice_text' %}</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </section>
 {% endblock %}
