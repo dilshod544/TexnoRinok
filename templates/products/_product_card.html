@@ -2,7 +2,7 @@
 <div class="product-card" data-reveal="fade-up">
   <div class="product-card__img-wrap">
     {% if product.image %}
-      <img src="{{ product.image.url }}" alt="{{ product|get_translated_name:LANGUAGE_CODE }}" loading="lazy">
+      <img src="{{ product.image.url }}" alt="{{ product|get_translated_name:LANGUAGE_CODE }}" class="product-card__image" loading="lazy">
     {% else %}
       <div class="product-card__img-placeholder">📦</div>
     {% endif %}
@@ -17,34 +17,34 @@
         <input type="hidden" name="quantity" value="1">
         <button type="submit" class="btn-add-cart" title="{% ui_translate 'add_to_cart' %}">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          {% ui_translate 'buy_now' %}
+          <span class="btn-text">{% ui_translate 'buy_now' %}</span>
         </button>
       </form>
     </div>
   </div>
   <div class="product-card__info">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+    <div class="product-card__meta">
         {% if product.brand %}
-            <span class="product-brand" style="font-weight: 700; color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">{{ product.brand }}</span>
+            <span class="product-brand">{{ product.brand }}</span>
         {% else %}
             <span></span>
         {% endif %}
         
         <div class="product-stock-badge">
             {% if product.stock > 0 %}
-                <span style="font-size: 11px; color: #38a169; background: #f0fff4; padding: 2px 8px; border-radius: 4px;">✅ {{ product.stock }} {% ui_translate 'in_stock' %}</span>
+                <span class="stock-status stock-status--in">✅ {{ product.stock }} {% ui_translate 'in_stock' %}</span>
             {% else %}
-                <span style="font-size: 11px; color: #e53e3e; background: #fff5f5; padding: 2px 8px; border-radius: 4px;">❌ {% ui_translate 'out_of_stock' %}</span>
+                <span class="stock-status stock-status--out">❌ {% ui_translate 'out_of_stock' %}</span>
             {% endif %}
         </div>
     </div>
     
-    <a href="{{ product.get_absolute_url }}" class="product-name" style="font-size: 16px; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 44px;">{{ product|get_translated_name:LANGUAGE_CODE }}</a>
+    <a href="{{ product.get_absolute_url }}" class="product-name">{{ product|get_translated_name:LANGUAGE_CODE }}</a>
     
-    <div class="product-price" style="margin-top: 12px; display: flex; flex-direction: column; gap: 2px;">
-      <span class="price-current" style="font-size: 20px; font-weight: 800; color: var(--text);">{{ product.formatted_price }} <span style="font-size: 12px; font-weight: 400;">UZS</span></span>
+    <div class="product-price">
+      <span class="price-current">{{ product.formatted_price }} <small>UZS</small></span>
       {% if product.old_price %}
-        <span class="price-old" style="font-size: 13px; text-decoration: line-through; color: var(--text-3);">{{ product.formatted_old_price }} UZS</span>
+        <span class="price-old">{{ product.formatted_old_price }} UZS</span>
       {% endif %}
     </div>
   </div>
