@@ -2561,7 +2561,38 @@ html {
   }
 }
 
-/* --- UTILS --- */
+/* --- FINAL UI FIXES --- */
+.hamburger-btn {
+  display: none;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.hamburger-btn:hover {
+  background: var(--bg-2);
+}
+
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex !important;
+  }
+  .mobile-only {
+    display: flex !important;
+  }
+}
+
 .overflow-hidden { overflow: hidden !important; }
 .w-full { width: 100% !important; }
 .flex-col { flex-direction: column !important; }
