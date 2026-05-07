@@ -4,29 +4,55 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Auto-close messages
-  document.querySelectorAll('.message').forEach(msg => {
-    setTimeout(() => msg.remove(), 5000);
-    msg.querySelector('.msg-close')?.addEventListener('click', () => msg.remove());
+  // --- REVEAL ON SCROLL ANIMATION ---
+  const revealElements = document.querySelectorAll('[data-reveal]');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        
+        // Stagger children if it's a container
+        const children = entry.target.querySelectorAll('.reveal-item');
+        if (children.length > 0) {
+          children.forEach((child, i) => {
+            child.style.transitionDelay = `${(i + 1) * 0.1}s`;
+            setTimeout(() => child.classList.add('revealed'), 50);
+          });
+        }
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  // Auto-tag common elements for animation if not already tagged
+  const selectors = [
+    '.section-title', '.product-card', '.cat-card', 
+    '.feature-item', '.hero-text > *', '.hero-visual',
+    '.footer-col', '.category-header'
+  ];
+  
+  document.querySelectorAll(selectors.join(', ')).forEach((el, i) => {
+    if (!el.hasAttribute('data-reveal')) {
+      el.setAttribute('data-reveal', 'fade-up');
+    }
   });
 
-  // Sticky header shadow
-  const header = document.getElementById('header');
-  if (header) {
-    window.addEventListener('scroll', () => {
-      header.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.4)' : 'none';
-    });
-  }
+  // Fallback: keep content visible even if animation observer fails.
+  document.querySelectorAll('[data-reveal]').forEach(el => {
+    el.classList.add('revealed');
+    revealObserver.observe(el);
+  });
 
-  // Add to cart AJAX
+
+  // --- AJAX ADD TO CART ---
   document.querySelectorAll('.add-to-cart-form').forEach(form => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = form.querySelector('.btn-add-cart');
       const original = btn.innerHTML;
-      btn.innerHTML = '✓ Qo\'shildi!';
-      btn.style.background = '#22c55e';
-
+      btn.innerHTML = '✓';
+      btn.style.width = btn.offsetWidth + 'px'; // Keep width
+      
       try {
         const res = await fetch(form.action, {
           method: 'POST',
@@ -35,33 +61,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const data = await res.json();
         if (data.success) {
-          // Update cart badge
-          const badge = document.querySelector('.cart-btn .badge');
-          if (badge) {
-            badge.textContent = data.count;
-          } else if (data.count > 0) {
-            const cartBtn = document.querySelector('.cart-btn');
-            if (cartBtn) {
-              const b = document.createElement('span');
-              b.className = 'badge';
-              b.textContent = data.count;
-              cartBtn.appendChild(b);
-            }
-          }
-          showToast(data.message || "Savatga qo'shildi!", 'success');
+          updateCartBadge(data.count);
+          showToast(data.message || window.JS_TRANSLATIONS?.added_to_cart || "Savatga qo'shildi!", 'success');
         }
       } catch (err) {
-        showToast('Xatolik yuz berdi', 'error');
+        showToast(window.JS_TRANSLATIONS?.error || 'Xatolik yuz berdi', 'error');
       }
-
-      setTimeout(() => {
-        btn.innerHTML = original;
-        btn.style.background = '';
-      }, 2000);
+      setTimeout(() => { btn.innerHTML = original; btn.style.width = ''; }, 2000);
     });
   });
 
-  // Toast notification
+  function updateCartBadge(count) {
+    const badge = document.querySelector('.cart-btn .badge');
+    if (badge) {
+      badge.textContent = count;
+      badge.style.transform = 'scale(1.2)';
+      setTimeout(() => badge.style.transform = 'scale(1)', 200);
+    } else if (count > 0) {
+      const cartBtn = document.querySelector('.cart-btn');
+      if (cartBtn) {
+        const b = document.createElement('span');
+        b.className = 'badge';
+        b.textContent = count;
+        cartBtn.appendChild(b);
+      }
+    }
+  }
+
   function showToast(message, type = 'success') {
     const container = document.querySelector('.messages-container') || (() => {
       const c = document.createElement('div');
@@ -72,66 +98,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const toast = document.createElement('div');
     toast.className = `message message--${type}`;
-    toast.innerHTML = `${message}<button class="msg-close">×</button>`;
-    toast.querySelector('.msg-close').addEventListener('click', () => toast.remove());
+    toast.innerHTML = `<span>${message}</span><button class="msg-close">×</button>`;
+    toast.querySelector('.msg-close').addEventListener('click', () => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(20px)';
+      setTimeout(() => toast.remove(), 300);
+    });
     container.appendChild(toast);
-    setTimeout(() => toast.remove(), 4000);
+    setTimeout(() => {
+      if (toast.parentElement) {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        setTimeout(() => toast.remove(), 300);
+      }
+    }, 4000);
   }
 
-  // Hamburger menu
-  const hamburger = document.getElementById('hamburger');
-  if (hamburger) {
-    hamburger.addEventListener('click', () => {
-      // Simple mobile nav toggle
-      const nav = document.querySelector('.nav-links');
-      if (nav) {
-        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-        nav.style.flexDirection = 'column';
-        nav.style.position = 'absolute';
-        nav.style.top = '100%';
-        nav.style.left = '0';
-        nav.style.right = '0';
-        nav.style.background = 'var(--bg)';
-        nav.style.padding = '16px 24px';
-        nav.style.borderBottom = '1px solid var(--border)';
-        nav.style.zIndex = '99';
-      }
-    });
-  }
-
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const href = a.getAttribute('href');
-      if (href && href !== '#' && href.startsWith('#')) {
-        const target = document.querySelector(href);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    });
+  // --- UTILS ---
+  document.querySelectorAll('img').forEach(img => {
+    if (!img.getAttribute('loading')) img.setAttribute('loading', 'lazy');
   });
 
-  // Intersection Observer for fade-in animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.product-card, .cat-card, .feature-item').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
+  // Sticky Header
+  const header = document.getElementById('header');
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+    if (currentScroll > 50) {
+      header.style.background = 'rgba(13, 13, 15, 0.95)';
+      header.style.boxShadow = '0 4px 30px rgba(0,0,0,0.5)';
+    } else {
+      header.style.background = 'rgba(13, 13, 15, 0.85)';
+      header.style.boxShadow = 'none';
+    }
+    lastScroll = currentScroll;
   });
-
-  // Custom visible class
-  document.head.insertAdjacentHTML('beforeend', `
-    <style>.visible { opacity: 1 !important; transform: translateY(0) !important; }</style>
-  `);
 });
+
+// --- SIDEBAR LOGIC ---
+const sidebarToggle = document.getElementById('sidebar-toggle');
+const sidebarClose = document.getElementById('sidebar-close');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+if (sidebarToggle && sidebar) {
+    sidebarToggle.addEventListener('click', () => {
+        // Hard fallback for stale CSS caches in production.
+        sidebar.style.setProperty('display', 'flex', 'important');
+        sidebar.style.setProperty('transform', 'translateX(0)', 'important');
+        sidebar.style.setProperty('visibility', 'visible', 'important');
+        if (sidebarOverlay) {
+          sidebarOverlay.style.setProperty('display', 'block', 'important');
+          sidebarOverlay.style.setProperty('visibility', 'visible', 'important');
+          sidebarOverlay.style.setProperty('opacity', '1', 'important');
+        }
+        sidebar.classList.add('active');
+        if (sidebarOverlay) sidebarOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+}
+
+if (sidebarClose) {
+    sidebarClose.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+}
+
+if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+}

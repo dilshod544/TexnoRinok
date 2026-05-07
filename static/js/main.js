@@ -37,7 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+  // Fallback: keep content visible even if animation observer fails.
+  document.querySelectorAll('[data-reveal]').forEach(el => {
+    el.classList.add('revealed');
+    revealObserver.observe(el);
+  });
 
 
   // --- AJAX ADD TO CART ---
@@ -139,8 +143,17 @@ const sidebarOverlay = document.getElementById('sidebar-overlay');
 
 if (sidebarToggle && sidebar) {
     sidebarToggle.addEventListener('click', () => {
+        // Hard fallback for stale CSS caches in production.
+        sidebar.style.setProperty('display', 'flex', 'important');
+        sidebar.style.setProperty('transform', 'translateX(0)', 'important');
+        sidebar.style.setProperty('visibility', 'visible', 'important');
+        if (sidebarOverlay) {
+          sidebarOverlay.style.setProperty('display', 'block', 'important');
+          sidebarOverlay.style.setProperty('visibility', 'visible', 'important');
+          sidebarOverlay.style.setProperty('opacity', '1', 'important');
+        }
         sidebar.classList.add('active');
-        sidebarOverlay.classList.add('active');
+        if (sidebarOverlay) sidebarOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
     });
 }
@@ -148,7 +161,7 @@ if (sidebarToggle && sidebar) {
 if (sidebarClose) {
     sidebarClose.addEventListener('click', () => {
         sidebar.classList.remove('active');
-        sidebarOverlay.classList.remove('active');
+        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
         document.body.style.overflow = '';
     });
 }
