@@ -2160,6 +2160,7 @@ html {
   .features-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+@media (max-width: 768px) {
   .desktop-only { display: none !important; }
   .header-top, .nav-links, .search-bar, .catalog-sidebar, .mobile-bottom-nav { 
     display: none !important; 
