@@ -75,51 +75,35 @@
   </div>
   
   <div class="sidebar-content">
-    <!-- Lang Switcher (Mobile Only) -->
-    <div class="sidebar-section mobile-only">
-      <div class="lang-pills">
-        <a href="{% translate_url 'uz' %}" class="lang-pill {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">UZ</a>
-        <a href="{% translate_url 'ru' %}" class="lang-pill {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">RU</a>
+    <!-- Lang & Profile Actions -->
+    <div class="sidebar-section">
+      <div class="sidebar-btn-grid">
+        <div class="lang-pills">
+          <a href="{% translate_url 'uz' %}" class="lang-pill {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">UZ</a>
+          <a href="{% translate_url 'ru' %}" class="lang-pill {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">RU</a>
+        </div>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'accounts:profile' %}" class="btn-primary" style="padding: 10px; font-size: 13px;">👤 {% ui_translate 'profile' %}</a>
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="btn-primary" style="padding: 10px; font-size: 13px;">🔑 {% ui_translate 'login' %}</a>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Navigation -->
+    <!-- Clean Navigation -->
     <div class="sidebar-section">
-      <h4 class="sidebar-title">{% ui_translate 'home' %}</h4>
       <nav class="sidebar-nav">
         <a href="{% url 'products:home' %}">🏠 {% ui_translate 'home' %}</a>
         <a href="{% url 'products:list' %}">📦 {% ui_translate 'catalog' %}</a>
         <a href="{% url 'products:list' %}?sort=-created_at">✨ {% ui_translate 'news' %}</a>
         <a href="{% url 'products:delivery' %}">🚚 {% ui_translate 'delivery' %}</a>
-      </nav>
-    </div>
-
-    <!-- Categories Grid -->
-    <div class="sidebar-section">
-      <h4 class="sidebar-title">{% ui_translate 'categories' %}</h4>
-      <div class="sidebar-categories">
-        {% for cat in menu_categories %}
-        <a href="{{ cat.get_absolute_url }}" class="sidebar-cat-link">
-          <span class="icon">{{ cat.icon|default:"📦" }}</span>
-          <span class="name">{{ cat|get_translated_name:LANGUAGE_CODE }}</span>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-
-    <!-- Footer Action -->
-    <div class="sidebar-section sidebar-footer-actions">
-      {% if request.user.is_authenticated %}
-        <div class="sidebar-btn-grid">
-          <a href="{% url 'accounts:profile' %}" class="btn-primary">👤 {% ui_translate 'profile' %}</a>
+        {% if request.user.is_authenticated %}
           <form action="{% url 'accounts:logout' %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn-ghost">🚪 {% ui_translate 'logout' %}</button>
+            <button type="submit" class="btn-ghost" style="width:100%; text-align: left; padding: 12px 16px; border-radius: 10px; font-weight: 600;">🚪 {% ui_translate 'logout' %}</button>
           </form>
-        </div>
-      {% else %}
-        <a href="{% url 'accounts:login' %}" class="btn-primary w-full">🔑 {% ui_translate 'login' %}</a>
-      {% endif %}
+        {% endif %}
+      </nav>
     </div>
   </div>
 </aside>
