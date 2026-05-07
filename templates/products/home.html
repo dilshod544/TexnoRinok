@@ -15,17 +15,17 @@
   <div class="container">
     <div class="hero-content">
       <div class="hero-text" data-reveal="fade-right">
-        <div class="hero-badge">🏆 {% trans "O'zbekistonda #1 texnika do'koni" %}</div>
+        <div class="hero-badge">{% ui_translate 'hero_badge' %}</div>
         <h1 class="hero-title">
-          {% blocktrans %}Do'konimizga<br><span class="gradient-text">Xush kelibsiz!</span>{% endblocktrans %}
+          {% ui_translate 'hero_title' %}
         </h1>
-        <p class="hero-desc">{% trans "Blenderlar, sok apparatlar, mikserlar va boshqa premium oshxona texnikalari. Kafolat va tez yetkazib berish bilan." %}</p>
+        <p class="hero-desc">{% ui_translate 'hero_desc' %}</p>
         <div class="hero-actions">
           <a href="{% url 'products:list' %}" class="btn-primary btn-lg">
-            {% trans "Katalogga o'tish" %}
+            {% ui_translate 'hero_btn' %}
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-          <a href="{% url 'products:list' %}?sort=-created_at" class="btn-ghost btn-lg">{% trans "Yangiliklar" %} →</a>
+          <a href="{% url 'products:list' %}?sort=-created_at" class="btn-ghost btn-lg">{% ui_translate 'news' %} →</a>
         </div>
         <div class="hero-stats">
           <div class="stat"><span class="stat-num">5,000+</span><span class="stat-label">{% trans "Mahsulotlar" %}</span></div>
@@ -59,7 +59,7 @@
       <a href="{{ category.get_absolute_url }}" class="cat-card reveal-item" data-reveal="zoom-in">
         <div class="cat-icon">{{ category.icon|default:"📦" }}</div>
         <h3>{{ category|get_translated_name:LANGUAGE_CODE }}</h3>
-        <span>{{ category.num_products }} {% trans "ta mahsulot" %}</span>
+        <span>{{ category.num_products }} {% ui_translate 'all_products' LANGUAGE_CODE %}</span>
       </a>
       {% endfor %}
     </div>
@@ -127,8 +127,8 @@
       </div>
       <div class="feature-item reveal-item">
         <div class="feature-icon">👨‍💼</div>
-        <h4>{% trans "Mutaxassis maslahati" %}</h4>
-        <p>{% trans "Siz uchun eng yaxshisini tanlashda yordam" %}</p>
+        <h4>{% ui_translate 'contact' LANGUAGE_CODE %}</h4>
+        <p>24/7 {% ui_translate 'apply' LANGUAGE_CODE %}</p>
       </div>
     </div>
   </div>

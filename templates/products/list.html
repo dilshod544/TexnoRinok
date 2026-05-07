@@ -12,7 +12,7 @@
         <div class="sidebar-card">
           <h3>{% trans "Kategoriyalar" %}</h3>
           <ul class="filter-list">
-            <li><a href="{% url 'products:list' %}" class="{% if not active_category %}active{% endif %}">{% trans "Barchasi" %}</a></li>
+            <li><a href="{% url 'products:list' %}" class="{% if not active_category %}active{% endif %}">{% ui_translate 'all_products' %}</a></li>
             {% for cat in categories %}
             <li>
               <a href="{% url 'products:list' %}?category={{ cat.slug }}"
@@ -58,7 +58,7 @@
       <div class="catalog-main">
         <!-- Mobile Categories Scroll -->
         <div class="mobile-categories">
-          <a href="{% url 'products:list' %}" class="mobile-cat-item {% if not active_category %}active{% endif %}">{% trans "Barchasi" %}</a>
+          <a href="{% url 'products:list' %}" class="mobile-cat-item {% if not active_category %}active{% endif %}">{% ui_translate 'all_products' %}</a>
           {% for cat in categories %}
             <a href="{% url 'products:list' %}?category={{ cat.slug }}" 
                class="mobile-cat-item {% if active_category.slug == cat.slug %}active{% endif %}">
@@ -79,10 +79,9 @@
           </div>
           <div class="sort-controls">
             <select id="sort-select" onchange="window.location.href='?sort='+this.value+'{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}'">
-              <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>{% trans "Yangi" %}</option>
-              <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>{% trans "Arzondan qimmatga" %}</option>
-              <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>{% trans "Qimmatdan arzonga" %}</option>
-              <option value="name_asc" {% if sort == 'name_asc' %}selected{% endif %}>A-Z</option>
+              <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>{% ui_translate 'sort_new' %}</option>
+              <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>{% ui_translate 'sort_cheap' %}</option>
+              <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>{% ui_translate 'sort_expensive' %}</option>
             </select>
           </div>
         </div>

@@ -27,9 +27,9 @@
       </a>
       
       <div class="nav-links">
-        <a href="{% url 'products:list' %}">{% trans "Katalog" %}</a>
-        <a href="{% url 'products:list' %}?sort=-created_at">{% trans "Yangiliklar" %}</a>
-        <a href="{% url 'products:delivery' %}">{% trans "Yetkazib berish" %}</a>
+        <a href="{% url 'products:list' %}">{% ui_translate 'catalog' %}</a>
+        <a href="{% url 'products:list' %}?sort=-created_at">{% ui_translate 'news' %}</a>
+        <a href="{% url 'products:delivery' %}">{% ui_translate 'delivery' %}</a>
       </div>
 
       <div class="header-actions">
@@ -83,22 +83,22 @@
   </div>
   <nav class="sidebar-nav">
     <div class="sidebar-section">
-      <h4>{% trans "Asosiy" %}</h4>
-      <a href="{% url 'products:home' %}">{% trans "Bosh sahifa" %}</a>
-      <a href="{% url 'products:list' %}">{% trans "Katalog" %}</a>
-      <a href="{% url 'products:list' %}?sort=-created_at">{% trans "Yangiliklar" %}</a>
+      <h4>{% ui_translate 'home' %}</h4>
+      <a href="{% url 'products:home' %}">{% ui_translate 'home' %}</a>
+      <a href="{% url 'products:list' %}">{% ui_translate 'catalog' %}</a>
+      <a href="{% url 'products:list' %}?sort=-created_at">{% ui_translate 'news' %}</a>
     </div>
     <div class="sidebar-section">
-      <h4>{% trans "Kategoriyalar" %}</h4>
+      <h4>{% ui_translate 'categories' LANGUAGE_CODE %}</h4>
       {% get_categories as all_categories %}
       {% for cat in all_categories %}
         <a href="{{ cat.get_absolute_url }}">{{ cat|get_translated_name:LANGUAGE_CODE }}</a>
       {% endfor %}
     </div>
     <div class="sidebar-section">
-      <h4>{% trans "Mijozlarga" %}</h4>
-      <a href="{% url 'products:delivery' %}">{% trans "Yetkazib berish" %}</a>
-      <a href="{% url 'products:contact' %}">{% trans "Bog'lanish" %}</a>
+      <h4>{% ui_translate 'contact' LANGUAGE_CODE %}</h4>
+      <a href="{% url 'products:delivery' %}">{% ui_translate 'delivery' LANGUAGE_CODE %}</a>
+      <a href="{% url 'products:contact' %}">{% ui_translate 'contact' LANGUAGE_CODE %}</a>
     </div>
   </nav>
   <div class="sidebar-footer">
@@ -145,7 +145,7 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       {% if cart_count > 0 %}<span class="badge">{{ cart_count }}</span>{% endif %}
     </div>
-    <span>{% trans "Savat" %}</span>
+    <span>{% ui_translate 'cart' %}</span>
   </a>
   <a href="{% url 'accounts:profile' %}" class="nav-item {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
