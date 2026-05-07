@@ -90,7 +90,14 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
+            from django.utils.text import slugify
             self.slug = slugify(self.name)
+            # If slugify returns empty (e.g. for non-latin names without allow_unicode)
+            if not self.slug:
+                # Fallback to a simple unique identifier or use name directly if possible
+                import uuid
+                self.slug = f"product-{uuid.uuid4().hex[:8]}"
+        
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
