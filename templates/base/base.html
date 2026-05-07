@@ -171,7 +171,61 @@
     error: "{% ui_translate 'error' %}"
   };
 </script>
-<script src="{% static 'js/main.js' %}?v=2.3"></script>
+<script src="{% static 'js/main.js' %}?v=2.4"></script>
+<script>
+  // Emergency runtime fallback for stale CDN/static cache.
+  (function () {
+    function forceReveal() {
+      document.querySelectorAll('[data-reveal]').forEach(function (el) {
+        el.classList.add('revealed');
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
+
+    function bindMobileSidebar() {
+      var toggle = document.getElementById('sidebar-toggle') || document.getElementById('hamburger');
+      var closeBtn = document.getElementById('sidebar-close');
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.getElementById('sidebar-overlay');
+      if (!toggle || !sidebar) return;
+
+      function openMenu() {
+        sidebar.classList.add('active');
+        sidebar.style.setProperty('display', 'flex', 'important');
+        sidebar.style.setProperty('transform', 'translateX(0)', 'important');
+        sidebar.style.setProperty('visibility', 'visible', 'important');
+        if (overlay) {
+          overlay.classList.add('active');
+          overlay.style.setProperty('display', 'block', 'important');
+          overlay.style.setProperty('opacity', '1', 'important');
+          overlay.style.setProperty('visibility', 'visible', 'important');
+        }
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        sidebar.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      toggle.addEventListener('click', openMenu);
+      if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+      if (overlay) overlay.addEventListener('click', closeMenu);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () {
+        forceReveal();
+        bindMobileSidebar();
+      });
+    } else {
+      forceReveal();
+      bindMobileSidebar();
+    }
+  })();
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>
