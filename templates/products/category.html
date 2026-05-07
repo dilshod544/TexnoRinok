@@ -17,7 +17,7 @@
                     <div style="font-size: 40px;">{{ category.icon|default:"📦" }}</div>
                     <h1 style="font-family: var(--font-display); font-size: 36px; font-weight: 800;">{{ category|get_translated_name:LANGUAGE_CODE }}</h1>
                 </div>
-                <p style="color: var(--text-2); margin-top: 5px;">{{ products.count }} {% trans "ta mahsulot topildi" %}</p>
+                <p style="color: var(--text-2); margin-top: 5px;">{{ products.count }} {% ui_translate 'products_found' %}</p>
             </div>
         </div>
 
@@ -31,8 +31,8 @@
         {% else %}
         <div style="text-align: center; padding: 80px 20px; background: var(--surface); border: 1px dashed var(--border); border-radius: 30px;">
             <div style="font-size: 60px; margin-bottom: 24px;">📭</div>
-            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">{% trans "Bu kategoriyada hozircha mahsulotlar yo'q" %}</h3>
-            <p style="color: var(--text-2); margin-bottom: 30px;">{% trans "Tez orada yangi mahsulotlar qo'shiladi." %}</p>
+            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">{% ui_translate 'no_products_category' %}</h3>
+            <p style="color: var(--text-2); margin-bottom: 30px;">{% ui_translate 'check_back_later' %}</p>
             <a href="{% url 'products:list' %}" class="btn-primary" style="padding: 14px 32px; border-radius: 12px;">{% ui_translate 'all_products' %}</a>
         </div>
         {% endif %}
