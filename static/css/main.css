@@ -126,7 +126,7 @@ button {
 .navbar-inner {
   display: flex;
   align-items: center;
-  gap: 32px;
+  justify-content: space-between;
 }
 
 .logo {
@@ -155,22 +155,22 @@ button {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 4px;
-  flex: 1;
+  gap: 12px;
+  margin: 0 40px;
 }
 
 .nav-links a {
-  padding: 7px 14px;
-  border-radius: var(--radius-sm);
+  padding: 8px 16px;
   color: var(--text-2);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
   transition: var(--transition);
+  text-decoration: none;
 }
 
 .nav-links a:hover {
-  color: var(--text);
-  background: var(--bg-3);
+  color: var(--accent);
 }
 
 .search-bar {
