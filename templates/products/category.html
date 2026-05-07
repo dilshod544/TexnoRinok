@@ -28,6 +28,27 @@
             {% include "products/_product_card.html" with product=product %}
             {% endfor %}
         </div>
+
+        <!-- PAGINATION -->
+        {% if products.has_other_pages %}
+        <div class="pagination">
+            {% if products.has_previous %}
+                <a href="?page={{ products.previous_page_number }}" class="btn-ghost" style="padding: 10px 20px; border-radius: 12px;">←</a>
+            {% endif %}
+
+            {% for i in products.paginator.page_range %}
+                {% if products.number == i %}
+                    <span class="btn-primary" style="padding: 10px 20px; border-radius: 12px;">{{ i }}</span>
+                {% elif i > products.number|add:'-3' and i < products.number|add:'3' %}
+                    <a href="?page={{ i }}" class="btn-ghost" style="padding: 10px 20px; border-radius: 12px;">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}" class="btn-ghost" style="padding: 10px 20px; border-radius: 12px;">→</a>
+            {% endif %}
+        </div>
+        {% endif %}
         {% else %}
         <div style="text-align: center; padding: 80px 20px; background: var(--surface); border: 1px dashed var(--border); border-radius: 30px;">
             <div style="font-size: 60px; margin-bottom: 24px;">📭</div>

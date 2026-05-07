@@ -31,6 +31,13 @@
       </div>
 
       <div class="header-actions">
+        <div class="lang-switcher desktop-only">
+          <div class="lang-pills">
+            <a href="{% translate_url 'uz' %}" class="lang-pill {% if LANGUAGE_CODE == 'uz' %}active{% endif %}">UZ</a>
+            <a href="{% translate_url 'ru' %}" class="lang-pill {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">RU</a>
+          </div>
+        </div>
+
         <a href="{% url 'cart:cart' %}" class="btn-icon cart-btn">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           {% if cart_count > 0 %}<span class="badge">{{ cart_count }}</span>{% endif %}
