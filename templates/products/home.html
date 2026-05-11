@@ -67,26 +67,6 @@
   </div>
 </section>
 
-<!-- BESTSELLERS -->
-{% if bestsellers %}
-<section class="section products-section products-section--dark">
-  <div class="container">
-    <div class="section-header">
-      <div>
-        <span class="section-tag">Hot Choice</span>
-        <h2 class="section-title">{% ui_translate 'sort_expensive' %}</h2>
-      </div>
-      <a href="{% url 'products:list' %}" class="see-all">{% ui_translate 'all_products' %} →</a>
-    </div>
-    <div class="products-grid">
-      {% for product in bestsellers %}
-        {% include "products/_product_card.html" with product=product %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
-{% endif %}
-
   <!-- FEATURES SECTION -->
   <section class="features-section" data-reveal>
     <div class="container">
