@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from .forms import CustomUserCreationForm, UserUpdateForm, ProfileUpdateForm, AddressForm
 from .models import Address, Profile
@@ -28,7 +29,10 @@ def login_view(request):
         user = form.get_user()
         login(request, user)
         messages.success(request, "Xush kelibsiz!")
-        return redirect(request.GET.get('next', 'products:home'))
+        next_url = request.GET.get('next') or request.POST.get('next')
+        if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+            return redirect(next_url)
+        return redirect('products:home')
     return render(request, 'accounts/login.html', {'form': form})
 
 

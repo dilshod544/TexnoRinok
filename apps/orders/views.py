@@ -84,7 +84,9 @@ def send_order_sms_notification(order):
 
 
 def order_success(request, pk):
-    order = get_object_or_404(Order, pk=pk)
+    if not request.user.is_authenticated:
+        return redirect('accounts:login')
+    order = get_object_or_404(Order, pk=pk, user=request.user)
     return render(request, 'orders/success.html', {'order': order})
 
 

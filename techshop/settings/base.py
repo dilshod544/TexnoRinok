@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-from decouple import config, Csv
+from decouple import config
 
 # Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -8,12 +8,41 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Security
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production-use-env-variable')
 DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
-# Ensure Vercel domains are allowed
-if '.vercel.app' not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.append('.vercel.app')
-ALLOWED_HOSTS.extend(['localhost', '127.0.0.1'])
+
+def _split_csv(value):
+    return [item.strip() for item in (value or '').split(',') if item.strip()]
+
+
+def _unique(values):
+    seen = set()
+    result = []
+    for value in values:
+        if value and value not in seen:
+            seen.add(value)
+            result.append(value)
+    return result
+
+
+DEFAULT_ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.vercel.app',
+    '.onrender.com',
+    'texnorinokmalika.uz',
+    'www.texnorinokmalika.uz',
+]
+ALLOWED_HOSTS = _unique(
+    _split_csv(config('ALLOWED_HOSTS', default='')) or DEFAULT_ALLOWED_HOSTS
+)
+
+DEFAULT_CSRF_TRUSTED_ORIGINS = [
+    'https://texnorinokmalika.uz',
+    'https://www.texnorinokmalika.uz',
+]
+CSRF_TRUSTED_ORIGINS = _unique(
+    _split_csv(config('CSRF_TRUSTED_ORIGINS', default='')) or DEFAULT_CSRF_TRUSTED_ORIGINS
+)
 
 # Application definition
 INSTALLED_APPS = [
@@ -163,6 +192,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Domain / SEO
+SITE_DOMAIN = config('SITE_DOMAIN', default='texnorinokmalika.uz')
 
 # Logging
 LOGGING = {

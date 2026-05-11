@@ -5,4 +5,4 @@ Disallow: /accounts/
 Disallow: /cart/
 Disallow: /orders/
 
-Sitemap: https://texnorinok.onrender.com/sitemap.xml
+Sitemap: https://texnorinokmalika.uz/sitemap.xml

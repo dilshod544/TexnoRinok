@@ -2,6 +2,10 @@
 {% load static i18n product_tags %}
 
 {% block title %}{% ui_translate 'catalog' %} — TexnoRinok{% endblock %}
+{% block meta_description %}TexnoRinok Malika katalogi: barcha oshxona texnikalari, filtrlar va saralash bilan qulay tanlov.{% endblock %}
+{% block canonical_url %}https://texnorinokmalika.uz{% url 'products:list' %}{% endblock %}
+{% block og_title %}TexnoRinok Malika katalogi{% endblock %}
+{% block og_description %}Katalog bo'limida mahsulotlarni kategoriya, brend va narx bo'yicha saralang.{% endblock %}
 
 {% block content %}
 <div class="catalog-page">
@@ -78,7 +82,7 @@
             <span class="result-count">{{ products.paginator.count }} {% ui_translate 'products_count_suffix' %}</span>
           </div>
           <div class="sort-controls">
-            <select id="sort-select" onchange="window.location.href='?sort='+this.value+'{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}'">
+            <select id="sort-select" onchange="(function(v){const params=new URLSearchParams(window.location.search);params.set('sort', v);params.delete('page');window.location.href='?'+params.toString();})(this.value)">
               <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>{% ui_translate 'sort_new' %}</option>
               <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>{% ui_translate 'sort_cheap' %}</option>
               <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>{% ui_translate 'sort_expensive' %}</option>

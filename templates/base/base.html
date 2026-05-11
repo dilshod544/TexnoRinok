@@ -4,7 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d0d0f">
   <title>{% block title %}TexnoRinok — {% ui_translate 'footer_desc' %}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}TexnoRinok Malika - Oshxona texnikalari, blenderlar, mikserlar va boshqa mahsulotlar. Tez yetkazib berish va kafolat.{% endblock %}">
+  <link rel="canonical" href="{% block canonical_url %}https://texnorinokmalika.uz{{ request.path }}{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TexnoRinok Malika">
+  <meta property="og:title" content="{% block og_title %}TexnoRinok Malika{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Oshxona texnikalari katalogi, qulay narx va tez yetkazib berish.{% endblock %}">
+  <meta property="og:url" content="https://texnorinokmalika.uz{{ request.path }}">
+  <meta name="robots" content="{% block robots %}index,follow{% endblock %}">
   
   <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">
   <link rel="apple-touch-icon" href="{% static 'img/favicon.png' %}?v=2">
@@ -133,8 +142,8 @@
         </a>
         <p>{% ui_translate 'footer_desc' %}</p>
         <div class="social-links">
-          <a href="https://t.me/texnorinokmalika1" target="_blank">TG</a>
-          <a href="https://www.instagram.com/texnorinokmalika" target="_blank">IG</a>
+          <a href="https://t.me/texnorinokmalika1" target="_blank" rel="noopener noreferrer">TG</a>
+          <a href="https://www.instagram.com/texnorinokmalika" target="_blank" rel="noopener noreferrer">IG</a>
         </div>
       </div>
       <div class="footer-col">

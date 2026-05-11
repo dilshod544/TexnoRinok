@@ -29,7 +29,12 @@ def cart_view(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, pk=product_id, is_available=True)
     cart = get_or_create_cart(request)
-    quantity = int(request.POST.get('quantity', 1))
+    try:
+        quantity = int(request.POST.get('quantity', 1))
+    except (TypeError, ValueError):
+        quantity = 1
+    if quantity < 1:
+        quantity = 1
 
     item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     if not created:
@@ -48,26 +53,30 @@ def add_to_cart(request, product_id):
 
 @require_POST
 def remove_from_cart(request, item_id):
-    item = get_object_or_404(CartItem, pk=item_id)
+    cart = get_or_create_cart(request)
+    item = get_object_or_404(CartItem, pk=item_id, cart=cart)
     item.delete()
     _invalidate_cart_cache(request)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        cart = get_or_create_cart(request)
         return JsonResponse({'success': True, 'count': cart.items.count(), 'total': str(cart.total)})
     return redirect('cart:cart')
 
 
 @require_POST
 def update_cart(request, item_id):
-    item = get_object_or_404(CartItem, pk=item_id)
-    quantity = int(request.POST.get('quantity', 1))
+    cart = get_or_create_cart(request)
+    item = get_object_or_404(CartItem, pk=item_id, cart=cart)
+    try:
+        quantity = int(request.POST.get('quantity', 1))
+    except (TypeError, ValueError):
+        quantity = 1
+
     if quantity > 0:
         item.quantity = quantity
         item.save()
     else:
         item.delete()
     _invalidate_cart_cache(request)
-    cart = get_or_create_cart(request)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({
             'success': True,
