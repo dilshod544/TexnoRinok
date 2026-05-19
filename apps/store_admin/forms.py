@@ -6,19 +6,31 @@ from apps.products.models import Product, Category, Brand
 class ProductAdminForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ('name', 'category', 'brand', 'slug', 'description', 'short_description', 
+                  'price', 'old_price', 'image', 'is_available', 'is_featured', 'is_bestseller', 'stock')
         widgets = {
-            'name_uz': forms.TextInput(attrs={'class': 'form-input'}),
-            'name_ru': forms.TextInput(attrs={'class': 'form-input'}),
+            'name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Mahsulot nomi'}),
             'slug': forms.TextInput(attrs={'class': 'form-input'}),
             'category': forms.Select(attrs={'class': 'form-input'}),
             'brand': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Brend nomi'}),
             'price': forms.NumberInput(attrs={'class': 'form-input'}),
             'old_price': forms.NumberInput(attrs={'class': 'form-input'}),
             'stock': forms.NumberInput(attrs={'class': 'form-input'}),
-            'description_uz': forms.Textarea(attrs={'class': 'form-input', 'rows': 4}),
-            'description_ru': forms.Textarea(attrs={'class': 'form-input', 'rows': 4}),
+            'description': forms.Textarea(attrs={'class': 'form-input', 'rows': 4}),
+            'short_description': forms.Textarea(attrs={'class': 'form-input', 'rows': 2}),
+            'image': forms.FileInput(attrs={'class': 'form-input', 'accept': 'image/*'}),
+            'is_available': forms.CheckboxInput(attrs={'class': 'form-check'}),
+            'is_featured': forms.CheckboxInput(attrs={'class': 'form-check'}),
+            'is_bestseller': forms.CheckboxInput(attrs={'class': 'form-check'}),
         }
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        if not image and not self.instance.pk:
+            raise ValidationError("Mahsulot rasmi talab qilinadi.")
+        if image and image.size > 5 * 1024 * 1024:
+            raise ValidationError("Rasm hajmi 5MB dan katta bo'lmasligi kerak.")
+        return image
 
     def clean_slug(self):
         slug = self.cleaned_data.get('slug', '').strip()
@@ -39,7 +51,7 @@ class ProductAdminForm(forms.ModelForm):
         cleaned_data = super().clean()
         slug = cleaned_data.get('slug', '').strip()
         if not slug:
-            name = cleaned_data.get('name') or cleaned_data.get('name_uz') or cleaned_data.get('name_ru')
+            name = cleaned_data.get('name')
             if name:
                 cleaned_data['slug'] = slugify(name, allow_unicode=True)
         return cleaned_data
@@ -47,11 +59,12 @@ class ProductAdminForm(forms.ModelForm):
 class CategoryAdminForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('name', 'slug', 'icon', 'image', 'order')
         widgets = {
-            'name_uz': forms.TextInput(attrs={'class': 'form-input'}),
-            'name_ru': forms.TextInput(attrs={'class': 'form-input'}),
+            'name': forms.TextInput(attrs={'class': 'form-input'}),
             'slug': forms.TextInput(attrs={'class': 'form-input'}),
             'icon': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Emoji or Icon class'}),
+            'image': forms.FileInput(attrs={'class': 'form-input', 'accept': 'image/*'}),
+            'order': forms.NumberInput(attrs={'class': 'form-input'}),
         }
 

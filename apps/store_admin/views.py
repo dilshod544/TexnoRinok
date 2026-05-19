@@ -8,11 +8,14 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from decouple import config
+import logging
 from apps.orders.models import Order
 from apps.products.models import Product, Category, Brand
 from .forms import ProductAdminForm, CategoryAdminForm
 
 from django.contrib.auth.models import User
+
+logger = logging.getLogger(__name__)
 
 def is_admin(user):
     return user.is_authenticated and user.is_superuser
@@ -103,13 +106,23 @@ def product_add(request):
         form = ProductAdminForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                form.save()
+                product = form.save()
+                messages.success(request, f"✅ Mahsulot '{product.name}' muvaffaqiyatli qo'shildi.")
                 return redirect('store_admin:product_list')
-            except IntegrityError:
+            except IntegrityError as e:
+                logger.error(f"IntegrityError while adding product: {e}")
                 form.add_error('slug', "Slug allaqachon mavjud. Iltimos, boshqa slug kiriting.")
+            except Exception as e:
+                logger.error(f"Unexpected error while adding product: {e}")
+                messages.error(request, f"❌ Xatolik: {str(e)}")
+        else:
+            if form.errors:
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"{field}: {error}")
     else:
         form = ProductAdminForm()
-    return render(request, 'store_admin/product_form.html', {'form': form, 'title': 'Add Product'})
+    return render(request, 'store_admin/product_form.html', {'form': form, 'title': 'Mahsulot qo\'shish'})
 
 @user_passes_test(is_admin, login_url='store_admin:login')
 def product_edit(request, pk):
@@ -118,13 +131,23 @@ def product_edit(request, pk):
         form = ProductAdminForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             try:
-                form.save()
+                product = form.save()
+                messages.success(request, f"✅ Mahsulot '{product.name}' muvaffaqiyatli yangilandi.")
                 return redirect('store_admin:product_list')
-            except IntegrityError:
+            except IntegrityError as e:
+                logger.error(f"IntegrityError while editing product: {e}")
                 form.add_error('slug', "Slug allaqachon mavjud. Iltimos, boshqa slug kiriting.")
+            except Exception as e:
+                logger.error(f"Unexpected error while editing product: {e}")
+                messages.error(request, f"❌ Xatolik: {str(e)}")
+        else:
+            if form.errors:
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"{field}: {error}")
     else:
         form = ProductAdminForm(instance=product)
-    return render(request, 'store_admin/product_form.html', {'form': form, 'title': 'Edit Product'})
+    return render(request, 'store_admin/product_form.html', {'form': form, 'title': 'Mahsulotni tahrirlash'})
 
 @user_passes_test(is_admin, login_url='store_admin:login')
 def product_delete(request, pk):
