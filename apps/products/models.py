@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save, post_delete
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
 
@@ -22,9 +24,30 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def _generate_unique_slug(self, slug_value):
+        if not slug_value:
+            return slug_value
+
+        max_length = self._meta.get_field('slug').max_length
+        original_slug = slug_value[:max_length]
+        slug = original_slug
+        index = 1
+        qs = self.__class__.objects.all()
+        if self.pk:
+            qs = qs.exclude(pk=self.pk)
+
+        while qs.filter(slug=slug).exists():
+            suffix = f"-{index}"
+            allowed = max_length - len(suffix)
+            slug = f"{original_slug[:allowed]}{suffix}"
+            index += 1
+        return slug
+
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.name, allow_unicode=True)
+
+        self.slug = self._generate_unique_slug(self.slug)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -33,9 +56,6 @@ class Category(models.Model):
     @property
     def product_count(self):
         return self.products.filter(is_available=True).count()
-
-    def get_absolute_url(self):
-        return reverse('products:category', kwargs={'slug': self.slug})
 
 
 class Brand(models.Model):
@@ -50,9 +70,30 @@ class Brand(models.Model):
     def __str__(self):
         return self.name
 
+    def _generate_unique_slug(self, slug_value):
+        if not slug_value:
+            return slug_value
+
+        max_length = self._meta.get_field('slug').max_length
+        original_slug = slug_value[:max_length]
+        slug = original_slug
+        index = 1
+        qs = self.__class__.objects.all()
+        if self.pk:
+            qs = qs.exclude(pk=self.pk)
+
+        while qs.filter(slug=slug).exists():
+            suffix = f"-{index}"
+            allowed = max_length - len(suffix)
+            slug = f"{original_slug[:allowed]}{suffix}"
+            index += 1
+        return slug
+
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.name, allow_unicode=True)
+
+        self.slug = self._generate_unique_slug(self.slug)
         super().save(*args, **kwargs)
 
 
@@ -88,16 +129,34 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def _generate_unique_slug(self, slug_value):
+        if not slug_value:
+            return slug_value
+
+        max_length = self._meta.get_field('slug').max_length
+        original_slug = slug_value[:max_length]
+        slug = original_slug
+        index = 1
+        qs = self.__class__.objects.all()
+        if self.pk:
+            qs = qs.exclude(pk=self.pk)
+
+        while qs.filter(slug=slug).exists():
+            suffix = f"-{index}"
+            allowed = max_length - len(suffix)
+            slug = f"{original_slug[:allowed]}{suffix}"
+            index += 1
+        return slug
+
     def save(self, *args, **kwargs):
         if not self.slug:
             from django.utils.text import slugify
-            self.slug = slugify(self.name)
-            # If slugify returns empty (e.g. for non-latin names without allow_unicode)
+            self.slug = slugify(self.name, allow_unicode=True)
             if not self.slug:
-                # Fallback to a simple unique identifier or use name directly if possible
                 import uuid
                 self.slug = f"product-{uuid.uuid4().hex[:8]}"
-        
+
+        self.slug = self._generate_unique_slug(self.slug)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -140,3 +199,63 @@ class ProductFeature(models.Model):
 
     def __str__(self):
         return f"{self.name}: {self.value}"
+
+
+def _delete_file_field(field):
+    if not field:
+        return
+    try:
+        if field.name:
+            field.delete(save=False)
+    except Exception:
+        pass
+
+
+@receiver(pre_save, sender=Product)
+def _delete_old_product_image(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old_instance = sender.objects.get(pk=instance.pk)
+    except sender.DoesNotExist:
+        return
+
+    old_image = old_instance.image
+    new_image = instance.image
+    if old_image and old_image.name and old_image.name != getattr(new_image, 'name', None):
+        _delete_file_field(old_image)
+
+
+@receiver(pre_save, sender=ProductImage)
+def _delete_old_product_gallery_image(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old_instance = sender.objects.get(pk=instance.pk)
+    except sender.DoesNotExist:
+        return
+
+    old_image = old_instance.image
+    new_image = instance.image
+    if old_image and old_image.name and old_image.name != getattr(new_image, 'name', None):
+        _delete_file_field(old_image)
+
+
+@receiver(post_delete, sender=Product)
+def _delete_product_image_on_delete(sender, instance, **kwargs):
+    _delete_file_field(instance.image)
+
+
+@receiver(post_delete, sender=ProductImage)
+def _delete_product_gallery_image_on_delete(sender, instance, **kwargs):
+    _delete_file_field(instance.image)
+
+
+@receiver(post_delete, sender=Category)
+def _delete_category_image_on_delete(sender, instance, **kwargs):
+    _delete_file_field(instance.image)
+
+
+@receiver(post_delete, sender=Brand)
+def _delete_brand_logo_on_delete(sender, instance, **kwargs):
+    _delete_file_field(instance.logo)

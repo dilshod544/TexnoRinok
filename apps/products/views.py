@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q, Count
 from django.core.cache import cache
 from django.core.paginator import Paginator
+from urllib.parse import urlencode
 from .models import Product, Category, Brand
 
 
@@ -102,6 +103,19 @@ def product_list(request):
     paginator = Paginator(products, 12)
     page_obj = paginator.get_page(request.GET.get('page'))
 
+    # Keep canonical URLs clean to avoid duplicate-index pages for sort/search/pagination.
+    canonical_params = {}
+    if category_slug:
+        canonical_params['category'] = category_slug
+    if brand_slug:
+        canonical_params['brand'] = brand_slug
+    canonical_base = request.build_absolute_uri(request.path)
+    canonical_url = (
+        f"{canonical_base}?{urlencode(canonical_params)}"
+        if canonical_params else canonical_base
+    )
+    should_index = not any([search, min_price, max_price]) and request.GET.get('page', '1') == '1'
+
     context = {
         'products': page_obj,
         'categories': categories_list,
@@ -109,6 +123,8 @@ def product_list(request):
         'active_category': active_category,
         'search': search,
         'sort': sort,
+        'canonical_url': canonical_url,
+        'should_index': should_index,
     }
     return render(request, 'products/list.html', context)
 
@@ -127,6 +143,11 @@ def product_detail(request, slug):
     context = {
         'product': product,
         'related': related,
+        'canonical_url': request.build_absolute_uri(request.path),
+        'seo_description': (product.description or product.short_description or product.name)[:160],
+        'schema_price': int(product.price),
+        'schema_currency': 'UZS',
+        'schema_availability': 'https://schema.org/InStock' if product.stock > 0 else 'https://schema.org/OutOfStock',
     }
     return render(request, 'products/detail.html', context)
 
@@ -143,6 +164,7 @@ def category_view(request, slug):
     context = {
         'category': category,
         'products': page_obj,
+        'canonical_url': request.build_absolute_uri(request.path),
     }
     return render(request, 'products/category.html', context)
 

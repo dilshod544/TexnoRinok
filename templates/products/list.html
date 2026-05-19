@@ -2,10 +2,17 @@
 {% load static i18n product_tags %}
 
 {% block title %}{% ui_translate 'catalog' %} — TexnoRinok{% endblock %}
-{% block meta_description %}TexnoRinok Malika katalogi: barcha oshxona texnikalari, filtrlar va saralash bilan qulay tanlov.{% endblock %}
-{% block canonical_url %}https://texnorinokmalika.uz{% url 'products:list' %}{% endblock %}
-{% block og_title %}TexnoRinok Malika katalogi{% endblock %}
-{% block og_description %}Katalog bo'limida mahsulotlarni kategoriya, brend va narx bo'yicha saralang.{% endblock %}
+{% block og_title %}{% ui_translate 'catalog' %} — TexnoRinok{% endblock %}
+{% block meta_description %}{% ui_translate 'catalog' %}. TexnoRinok'dagi mahsulotlar ro'yxati va narxlari.{% endblock %}
+{% block og_description %}{% ui_translate 'catalog' %}. TexnoRinok'dagi mahsulotlar ro'yxati va narxlari.{% endblock %}
+{% block canonical_url %}{{ canonical_url|default:request.build_absolute_uri }}{% endblock %}
+{% block robots_meta %}
+  {% if should_index %}
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  {% else %}
+  <meta name="robots" content="noindex,follow">
+  {% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="catalog-page">

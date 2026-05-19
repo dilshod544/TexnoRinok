@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
+from django.db import IntegrityError
 from django.db.models import Sum
 from django.utils import timezone
 from datetime import timedelta
@@ -101,8 +102,11 @@ def product_add(request):
     if request.method == 'POST':
         form = ProductAdminForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('store_admin:product_list')
+            try:
+                form.save()
+                return redirect('store_admin:product_list')
+            except IntegrityError:
+                form.add_error('slug', "Slug allaqachon mavjud. Iltimos, boshqa slug kiriting.")
     else:
         form = ProductAdminForm()
     return render(request, 'store_admin/product_form.html', {'form': form, 'title': 'Add Product'})
@@ -113,8 +117,11 @@ def product_edit(request, pk):
     if request.method == 'POST':
         form = ProductAdminForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            form.save()
-            return redirect('store_admin:product_list')
+            try:
+                form.save()
+                return redirect('store_admin:product_list')
+            except IntegrityError:
+                form.add_error('slug', "Slug allaqachon mavjud. Iltimos, boshqa slug kiriting.")
     else:
         form = ProductAdminForm(instance=product)
     return render(request, 'store_admin/product_form.html', {'form': form, 'title': 'Edit Product'})

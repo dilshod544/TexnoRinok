@@ -6,6 +6,13 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div style="display:flex; flex-direction:column; gap:20px;">
+            {% if form.non_field_errors %}
+            <div class="form-group" style="color:#e53e3e; font-weight:600;">
+                {% for error in form.non_field_errors %}
+                <div>{{ error }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% for field in form %}
             <div class="form-group">
                 <label style="font-weight:600; margin-bottom:8px; display:block; color: #4a5568;">{{ field.label }}</label>

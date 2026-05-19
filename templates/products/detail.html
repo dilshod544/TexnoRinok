@@ -2,8 +2,35 @@
 {% load static i18n product_tags %}
 
 {% block title %}{{ product|get_translated_name:LANGUAGE_CODE }} — TexnoRinok{% endblock %}
+{% block og_title %}{{ product|get_translated_name:LANGUAGE_CODE }} — TexnoRinok{% endblock %}
 
-{% block meta_description %}{{ product|get_translated_description:LANGUAGE_CODE|truncatechars:160 }}{% endblock %}
+{% block meta_description %}{{ seo_description }}{% endblock %}
+{% block og_description %}{{ seo_description }}{% endblock %}
+{% block canonical_url %}{{ canonical_url|default:request.build_absolute_uri }}{% endblock %}
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product|get_translated_name:LANGUAGE_CODE|escapejs }}",
+  "description": "{{ seo_description|escapejs }}",
+  "sku": "{{ product.pk }}",
+  "url": "{{ canonical_url|default:request.build_absolute_uri|escapejs }}",
+  {% if product.image %}"image": "{{ product.image.url|escapejs }}",{% endif %}
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product.brand|default:'TexnoRinok'|escapejs }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "{{ schema_currency }}",
+    "price": "{{ schema_price }}",
+    "availability": "{{ schema_availability }}",
+    "url": "{{ canonical_url|default:request.build_absolute_uri|escapejs }}"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <div class="detail-page">

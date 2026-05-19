@@ -6,14 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0d0d0f">
   <title>{% block title %}TexnoRinok — {% ui_translate 'footer_desc' %}{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}TexnoRinok Malika - Oshxona texnikalari, blenderlar, mikserlar va boshqa mahsulotlar. Tez yetkazib berish va kafolat.{% endblock %}">
-  <link rel="canonical" href="{% block canonical_url %}https://texnorinokmalika.uz{{ request.path }}{% endblock %}">
+  <meta name="description" content="{% block meta_description %}{% ui_translate 'footer_desc' %}{% endblock %}">
+  {% block robots_meta %}<meta name="robots" content="index,follow,max-image-preview:large">{% endblock %}
+  <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+  <link rel="alternate" hreflang="uz" href="{{ request.scheme }}://{{ request.get_host }}{% translate_url 'uz' %}">
+  <link rel="alternate" hreflang="ru" href="{{ request.scheme }}://{{ request.get_host }}{% translate_url 'ru' %}">
+  <link rel="alternate" hreflang="x-default" href="{{ request.scheme }}://{{ request.get_host }}{% translate_url 'uz' %}">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="TexnoRinok Malika">
-  <meta property="og:title" content="{% block og_title %}TexnoRinok Malika{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Oshxona texnikalari katalogi, qulay narx va tez yetkazib berish.{% endblock %}">
-  <meta property="og:url" content="https://texnorinokmalika.uz{{ request.path }}">
-  <meta name="robots" content="{% block robots %}index,follow{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}TexnoRinok{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{% ui_translate 'footer_desc' %}{% endblock %}">
+  <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
+  <meta property="og:site_name" content="TexnoRinok">
+  {% block structured_data %}{% endblock %}
   
   <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">
   <link rel="apple-touch-icon" href="{% static 'img/favicon.png' %}?v=2">
