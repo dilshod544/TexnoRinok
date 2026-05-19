@@ -34,9 +34,15 @@ class ProductAdminForm(forms.ModelForm):
 
     def clean_slug(self):
         slug = self.cleaned_data.get('slug', '').strip()
+        name = self.cleaned_data.get('name', '').strip()
+        
+        # Auto-generate slug from name if not provided
+        if not slug and name:
+            slug = slugify(name, allow_unicode=True)
+        
         if not slug:
-            return slug
-
+            raise ValidationError("Slug talab qilinadi yoki mahsulot nomi bo'sh bo'lmasligi kerak.")
+        
         normalized_slug = slugify(slug, allow_unicode=True)
         if not normalized_slug:
             raise ValidationError("Slug noto'g'ri formatda. Iltimos, boshqa slug kiriting.")
@@ -45,15 +51,11 @@ class ProductAdminForm(forms.ModelForm):
         if qs.filter(slug=normalized_slug).exists():
             raise ValidationError("Bu slug allaqachon mavjud. Iltimos, boshqa slug kiriting.")
 
+        self.cleaned_data['slug'] = normalized_slug
         return normalized_slug
 
     def clean(self):
         cleaned_data = super().clean()
-        slug = cleaned_data.get('slug', '').strip()
-        if not slug:
-            name = cleaned_data.get('name')
-            if name:
-                cleaned_data['slug'] = slugify(name, allow_unicode=True)
         return cleaned_data
 
 class CategoryAdminForm(forms.ModelForm):
